@@ -1,0 +1,14 @@
+.chordLetters{
+		float:left;
+		width: 20px;
+		font-size: 13px;
+		margin-top: 10px;
+	}
+
+.letter1{
+		margin-top:6px;
+	}
+
+.letter2{
+		margin-top:2px;
+	}
