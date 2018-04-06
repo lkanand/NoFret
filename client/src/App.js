@@ -4,30 +4,67 @@ import WTWrapper from "./components/WTWrapper";
 import Wrapper from "./components/Wrapper";
 
 class App extends Component {
-state:{
+state={
+  allNotes:[],
 	measureNumber:1,
 	noteEntered:0
-
 }
 
-//after the first click show measure
-//measure will have number from this.state.measureNumber
-//passinformation to children
-//increase this.state.measureNumber
+componentDidMount(){
+  this.addMeasure();
+}
 
-//we write a clicked function
-//user types in number
-//we send that number to measure
+addMeasure=()=>{
+  // event.preventDefault();
 
-// onClick{this.addMeasure}
+var tempArr=this.state.allNotes;
 
-// note=this.state.newNote
+
+const mArray=[];
+const bArray=[];
+const lArray=[];
+const sArray=[];
+    for(let j=1;j<5;j++){
+      
+      for(let k=1;k<7;k++){
+        
+        for(let l=1;l<17;l++){
+          
+          const noteObject = {
+            snoteID: "m"+this.state.measureNumber+"-b"+j+"-l"+k+"-s"+l,
+            value: 0
+          };
+          sArray.push(noteObject);
+        }
+        lArray.push(sArray);
+      }
+      bArray.push(lArray);
+    }
+    mArray.push(bArray);
+  tempArr.push(mArray);
+  let counter=this.state.measureNumber++;
+  this.setState({allNotes:tempArr,measureNumber:counter});
+}
+
+
+
+// handleInputChange = event => {
+    
+//     const { name, value } = event.target;
+//     this.setState({
+//       [name]: value
+//     });
+//     if (event.keyCode === 10 || event.keyCode === 13) {
+//       handleFormSubmit();
+//     }
+//   };
 
   render() {
     return (
       <Wrapper>
-      	<button>Test</button>
-      	<WTWrapper>
+      	<button onClick={this.addMeasure}>Test</button>
+      	<WTWrapper
+        allNotes={this.state.allNotes}>
       	</WTWrapper>
       </Wrapper>
     );

@@ -2,8 +2,8 @@ import React from "react";
 import "./Snote.css";
 
 const Snote = props => (
-  <div className={props.position} id={props.slbmnumber} onClick={()=>props.clicked(props.slbmnumber)}>
-  {props.note}
+  <div className="note" key={props.snoteNumber} id={props.snoteNumber} onChange={props.handleInputChange} >
+  {props.note.value}
   </div>
 );
 

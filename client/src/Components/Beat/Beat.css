@@ -1,4 +1,4 @@
-div{
+.beat{
 	width: 250px;
 	height: 108px;
 	border-top:1px solid black;
@@ -6,4 +6,5 @@ div{
 	margin-top: 10px;
 	margin-bottom: 10px;
 	float:left;
+	border-right: 1px solid black;
 }
