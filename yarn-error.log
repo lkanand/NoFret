@@ -1,0 +1,71 @@
+Arguments: 
+  /usr/local/bin/node /usr/local/bin/yarn add
+
+PATH: 
+  /anaconda3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
+Yarn version: 
+  1.5.1
+
+Node version: 
+  8.9.4
+
+Platform: 
+  darwin x64
+
+npm manifest: 
+  {
+    "name": "NoFret",
+    "version": "1.0.0",
+    "description": "",
+    "main": "server.js",
+    "scripts": {
+      "server": "node server.js",
+      "client": "node scripts/start-client.js",
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "start": "concurrently \"nodemon server.js\" \"npm run client\"",
+      "build": "node scripts/build.js",
+      "seed": "node scripts/seedDB.js",
+      "installDeps": "yarn && cd client && yarn"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/lkanand/NoFret.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/lkanand/NoFret/issues"
+    },
+    "homepage": "https://github.com/lkanand/NoFret#readme",
+    "dependencies": {
+      "axios": "^0.18.0",
+      "body-parser": "^1.18.2",
+      "express": "^4.16.3",
+      "mongoose": "^5.0.12"
+    },
+    "devDependencies": {
+      "concurrently": "^3.5.1",
+      "nodemon": "^1.17.3"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  Error: Missing list of packages to add to your project.
+      at new MessageError (/usr/local/lib/node_modules/yarn/lib/cli.js:186:110)
+      at Object.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:40587:13)
+      at Generator.next (<anonymous>)
+      at step (/usr/local/lib/node_modules/yarn/lib/cli.js:98:30)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:116:14
+      at new Promise (<anonymous>)
+      at new F (/usr/local/lib/node_modules/yarn/lib/cli.js:23451:28)
+      at Object.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:95:12)
+      at Object.run (/usr/local/lib/node_modules/yarn/lib/cli.js:40599:19)
+      at run (/usr/local/lib/node_modules/yarn/lib/cli.js:89113:20)
