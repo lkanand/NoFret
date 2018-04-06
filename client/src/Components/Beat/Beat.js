@@ -4,41 +4,40 @@ import Line from "../Line";
 
 const Beat = props => (
   <div className={props.beatPosition}>
-  	<Line {
-  		note:{props.note}
+  	<Line 
+  		note={props.note}
   		lineNumber="e"
-  		lbmnumber=`${props.bmnumber}-e`
-  	}</Line>
-
-  	<Line {
-  		note:{props.note}
+  		lbmnumber={props.bmnumber+"-e"}>
+  	</Line>
+  	<Line 
+  		note={props.note}
   		lineNumber="B"
-  		lbmnumber=`${props.bmnumber}-B`
-  	}</Line>
+  		lbmnumber={props.bmnumber+"-B"}>
+  	</Line>
 
-  	<Line {
-  		note:{props.note}
+  	<Line 
+  		note={props.note}
   		lineNumber="G"
-  		lbmnumber=`${props.bmnumber}-G`
-  	}</Line>
+  		lbmnumber={props.bmnumber+"-G"}>
+  	</Line>
 
-  	<Line {
-  		note:{props.note}
+  	<Line 
+  		note={props.note}
   		lineNumber="D"
-  		lbmnumber=`${props.bmnumber}-D`
-  	}</Line>
+  		lbmnumber={props.bmnumber+"-D"}>
+  	</Line>
 
-  	<Line {
-  		note:{props.note}
+  	<Line 
+  		note={props.note}
   		lineNumber="A"
-  		lbmnumber=`${props.bmnumber}-A`
-  	}</Line>
+  		lbmnumber={props.bmnumber+"-A"}>
+  	</Line>
 
-  	<Line {
-  		note:{props.note}
+  	<Line 
+  		note={props.note}
   		lineNumber="E"
-  		lbmnumber=`${props.bmnumber}-E`
-  	}</Line>
+  		lbmnumber={props.bmnumber+"-E"}>
+  	</Line>
   </div>
 );
 

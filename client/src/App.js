@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-
-import Line from "./components/Line";
-import Measure from "./components/Measure";
-import Snote from "./components/Snote";
 import WTWrapper from "./components/WTWrapper";
 import Wrapper from "./components/Wrapper";
 
 class App extends Component {
 state:{
-	measureNumber:1
+	measureNumber:1,
 	noteEntered:0
 
 }
@@ -23,12 +19,14 @@ state:{
 //user types in number
 //we send that number to measure
 
-note=this.state.newNote
+// onClick{this.addMeasure}
+
+// note=this.state.newNote
 
   render() {
     return (
       <Wrapper>
-      	<button onClick{this.addMeasure}>Test</button>
+      	<button>Test</button>
       	<WTWrapper>
       	</WTWrapper>
       </Wrapper>

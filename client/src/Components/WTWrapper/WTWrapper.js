@@ -1,15 +1,20 @@
 import React from "react";
-import "./WTWrapper.css";
-import LetterBox from "./components/LetterBox";
+import LetterBox from "../LetterBox";
+import Measure from "../Measure";
 
 const WTWrapper = props => (
+<div>
   <div className="forLetters">
   <LetterBox/>
   </div>
 
   <div className="forMeasures">
-  {props.children}
+  	<Measure
+  	measureNumber="m1">
+
+  	</Measure>
   </div>
+ </div>
 );
 
 export default WTWrapper;
