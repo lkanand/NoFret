@@ -3,13 +3,13 @@ import "./Beat.css";
 import Line from "../Line";
 
 const Beat = props => {
-  return props.arrayOfLines.map((element, index)=>{
-    <div className="beat">
-      <Line key = {props.beatNumber+'-l'+index} lineNumber = {props.beatNumber+'-l'+index} arrayOfNotes = {element}/>
-    </div>
+	return props.arrayOfBeats.map((element, index)=>{
+  		return (
+    		<div className="beat" key={index}>
+      			<Line beatIndex = {props.measureIndex+'-b'+index} arrayOfLines = {element}/>
+    		</div>
+    	)
     });
-};
-
-  
+} 
 
 export default Beat;

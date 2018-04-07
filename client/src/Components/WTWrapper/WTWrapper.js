@@ -1,6 +1,6 @@
 import React from "react";
 import LetterBox from "../LetterBox";
-import Measure from "../Measure";
+import Beat from "../Beat";
 import "./WTWrapper.css";
 
 const WTWrapper = props => {
@@ -10,11 +10,12 @@ const WTWrapper = props => {
 	  			<LetterBox/>
 	  		</div>
 		  	<div className="forMeasures">
-				<Measure measureNumber = {"m"+index+1} arrayOfBeats = {element}/>
+		  		<div className = "measure">
+					<Beat measureIndex = {"m"+index+1} arrayOfBeats = {element} />
+				</div>
 			</div>
 		</div>
 	);
-
 };
 
 export default WTWrapper;

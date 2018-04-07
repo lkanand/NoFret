@@ -8,3 +8,7 @@
 	float:left;
 	border-right: 1px solid black;
 }
+
+.beat:first-child{
+	border-left: 1px solid black;
+}
