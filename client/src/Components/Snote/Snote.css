@@ -17,14 +17,26 @@
 	padding-right: 2px;
 	padding-left: 2px;
 	width: 12px;
+	font-size: 14px;
 }
 
 .noteForm{
 	width: 14px;
 }
 
+.enteredNote{
+  height: 15px;
+  width: 15px;
+  font-size: 14px;
+  background-color: black;
+  color: white;
+  border-radius: 50%;
+  display: inline-block;
+
+}
+
 input{
 	width: 8px;
-	font-size: 11px;
+	font-size: 8px;
 	text-align: center;
 }
