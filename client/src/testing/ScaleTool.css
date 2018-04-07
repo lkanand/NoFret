@@ -1,0 +1,22 @@
+.stFret {
+	width: 50px;
+	height: 20px;
+	border: 1px black solid;
+	margin: 0;
+	text-align: center;
+	padding: auto;
+}
+
+.stFretboard {
+	width: 300px;
+	overflow-x: scroll;
+	display: flex;
+	justify-content: flex-start;
+	flex-wrap: wrap;
+}
+
+.stString {
+	flex: 1;
+	display: flex;
+	justify-content: flex-start;
+}
