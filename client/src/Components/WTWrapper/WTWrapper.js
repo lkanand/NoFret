@@ -11,7 +11,8 @@ const WTWrapper = props => {
 	  		</div>
 		  	<div className="forMeasures">
 		  		<div className = "measure">
-					<Beat measureIndex = {"m"+index+1} arrayOfBeats = {element} />
+					<Beat measureIndex = {"m"+index} arrayOfBeats = {element} noteClick={props.noteClick}
+					noteSubmit = {props.noteSubmit} noteChange = {props.noteChange} />
 				</div>
 			</div>
 		</div>

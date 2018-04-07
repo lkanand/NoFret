@@ -1,8 +1,30 @@
-.note{
+.editableNote{
 	float:left;
 	height: 1px;
-	width: 11px;
+	width: 100%;
 	background-color: black;
-	margin-right:4px;
-	margin-top:14px;
+	margin-top: 10px;
+}
+
+.note:first-child{
+	padding-left: 6px;
+}
+.note{
+	text-align: center;
+	height: 20px;
+	float: left;
+	padding-top: 1px;
+	padding-right: 2px;
+	padding-left: 2px;
+	width: 12px;
+}
+
+.noteForm{
+	width: 14px;
+}
+
+input{
+	width: 8px;
+	font-size: 11px;
+	text-align: center;
 }
