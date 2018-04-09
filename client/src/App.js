@@ -17,7 +17,6 @@ class App extends Component {
 
   componentDidMount(){
     this.addMeasure();
-    return false;
   }
 
   addMeasure=()=>{
@@ -35,7 +34,9 @@ class App extends Component {
             snoteID: "m"+this.state.measureNumber+"-b"+j+"-l"+k+"-s"+l,
             value: "",
             clicked: false,
-            noteEntered: ""
+            noteEntered: "",
+            duration: -1,
+            disabled: false
           };
           lArray.push(noteObject);
         }
@@ -44,8 +45,9 @@ class App extends Component {
       mArray.push(bArray);
     }
     tempArr.push(mArray);
-    let counter=this.state.measureNumber++;
-    this.setState({allNotes:tempArr,measureNumber:counter});
+    let counter = this.state.measureNumber;
+    counter++;
+    this.setState({allNotes:tempArr, measureNumber:counter});
   }
 
   extractId = (id) => {
@@ -78,17 +80,91 @@ class App extends Component {
     allNotesCopy[measure][beat][line][sNote].clicked = false;
     let noteEntered2 = allNotesCopy[measure][beat][line][sNote].noteEntered;
     let parseNote=parseFloat(noteEntered2);
+
     if(noteEntered2 === "")
       allNotesCopy[measure][beat][line][sNote].value = "";
+      let duration=allNotesCopy[measure][beat][line][sNote].duration;
+      allNotesCopy[measure][beat][line][sNote].duration = -1;
+      let currentLocation = { measure, beat, line, sNote };
+      if(duration > 0) {
+        duration--;
+        let notesToModify = this.getIds(duration, currentLocation);
+        console.log(notesToModify);
+        for(let i = 0; i < notesToModify.length; i++)
+          allNotesCopy[notesToModify[i].measure][notesToModify[i].beat][notesToModify[i].line][notesToModify[i].sNote].disabled = false;
+      }
+    else if(noteEntered2==="X"||noteEntered2==="x"){
+      allNotesCopy[measure][beat][line][sNote].value = "X";
+      let duration = spaces[notes.indexOf(this.state.noteType)];
+      allNotesCopy[measure][beat][line][sNote].duration = duration;
+      let currentLocation = { measure, beat, line, sNote };
+      duration--;
+      if(duration > 0) {
+        let notesToModify = this.getIds(duration, currentLocation);
+        for(let i = 0; i < notesToModify.length; i++) {
+          allNotesCopy[notesToModify[i].measure][notesToModify[i].beat][notesToModify[i].line][notesToModify[i].sNote].disabled = true;
+          allNotesCopy[notesToModify[i].measure][notesToModify[i].beat][notesToModify[i].line][notesToModify[i].sNote].value = "";
+          allNotesCopy[notesToModify[i].measure][notesToModify[i].beat][notesToModify[i].line][notesToModify[i].sNote].noteEntered = "";
+          allNotesCopy[notesToModify[i].measure][notesToModify[i].beat][notesToModify[i].line][notesToModify[i].sNote].duration = -1;
+        }
+      }
+
+    }
     else if(isNaN(noteEntered2) || parseNote % 1 !== 0 || parseNote<1||parseNote>24){
       allNotesCopy[measure][beat][line][sNote].value = "";
-      allNotesCopy[measure][beat][line][sNote].noteEntered = "";
+      allNotesCopy[measure][beat][line][sNote].noteEntered = ""; 
     }
 
     else {
       allNotesCopy[measure][beat][line][sNote].value = parseNote;
+      let duration = spaces[notes.indexOf(this.state.noteType)];
+      allNotesCopy[measure][beat][line][sNote].duration = duration;
+      let currentLocation = { measure, beat, line, sNote };
+      duration--;
+      if(duration > 0) {
+        let notesToModify = this.getIds(duration, currentLocation);
+        for(let i = 0; i < notesToModify.length; i++) {
+          allNotesCopy[notesToModify[i].measure][notesToModify[i].beat][notesToModify[i].line][notesToModify[i].sNote].disabled = true;
+          allNotesCopy[notesToModify[i].measure][notesToModify[i].beat][notesToModify[i].line][notesToModify[i].sNote].value = "";
+          allNotesCopy[notesToModify[i].measure][notesToModify[i].beat][notesToModify[i].line][notesToModify[i].sNote].noteEntered = "";
+          allNotesCopy[notesToModify[i].measure][notesToModify[i].beat][notesToModify[i].line][notesToModify[i].sNote].duration = -1;
+        }
+      }
     }
     this.setState({allNotes: allNotesCopy});
+  }
+
+  getIds(duration, location) {
+    let notesToModify = [];
+    let currentBeat = parseInt(location.beat, 10);
+    let currentSnote = parseInt(location.sNote, 10);
+    while(duration > 0 && currentBeat < 4) {
+      if(currentSnote < 15) {
+        let address = {
+          measure: parseInt(location.measure, 10),
+          beat: currentBeat,
+          line: parseInt(location.line, 10),
+          sNote: currentSnote += 1
+        }
+        notesToModify.push(address);
+      }
+      else if(currentBeat < 3) {
+        currentBeat++;
+        currentSnote = 0;
+        let address = {
+          measure: parseInt(location.measure, 10),
+          beat: currentBeat,
+          line: parseInt(location.line, 10),
+          sNote: currentSnote
+        }
+        notesToModify.push(address);
+      }
+      else {
+        currentBeat++;
+      }
+      duration--;
+    }
+    return notesToModify;
   }
 
   noteChange = (event,id) => {

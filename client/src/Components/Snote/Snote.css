@@ -10,6 +10,33 @@
 	padding-left: 6px;
 }
 
+.disabledNote{
+	float:left;
+	height: 5px;
+	width: 100%;
+	background-color: green;
+	margin-top: 6px;
+
+}
+/*.disabledNoteBox:last-child .disabledNote{
+	border-radius: 0 25px 25px 0;
+}*/
+
+.disabledNoteBox:last-child{
+	width: 21px;
+}
+
+.disabledNoteBox:first-child{
+	width: 20px;
+}
+
+.disabledNoteBox{
+	height: 20px;
+	float: left;
+	width: 16px;
+	font-size: 14px;
+}
+
 .note{
 	text-align: center;
 	height: 20px;
@@ -31,7 +58,7 @@
   height: 15px;
   width: 15px;
   font-size: 14px;
-  background-color: black;
+  background-color: green;
   color: white;
   border-radius: 50%;
   display: inline-block;
