@@ -25,8 +25,9 @@ class Snote extends Component {
 				else if (element.clicked === false&&element.value!=="")
 					elementToReturn=<div className="enteredNote">{element.value}</div>;
 				else if (element.clicked===true&&element.value===""&&element.disabled===false)
-					elementToReturn = <form onSubmit={(e)=>this.props.noteSubmit(e, {thisId})} className = "newNote"> 
-										<input defaultValue = {element.value} ref = {(input) => {this.focus(input)}} onBlur={(e) => this.props.noteSubmit(e,{thisId})} onChange={(e)=>this.props.noteChange(e,{thisId})}/> 
+					elementToReturn = <form onSubmit={(e)=>this.props.noteSubmit(e, {thisId})} className = "newNote" onBlur={(e) => this.props.noteSubmit(e,{thisId})} > 
+										<input defaultValue = {element.value} ref = {(input) => {this.focus(input)}} onChange={(e)=>this.props.noteChange(e,{thisId})}/>
+										<div className="round">&#8250;</div>
 									</form>;
 				else
 					elementToReturn = <form onSubmit={(e)=>this.props.noteSubmit(e, {thisId})} className = "noteForm"> 
