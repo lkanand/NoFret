@@ -1,0 +1,26 @@
+.noteSelectorContainer {
+	margin-bottom: 20px;
+	display: flex;
+	justify-content: space-between;
+	width: 60%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.noteOption {
+	height: 50px;
+	width: auto;
+	padding: 10px;
+}
+
+.transparentBorder {
+	border: 2px solid transparent;
+}
+
+.solidBorder {
+	border: 2px solid black;
+}
+
+.noteOption:hover{
+	border: 2px solid black;
+}

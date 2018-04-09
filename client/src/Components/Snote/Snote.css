@@ -9,6 +9,7 @@
 .note:first-child{
 	padding-left: 6px;
 }
+
 .note{
 	text-align: center;
 	height: 20px;
@@ -19,6 +20,8 @@
 	width: 12px;
 	font-size: 14px;
 }
+
+.note:after
 
 .noteForm{
 	width: 14px;
