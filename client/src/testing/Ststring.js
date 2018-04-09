@@ -10,7 +10,7 @@ class Ststring extends (Component) {
 	state = {
 		stringvalue: this.props.stringvalue,
 		boardstate: this.props.boardstate,
-		allNotes: [0, 1, 2, 3, 4, 5]
+		allNotes: []
 	}
 
 	componentDidMount() {
@@ -19,7 +19,7 @@ class Ststring extends (Component) {
 
 	defineFrets = openNote => {
 		const allNotes = [];
-		for (let i=0;i<24;i++) {
+		for (let i=0;i<25;i++) {
 			const fretValue = openNote + i;
 			allNotes.push(fretValue);
 		}
@@ -31,7 +31,7 @@ class Ststring extends (Component) {
 			<div className="stString" stringvalue={this.props.stringvalue} >
                 {this.state.allNotes.map(notevalue => {
                   return (
-					<Stfret value={notevalue} />
+					<Stfret value={notevalue} boardstate={this.state.boardstate}/>
                   );
                 })}
 			</div>	
