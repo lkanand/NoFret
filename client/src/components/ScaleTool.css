@@ -1,0 +1,75 @@
+
+
+.stFret {
+	width: 90px;
+	height: 50px;
+	border: 1px black solid;
+	margin: 0;
+	text-align: center;
+	padding-top: auto;
+	padding-bottom: auto;
+	border-radius: 10px;
+	line-height: 50px;
+	background-color: #843d3d;
+	color: white;
+}
+
+.fretSect {
+	border-right: 1px solid #666;
+	border-left: 1px solid #666;
+	border-top: 1px solid #999;
+	border-bottom: 1px solid #999;
+	padding: 3px;
+}
+
+.stFretboard {
+	width: 100%;
+	overflow-x: scroll;
+	display: flex;
+	justify-content: flex-start;
+	flex-wrap: wrap;
+}
+
+.stString {
+	flex: 1;
+	display: flex;
+	justify-content: flex-start;
+	background-color: #212121
+}
+
+.hideFret {
+	visibility: hidden;
+}
+
+.root, .second, .third, .fourth, .fifth, .sixth, .seventh {
+	color: black;
+}
+
+.root {
+	background-color: #71cfd8;
+}
+
+.second {
+	background-color: #aaa;
+}
+
+.third {
+	background-color: #bbb;
+}
+
+.fourth {
+	background-color: #ccc;
+}
+
+.fifth {
+	background-color: #ddd;
+}
+
+.sixth {
+	background-color: #eee;
+}
+
+.seventh {
+	background-color: #fff;
+}
+
