@@ -24,9 +24,9 @@ class Ststring extends (Component) {
 	render() {
 		return (
 			<div className="stString" stringvalue={this.props.stringvalue} >
-                {this.state.allNotes.map(notevalue => {
+                {this.state.allNotes.map((notevalue, index) => {
                   return (
-					<Stfret value={notevalue} boardstate={this.state.boardstate}/>
+					<Stfret key = {index} value={notevalue} boardstate={this.state.boardstate}/>
                   );
                 })}
 			</div>	

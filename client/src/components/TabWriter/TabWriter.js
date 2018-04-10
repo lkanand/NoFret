@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import NoteSelector from "../components/NoteSelector";
-import WTWrapper from "../components/WTWrapper";
-import Wrapper from "../components/Wrapper";
+import NoteSelector from "../NoteSelector";
+import WTWrapper from "../WTWrapper";
+import Wrapper from "../Wrapper";
 import Tone from 'tone';
 
 const notes = ["sixtyfourth", "thirtysecond", "sixteenth", "eighth", "quarter", "half", "whole"];
@@ -100,7 +100,7 @@ class TabWriter extends Component {
           allNotesCopy[notesToModify[i].measure][notesToModify[i].beat][notesToModify[i].line][notesToModify[i].sNote].disabled = false;
       }
     }
-    else if((isNaN(noteEntered2) && noteEntered2!=="X" && noteEntered2!=="x") || parseNote % 1 !== 0 || parseNote<1||parseNote>24) {
+    else if((isNaN(noteEntered2) && noteEntered2!=="X" && noteEntered2!=="x") || parseNote % 1 !== 0 || parseNote<0||parseNote>24) {
       allNotesCopy[measure][beat][line][sNote].value = "";
       allNotesCopy[measure][beat][line][sNote].noteEntered = ""; 
     }
@@ -172,7 +172,7 @@ class TabWriter extends Component {
   }
 
   noteConverter=()=>{
-    let allNotesCopy=this.state.allNotes;
+    //let allNotesCopy=this.state.allNotes;
     //look through notes; map them out
 
   //let rawnotes=then we get notes
@@ -305,7 +305,7 @@ test=()=>{
   render() {
     return (
       <Wrapper>
-        <h1>Select a note and then enter any fret from 1 to 24</h1>
+        <h1>Select a note and then enter any fret from 0 to 24</h1>
         <NoteSelector notes = {notes} selectedNoteType = {this.state.noteType} setNoteType = {this.setNoteType}/>
       	<button onClick={this.addMeasure}>Add Measure</button>
         <button onClick={this.changeMode}>{this.state.btnMessage}</button>
