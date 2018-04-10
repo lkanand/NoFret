@@ -16,7 +16,8 @@ class TabWriter extends Component {
     activeNoteId: "",
     pressedUporDown: false,
     editMode:true,
-    btnMessage:"Play"
+    btnMessage:"Play",
+    tempNotes:[]
   }
 
   componentDidMount(){
@@ -241,6 +242,7 @@ class TabWriter extends Component {
   }
 
     noteConverter=()=>{
+
     let allNotesCopy=this.state.allNotes;
 
     let notesValues=[];
@@ -318,7 +320,7 @@ class TabWriter extends Component {
 
           const notes = {
             id: allNotesCopy[i][j][k][l].snoteID,
-            duration: allNotesCopy[i][j][k][l].duration,
+            duration: 64/(allNotesCopy[i][j][k][l].duration),
             measure: i,
             beat: j,
             snote:l,
@@ -330,69 +332,59 @@ class TabWriter extends Component {
       }
     }
   }
-  console.log(notesValues);
   this.tonePopulater(notesValues);
   }
 
   tonePopulater=(notes)=>{
-    let tempNotes=[];
+    // let tempNotes=[];
+    let tempNotes=this.state.tempNotes;
     for (let i=0; i<notes.length; i++){
       let thisNote={
-        // time:notes[i].measure+":"+notes[i].beat+":"+notes[i].snote,
-        time:i,
+        time:notes[i].measure+":"+notes[i].beat+":"+notes[i].snote,
+        // time:i,
         note:notes[i].note,
         dur:notes[i].duration+"n"
       }
         tempNotes.push(thisNote);
     }
-    console.log(tempNotes);
-    return tempNotes;
+
   }
 
   changeMode =(event)=>{
     event.preventDefault();
     let tempMode=!this.state.editMode;
     let tempMsg="Play";
-    const synth = new Tone.PolySynth(6, Tone.Synth).toMaster();
+    const synth = new Tone.Synth().toMaster();
+    let part=[];
 
-    // const populate=()=>{
-    //   //this function will assign time note and dur with a for loop
-
-    //   //push each to note array
-    //   let noteArrays=this.noteConverter();
-    //   // let noteArrays=[{ time : 0, note : ["C4"], dur : '4n'}
-    //   //   ,
-    //   //   { time : 0, note : 'G4', dur : '16n'}
-    //   //   ];
-
-    //     return noteArrays;
-    // }
-
-    let noteArrays=this.noteConverter();
-
-    const part = new Tone.Part(function(time,event){
-      synth.triggerAttackRelease(event.note, event.dur, time)
-        },noteArrays);
-
-
-    part.start(0);
-    part.loop=true;
-
-    let that=this;
-
-
-  Promise.all([part]).then(function(){
     if (tempMode===false){
-        tempMsg="Stop";
-        Tone.Transport.start("+0.1");
+      const promise1=this.noteConverter();
+      tempMsg="Stop";
+      let that=this;
+
+      Promise.all([promise1]).then(function(){
+          console.log(that.state.tempNotes);
+          part = new Tone.Part(function(time,event){
+          synth.triggerAttackRelease(event.note, event.dur, time)
+          },that.state.tempNotes);
+
+          part.start(0);
+          part.loop=true;
+
+          Tone.Transport.start("+0.1");
       
+      });
+
     }
+
     else{
-       Tone.Transport.stop();
+           Tone.Transport.stop();
+           let that=this;
+           that.state.tempNotes=[];
+        }
+        
+      this.setState({editMode:tempMode, btnMessage:tempMsg});
     }
-    that.setState({editMode:tempMode, btnMessage:tempMsg});
-  });
-  }
 
 test=()=>{
   console.log("test function");
