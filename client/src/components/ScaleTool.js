@@ -7,12 +7,11 @@ class ScaleTool extends Component {
 	state = {
 		scaleType: "major",
 		// root 0 = c
-		scaleRoot: 4,
-		pentatonic: false,
+		scaleRoot: 0,
 		tuning: "standard",
 		openStrings: [],
 		mode: "listen"
-		// edit listen or write
+		// edit listen or write?
 	};
 
 	componentDidMount() {

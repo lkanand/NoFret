@@ -90,11 +90,8 @@ class Stfret extends (Component) {
 			this.setState({note: "B"});
 		}
 
-		if (value === 0) {
-			this.setState({octave: 1})
-		} else {
-			this.setState({octave: Math.ceil(value/12)})
-		}
+		this.setState({octave: Math.floor(value/12)+1})
+
 
 	};
 
