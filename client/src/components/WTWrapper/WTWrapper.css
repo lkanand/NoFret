@@ -1,0 +1,11 @@
+.WTWrapper{
+	padding: 10px;
+	clear:both;
+}
+
+.measure{
+	height: 150px;
+	width: 1140px;
+	float: left;
+	margin-left: 10px;
+}
