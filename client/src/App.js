@@ -12,7 +12,9 @@ class App extends Component {
     allNotes:[],
   	measureNumber:1,
     noteSelected: "",
-    noteType: ""
+    noteType: "quarter",
+    activeNoteId: "",
+    pressedUporDown: false
   }
 
   componentDidMount(){
@@ -76,68 +78,56 @@ class App extends Component {
     let beat = note.beat;
     let line = note.line;
     let sNote = note.sNote;
+
+    let currentLocation = { measure, beat, line, sNote };
+    
     let allNotesCopy = this.state.allNotes;
     allNotesCopy[measure][beat][line][sNote].clicked = false;
-    let noteEntered2 = allNotesCopy[measure][beat][line][sNote].noteEntered;
+    
+    let noteEntered2 = allNotesCopy[measure][beat][line][sNote].noteEntered;    
     let parseNote=parseFloat(noteEntered2);
 
-    if(noteEntered2 === "")
+    if(noteEntered2 === "") {
       allNotesCopy[measure][beat][line][sNote].value = "";
       let duration=allNotesCopy[measure][beat][line][sNote].duration;
       allNotesCopy[measure][beat][line][sNote].duration = -1;
-      let currentLocation = { measure, beat, line, sNote };
       if(duration > 0) {
         duration--;
-        let notesToModify = this.getIds(duration, currentLocation);
-        console.log(notesToModify);
+        let notesToModify = this.getIds(duration, currentLocation, "remove");
         for(let i = 0; i < notesToModify.length; i++)
           allNotesCopy[notesToModify[i].measure][notesToModify[i].beat][notesToModify[i].line][notesToModify[i].sNote].disabled = false;
       }
-    else if(noteEntered2==="X"||noteEntered2==="x"){
-      allNotesCopy[measure][beat][line][sNote].value = "X";
-      let duration = spaces[notes.indexOf(this.state.noteType)];
-      allNotesCopy[measure][beat][line][sNote].duration = duration;
-      let currentLocation = { measure, beat, line, sNote };
-      duration--;
-      if(duration > 0) {
-        let notesToModify = this.getIds(duration, currentLocation);
-        for(let i = 0; i < notesToModify.length; i++) {
-          allNotesCopy[notesToModify[i].measure][notesToModify[i].beat][notesToModify[i].line][notesToModify[i].sNote].disabled = true;
-          allNotesCopy[notesToModify[i].measure][notesToModify[i].beat][notesToModify[i].line][notesToModify[i].sNote].value = "";
-          allNotesCopy[notesToModify[i].measure][notesToModify[i].beat][notesToModify[i].line][notesToModify[i].sNote].noteEntered = "";
-          allNotesCopy[notesToModify[i].measure][notesToModify[i].beat][notesToModify[i].line][notesToModify[i].sNote].duration = -1;
-        }
-      }
-
     }
-    else if(isNaN(noteEntered2) || parseNote % 1 !== 0 || parseNote<1||parseNote>24){
+    else if((isNaN(noteEntered2) && noteEntered2!=="X" && noteEntered2!=="x") || parseNote % 1 !== 0 || parseNote<1||parseNote>24) {
       allNotesCopy[measure][beat][line][sNote].value = "";
       allNotesCopy[measure][beat][line][sNote].noteEntered = ""; 
     }
-
     else {
       allNotesCopy[measure][beat][line][sNote].value = parseNote;
-      let duration = spaces[notes.indexOf(this.state.noteType)];
-      allNotesCopy[measure][beat][line][sNote].duration = duration;
-      let currentLocation = { measure, beat, line, sNote };
-      duration--;
-      if(duration > 0) {
-        let notesToModify = this.getIds(duration, currentLocation);
-        for(let i = 0; i < notesToModify.length; i++) {
-          allNotesCopy[notesToModify[i].measure][notesToModify[i].beat][notesToModify[i].line][notesToModify[i].sNote].disabled = true;
-          allNotesCopy[notesToModify[i].measure][notesToModify[i].beat][notesToModify[i].line][notesToModify[i].sNote].value = "";
-          allNotesCopy[notesToModify[i].measure][notesToModify[i].beat][notesToModify[i].line][notesToModify[i].sNote].noteEntered = "";
-          allNotesCopy[notesToModify[i].measure][notesToModify[i].beat][notesToModify[i].line][notesToModify[i].sNote].duration = -1;
+      if(this.state.pressedUporDown === false) {
+        let duration = spaces[notes.indexOf(this.state.noteType)];
+        allNotesCopy[measure][beat][line][sNote].duration = 1;
+        duration--;
+        if(duration > 0) {
+          let notesToModify = this.getIds(duration, currentLocation, "add");
+          allNotesCopy[measure][beat][line][sNote].duration = notesToModify.length + 1;
+          for(let i = 0; i < notesToModify.length; i++) {
+            allNotesCopy[notesToModify[i].measure][notesToModify[i].beat][notesToModify[i].line][notesToModify[i].sNote].disabled = true;
+            allNotesCopy[notesToModify[i].measure][notesToModify[i].beat][notesToModify[i].line][notesToModify[i].sNote].value = "";
+            allNotesCopy[notesToModify[i].measure][notesToModify[i].beat][notesToModify[i].line][notesToModify[i].sNote].noteEntered = "";
+            allNotesCopy[notesToModify[i].measure][notesToModify[i].beat][notesToModify[i].line][notesToModify[i].sNote].duration = -1;
+          }
         }
       }
     }
-    this.setState({allNotes: allNotesCopy});
+    this.setState({allNotes: allNotesCopy, activeNoteId: "", pressedUporDown: false});
   }
 
-  getIds(duration, location) {
+  getIds(duration, location, addOrRemove) {
     let notesToModify = [];
     let currentBeat = parseInt(location.beat, 10);
     let currentSnote = parseInt(location.sNote, 10);
+    let noteToAdd;
     while(duration > 0 && currentBeat < 4) {
       if(currentSnote < 15) {
         let address = {
@@ -146,7 +136,13 @@ class App extends Component {
           line: parseInt(location.line, 10),
           sNote: currentSnote += 1
         }
-        notesToModify.push(address);
+        noteToAdd = this.state.allNotes[address.measure][address.beat][address.line][address.sNote];
+        if(addOrRemove === "remove")
+          notesToModify.push(address);
+        else if(noteToAdd.value === "")
+          notesToModify.push(address);
+        else
+          return notesToModify;
       }
       else if(currentBeat < 3) {
         currentBeat++;
@@ -157,7 +153,13 @@ class App extends Component {
           line: parseInt(location.line, 10),
           sNote: currentSnote
         }
-        notesToModify.push(address);
+        noteToAdd = this.state.allNotes[address.measure][address.beat][address.line][address.sNote];
+        if(addOrRemove === "remove")
+          notesToModify.push(address);
+        else if(noteToAdd.value === "")
+          notesToModify.push(address);
+        else
+          return notesToModify;
       }
       else {
         currentBeat++;
@@ -179,6 +181,60 @@ class App extends Component {
     this.setState({noteType: noteType});
   }
 
+  setActiveNote = (id) => {
+    this.setState({activeNoteId: id});
+  }
+
+  incOrDecDuration = (event, id) => {
+    if(event.keyCode !== 38 && event.keyCode !== 40)
+      return;
+    let idArray = id.thisId.split("-");
+    let measure = parseInt(idArray[0].substring(1), 10);
+    let beat = parseInt(idArray[1].substring(1), 10);
+    let line = parseInt(idArray[2].substring(1), 10);
+    let sNote = parseInt(idArray[3].substring(1), 10);
+    let allNotesCopy = this.state.allNotes;
+    let focusedNote = allNotesCopy[measure][beat][line][sNote];
+
+    if(event.keyCode === 40) {
+      if(focusedNote.duration === 1 || focusedNote.duration === -1)
+        return;
+      else {
+        let addressOfLast = this.getEndOfNote(measure, beat, line, sNote, "remove");
+        allNotesCopy[addressOfLast.measure][addressOfLast.beat][addressOfLast.line][addressOfLast.sNote].disabled = false;
+        allNotesCopy[measure][beat][line][sNote].duration -= 1;
+        this.setState({allNotes: allNotesCopy, pressedUporDown: true});
+      }
+    }
+    else {
+      if(focusedNote.duration === -1)
+        return;
+      let addressOfLast = this.getEndOfNote(measure, beat, line, sNote, "add");
+      if(addressOfLast.beat > 3 || allNotesCopy[addressOfLast.measure][addressOfLast.beat][addressOfLast.line][addressOfLast.sNote].value !== "")
+        return;
+        allNotesCopy[addressOfLast.measure][addressOfLast.beat][addressOfLast.line][addressOfLast.sNote].disabled = true;
+        allNotesCopy[measure][beat][line][sNote].duration += 1;
+        this.setState({allNotes: allNotesCopy, pressedUporDown: true});
+    }
+  }
+
+  getEndOfNote(measure, beat, line, sNote, removeOrAdd) {
+    let duration = this.state.allNotes[measure][beat][line][sNote].duration;
+    if(removeOrAdd === "remove")
+      duration--;
+    if(duration <= (15 - sNote))
+      return {measure, beat, line, sNote: sNote + duration};
+    else if(duration === (15 - sNote) + 16 * (3 - beat))
+      return {measure, beat: 3, line, sNote: 15};
+    else {
+      duration -= (15 - sNote);
+      let newBeat = beat + 1;
+      newBeat += Math.floor(duration / 17);
+      duration -= 16 * Math.floor(duration / 17);
+      return {measure, beat: newBeat, line, sNote: duration - 1};
+    }
+  }
+
   render() {
     return (
       <Wrapper>
@@ -186,7 +242,8 @@ class App extends Component {
         <NoteSelector notes = {notes} selectedNoteType = {this.state.noteType} setNoteType = {this.setNoteType}/>
       	<button onClick={this.addMeasure}>Add Measure</button>
       	<WTWrapper allNotes={this.state.allNotes} noteClick={this.noteClick}
-        noteSubmit={this.noteSubmit} noteChange = {this.noteChange}/>
+        noteSubmit={this.noteSubmit} noteChange = {this.noteChange} setActiveNote = {this.setActiveNote} 
+        activeNoteId = {this.state.activeNoteId} incOrDecDuration = {this.incOrDecDuration}/>
       </Wrapper>
     );
   }

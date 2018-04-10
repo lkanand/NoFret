@@ -7,7 +7,8 @@ const Line = props => {
 	  	return (
 	  		<div className="line" key={index} >
 	      		<Snote lineIndex = {props.beatIndex+'-l'+index} arrayOfNotes = {element} noteClick={props.noteClick}
-	      		noteSubmit = {props.noteSubmit} noteChange = {props.noteChange}/>
+	      		noteSubmit = {props.noteSubmit} noteChange = {props.noteChange} setActiveNote = {props.setActiveNote} 
+	      		activeNoteId = {props.activeNoteId} incOrDecDuration = {props.incOrDecDuration} />
 	  		</div>
 	  	)
 	});

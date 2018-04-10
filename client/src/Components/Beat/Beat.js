@@ -7,7 +7,8 @@ const Beat = props => {
   		return (
     		<div className="beat" key={index} >
       			<Line beatIndex = {props.measureIndex+'-b'+index} arrayOfLines = {element} noteClick={props.noteClick}
-      			noteSubmit = {props.noteSubmit} noteChange={props.noteChange}/>
+      			noteSubmit = {props.noteSubmit} noteChange={props.noteChange} setActiveNote = {props.setActiveNote} 
+      			activeNoteId = {props.activeNoteId} incOrDecDuration = {props.incOrDecDuration} />
     		</div>
     	)
     });

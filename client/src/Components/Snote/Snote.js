@@ -3,8 +3,14 @@ import "./Snote.css";
 
 class Snote extends Component {
 	focus(input) {
-		if(input !== null)
+		if(input !== null && this.props.activeNoteId === "") {
 			input.focus();
+			this.props.setActiveNote(input.parentElement.parentElement.id);
+		}
+	}
+
+	blurInput(event, thisId) {
+		this.props.noteSubmit(event, thisId);
 	}
 
 	render() {
@@ -24,14 +30,10 @@ class Snote extends Component {
 					elementToReturn = <div className = "editableNote"></div>;
 				else if (element.clicked === false&&element.value!=="")
 					elementToReturn=<div className="enteredNote">{element.value}</div>;
-				else if (element.clicked===true&&element.value===""&&element.disabled===false)
-					elementToReturn = <form onSubmit={(e)=>this.props.noteSubmit(e, {thisId})} className = "newNote" onBlur={(e) => this.props.noteSubmit(e,{thisId})} > 
-										<input defaultValue = {element.value} ref = {(input) => {this.focus(input)}} onChange={(e)=>this.props.noteChange(e,{thisId})}/>
-										<div className="round">&#8250;</div>
-									</form>;
 				else
-					elementToReturn = <form onSubmit={(e)=>this.props.noteSubmit(e, {thisId})} className = "noteForm"> 
-										<input defaultValue = {element.value} ref = {(input) => {this.focus(input)}} onBlur={(e) => this.props.noteSubmit(e,{thisId})} onChange={(e)=>this.props.noteChange(e,{thisId})}/> 
+					elementToReturn = <form onSubmit={(e)=>this.props.noteSubmit(e, {thisId})} className = "noteForm" onBlur={(e) => this.blurInput(e,{thisId})} > 
+										<input defaultValue = {element.value} ref = {(input) => {this.focus(input)}} onChange={(e)=>this.props.noteChange(e,{thisId})}
+										onKeyDown = {(e) => this.props.incOrDecDuration(e, {thisId})} /> 
 									</form>;
 				return (
 					<div className="note" key={index} id={this.props.lineIndex+'-s'+index} onClick={(e) => this.props.noteClick(e,{thisId})}>
