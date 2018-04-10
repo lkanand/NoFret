@@ -171,26 +171,7 @@ class TabWriter extends Component {
     return notesToModify;
   }
 
-  noteConverter=()=>{
-    //let allNotesCopy=this.state.allNotes;
-    //look through notes; map them out
 
-  //let rawnotes=then we get notes
-  //this.tonePopulater(rawnotes);
-  }
-
-  tonePopulater=(notes)=>{
-    let tempNotes=[];
-    for (var i; i<notes.length; i++){
-      let thisNote={
-        time:notes[i].beat,
-        note:notes[i].note,
-        dur:notes[i].duration
-      }
-        tempNotes.push(thisNote);
-    }
-    return tempNotes;
-  }
 
 
   noteChange = (event,id) => {
@@ -259,35 +240,149 @@ class TabWriter extends Component {
     }
   }
 
+    noteConverter=()=>{
+    let allNotesCopy=this.state.allNotes;
+
+    let notesValues=[];
+
+    for(let i=0;i<this.state.measureNumber-1;i++){
+    for(let j=0;j<4;j++){
+      for(let k=0;k<6;k++){
+        for(let l=0;l<16;l++){
+          if (allNotesCopy[i][j][k][l].value!==""){
+           let lineValue=-1;
+           //setting notes here;
+           switch(k) {
+                case 0:
+                    lineValue=40;
+                    break;
+                case 1:
+                    lineValue=35;
+                    break;
+                case 2:
+                    lineValue=31;
+                    break;
+                case 3:
+                    lineValue=26;
+                    break;
+                case 4:
+                    lineValue=21;
+                    break; 
+                case 5:
+                    lineValue=16;
+                    break;    
+            }
+             let uniqueVal=lineValue+allNotesCopy[i][j][k][l].value;
+             let rawNote=uniqueVal%12;
+             let thisNote="";
+             let octave=Math.floor(uniqueVal/12)+1;
+
+             switch(rawNote){
+               case 0:
+                    thisNote="C"+octave;
+                    break;
+                case 1:
+                    thisNote="Db"+octave;
+                    break;
+                case 2:
+                    thisNote="D"+octave;
+                    break;
+                case 3:
+                    thisNote="Eb"+octave;
+                    break;
+                case 4:
+                    thisNote="E"+octave;
+                    break; 
+                case 5:
+                    thisNote="F"+octave;
+                    break;
+                case 6:
+                    thisNote="F#"+octave;
+                    break;
+                case 7:
+                    thisNote="G"+octave;
+                    break;
+                case 8:
+                    thisNote="Ab"+octave;
+                    break;
+                case 9:
+                    thisNote="A"+octave;
+                    break;
+                case 10:
+                    thisNote="Bb"+octave;
+                    break; 
+                case 11:
+                    thisNote="B"+octave;
+                    break;   
+             }
+
+          const notes = {
+            id: allNotesCopy[i][j][k][l].snoteID,
+            duration: allNotesCopy[i][j][k][l].duration,
+            measure: i,
+            beat: j,
+            snote:l,
+            note:thisNote
+          };
+          notesValues.push(notes);
+        }
+        }
+      }
+    }
+  }
+  console.log(notesValues);
+  this.tonePopulater(notesValues);
+  }
+
+  tonePopulater=(notes)=>{
+    let tempNotes=[];
+    for (let i=0; i<notes.length; i++){
+      let thisNote={
+        // time:notes[i].measure+":"+notes[i].beat+":"+notes[i].snote,
+        time:i,
+        note:notes[i].note,
+        dur:notes[i].duration+"n"
+      }
+        tempNotes.push(thisNote);
+    }
+    console.log(tempNotes);
+    return tempNotes;
+  }
+
   changeMode =(event)=>{
     event.preventDefault();
     let tempMode=!this.state.editMode;
     let tempMsg="Play";
     const synth = new Tone.PolySynth(6, Tone.Synth).toMaster();
 
-    const populate=()=>{
-      //this function will assign time note and dur with a for loop
+    // const populate=()=>{
+    //   //this function will assign time note and dur with a for loop
 
-      //push each to note array
-      //let noteArrays=this.noteConverter();
-      let noteArrays=[{ time : 0, note : ["C4"], dur : '4n'}
-        ,
-        { time : 0, note : 'G4', dur : '16n'}
-        ];
+    //   //push each to note array
+    //   let noteArrays=this.noteConverter();
+    //   // let noteArrays=[{ time : 0, note : ["C4"], dur : '4n'}
+    //   //   ,
+    //   //   { time : 0, note : 'G4', dur : '16n'}
+    //   //   ];
 
-        return noteArrays;
-    }
+    //     return noteArrays;
+    // }
+
+    let noteArrays=this.noteConverter();
 
     const part = new Tone.Part(function(time,event){
       synth.triggerAttackRelease(event.note, event.dur, time)
-        },populate())
+        },noteArrays);
+
 
     part.start(0);
     part.loop=true;
 
+    let that=this;
 
+
+  Promise.all([part]).then(function(){
     if (tempMode===false){
-        this.noteConverter();
         tempMsg="Stop";
         Tone.Transport.start("+0.1");
       
@@ -295,7 +390,8 @@ class TabWriter extends Component {
     else{
        Tone.Transport.stop();
     }
-    this.setState({editMode:tempMode, btnMessage:tempMsg});
+    that.setState({editMode:tempMode, btnMessage:tempMsg});
+  });
   }
 
 test=()=>{
