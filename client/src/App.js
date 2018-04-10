@@ -170,6 +170,28 @@ class App extends Component {
     return notesToModify;
   }
 
+  noteConverter=()=>{
+    let allNotesCopy=this.state.allNotes;
+    //look through notes; map them out
+
+  //let rawnotes=then we get notes
+  //this.tonePopulater(rawnotes);
+  }
+
+  tonePopulater=(notes)=>{
+    let tempNotes=[];
+    for (var i; i<notes.length; i++){
+      let thisNote={
+        time:notes[i].beat,
+        note:notes[i].note,
+        dur:notes[i].duration
+      }
+        tempNotes.push(thisNote);
+    }
+    return tempNotes;
+  }
+
+
   noteChange = (event,id) => {
     event.preventDefault();
     let note = this.extractId(id);
@@ -186,20 +208,34 @@ class App extends Component {
     event.preventDefault();
     let tempMode=!this.state.editMode;
     let tempMsg="Play";
-    const synth=new Tone.PolySynth().toMaster();
+    const synth = new Tone.PolySynth(6, Tone.Synth).toMaster();
 
-    var loop = new Tone.Loop(function(time){
-      synth.triggerAttackRelease("C1", "8n", time)
-    }, "4n")
+    const populate=()=>{
+      //this function will assign time note and dur with a for loop
 
+      //push each to note array
+      //let noteArrays=this.noteConverter();
+      let noteArrays=[{ time : 0, note : ["C4"], dur : '4n'}
+        ,
+        { time : 0, note : 'G4', dur : '16n'}
+        ];
 
-    loop.start(0);
-    console.log(loop);
+        return noteArrays;
+    }
+
+    const part = new Tone.Part(function(time,event){
+      synth.triggerAttackRelease(event.note, event.dur, time)
+        },populate())
+
+    part.start(0);
+    part.loop=true;
 
 
     if (tempMode===false){
-      Tone.Transport.start('+0.1');
-      tempMsg="Stop";
+        this.noteConverter();
+        tempMsg="Stop";
+        Tone.Transport.start("+0.1");
+      
     }
     else{
        Tone.Transport.stop();
@@ -207,6 +243,9 @@ class App extends Component {
     this.setState({editMode:tempMode, btnMessage:tempMsg});
   }
 
+test=()=>{
+  console.log("test function");
+}
 
 
   render() {
