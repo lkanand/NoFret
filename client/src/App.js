@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import NoteSelector from "./components/NoteSelector";
 import WTWrapper from "./components/WTWrapper";
 import Wrapper from "./components/Wrapper";
+import Tone from 'tone';
 
 const notes = ["sixtyfourth", "thirtysecond", "sixteenth", "eighth", "quarter", "half", "whole"];
 const spaces = [1, 2, 4, 8, 16, 32, 64];
@@ -14,7 +15,9 @@ class App extends Component {
     noteSelected: "",
     noteType: "quarter",
     activeNoteId: "",
-    pressedUporDown: false
+    pressedUporDown: false,
+    editMode:true,
+    btnMessage:"Play"
   }
 
   componentDidMount(){
@@ -169,6 +172,28 @@ class App extends Component {
     return notesToModify;
   }
 
+  noteConverter=()=>{
+    let allNotesCopy=this.state.allNotes;
+    //look through notes; map them out
+
+  //let rawnotes=then we get notes
+  //this.tonePopulater(rawnotes);
+  }
+
+  tonePopulater=(notes)=>{
+    let tempNotes=[];
+    for (var i; i<notes.length; i++){
+      let thisNote={
+        time:notes[i].beat,
+        note:notes[i].note,
+        dur:notes[i].duration
+      }
+        tempNotes.push(thisNote);
+    }
+    return tempNotes;
+  }
+
+
   noteChange = (event,id) => {
     event.preventDefault();
     let note = this.extractId(id);
@@ -235,16 +260,65 @@ class App extends Component {
     }
   }
 
+  changeMode =(event)=>{
+    event.preventDefault();
+    let tempMode=!this.state.editMode;
+    let tempMsg="Play";
+    const synth = new Tone.PolySynth(6, Tone.Synth).toMaster();
+
+    const populate=()=>{
+      //this function will assign time note and dur with a for loop
+
+      //push each to note array
+      //let noteArrays=this.noteConverter();
+      let noteArrays=[{ time : 0, note : ["C4"], dur : '4n'}
+        ,
+        { time : 0, note : 'G4', dur : '16n'}
+        ];
+
+        return noteArrays;
+    }
+
+    const part = new Tone.Part(function(time,event){
+      synth.triggerAttackRelease(event.note, event.dur, time)
+        },populate())
+
+    part.start(0);
+    part.loop=true;
+
+
+    if (tempMode===false){
+        this.noteConverter();
+        tempMsg="Stop";
+        Tone.Transport.start("+0.1");
+      
+    }
+    else{
+       Tone.Transport.stop();
+    }
+    this.setState({editMode:tempMode, btnMessage:tempMsg});
+  }
+
+test=()=>{
+  console.log("test function");
+}
+
   render() {
     return (
       <Wrapper>
         <h1>Select a note and then enter any fret from 1 to 24</h1>
         <NoteSelector notes = {notes} selectedNoteType = {this.state.noteType} setNoteType = {this.setNoteType}/>
       	<button onClick={this.addMeasure}>Add Measure</button>
-      	<WTWrapper allNotes={this.state.allNotes} noteClick={this.noteClick}
-        noteSubmit={this.noteSubmit} noteChange = {this.noteChange} setActiveNote = {this.setActiveNote} 
-        activeNoteId = {this.state.activeNoteId} incOrDecDuration = {this.incOrDecDuration}/>
-      </Wrapper>
+        <button onClick={this.changeMode}>{this.state.btnMessage}</button>
+          {(this.state.editMode===true)?(
+        	   <WTWrapper allNotes={this.state.allNotes} noteClick={this.noteClick}
+              noteSubmit={this.noteSubmit} noteChange = {this.noteChange} setActiveNote = {this.setActiveNote} 
+              activeNoteId = {this.state.activeNoteId} incOrDecDuration = {this.incOrDecDuration}/>
+          ):(
+            <WTWrapper allNotes={this.state.allNotes} noteClick={this.noteClick} noteSubmit={this.noteSubmit} noteChange = {this.noteChange}/>
+          )
+        }
+        </Wrapper>
     );
   }
 };
