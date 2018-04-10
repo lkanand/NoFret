@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import ScaleTool from "./testing/ScaleTool";
+import ScaleTool from "./components/ScaleTool";
 
 class App extends Component {
   render() {
     return (
       <div>
-        <p>Hello</p>
         <ScaleTool />
       </div>
     );

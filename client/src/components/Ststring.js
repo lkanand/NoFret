@@ -1,11 +1,6 @@
 import React, {Component} from "react";
 import Stfret from "./Stfret";
 
-
-//change strings into components
-//assign open value as I create them based on selected tuning
-
-
 class Ststring extends (Component) {
 	state = {
 		stringvalue: this.props.stringvalue,
@@ -40,6 +35,3 @@ class Ststring extends (Component) {
 }
 
 export default Ststring;
-
-
-

@@ -1,3 +1,5 @@
+
+
 .stFret {
 	width: 90px;
 	height: 50px;
@@ -8,7 +10,8 @@
 	padding-bottom: auto;
 	border-radius: 10px;
 	line-height: 50px;
-	/*background-color: #212121;*/
+	background-color: #843d3d;
+	color: white;
 }
 
 .fretSect {
@@ -36,6 +39,10 @@
 
 .hideFret {
 	visibility: hidden;
+}
+
+.root, .second, .third, .fourth, .fifth, .sixth, .seventh {
+	color: black;
 }
 
 .root {
