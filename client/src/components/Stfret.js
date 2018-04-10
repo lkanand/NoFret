@@ -101,15 +101,9 @@ class Stfret extends (Component) {
 	render() {
 		return (
 			<div className="fretSect" onClick={this.handleClick}>
-
-                {this.state.hide ? 
-                	<div className={'stFret hideFret '+this.state.scaleRel} noteoctave={this.state.octave} notevalue={this.state.value}>
-                		{this.state.note}
-                	</div>
-                : <div className={'stFret '+this.state.scaleRel} noteoctave={this.state.octave} notevalue={this.state.value}>
-                	{this.state.note}
-                </div>
-                }
+               	<div className={this.state.hide ? 'stFret hideFret ' : 'stFret '+this.state.scaleRel} noteoctave={this.state.octave} notevalue={this.state.value}>
+               		{this.state.note}
+              	</div>
 			</div>
 		)
 	};
