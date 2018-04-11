@@ -26,7 +26,6 @@ class TabWriter extends Component {
   addMeasure=()=>{
 
     let tempArr=this.state.allNotes;
-    
 
     let mArray=[];
     for(let j=1;j<5;j++){
@@ -89,8 +88,9 @@ class TabWriter extends Component {
     let noteEntered2 = allNotesCopy[measure][beat][line][sNote].noteEntered;    
     let parseNote=parseFloat(noteEntered2);
 
-    if(noteEntered2 === "") {
+    if(noteEntered2 === "" || (noteEntered2!=="X" && noteEntered2!=="x" && (isNaN(noteEntered2) || parseNote % 1 !== 0 || parseNote<0||parseNote>24))) {
       allNotesCopy[measure][beat][line][sNote].value = "";
+      allNotesCopy[measure][beat][line][sNote].noteEntered = "";
       let duration=allNotesCopy[measure][beat][line][sNote].duration;
       allNotesCopy[measure][beat][line][sNote].duration = -1;
       if(duration > 0) {
@@ -100,14 +100,16 @@ class TabWriter extends Component {
           allNotesCopy[notesToModify[i].measure][notesToModify[i].beat][notesToModify[i].line][notesToModify[i].sNote].disabled = false;
       }
     }
-    else if((isNaN(noteEntered2) && noteEntered2!=="X" && noteEntered2!=="x") || parseNote % 1 !== 0 || parseNote<0||parseNote>24) {
-      allNotesCopy[measure][beat][line][sNote].value = "";
-      allNotesCopy[measure][beat][line][sNote].noteEntered = ""; 
-    }
     else {
       allNotesCopy[measure][beat][line][sNote].value = parseNote;
+      let duration;
+      let notesToModify;
       if(this.state.pressedUporDown === false) {
-        let duration = spaces[notes.indexOf(this.state.noteType)];
+        duration = allNotesCopy[measure][beat][line][sNote].duration - 1;
+        notesToModify = this.getIds(duration, currentLocation, "remove");
+        for(let i = 0; i < notesToModify.length; i++)
+          allNotesCopy[notesToModify[i].measure][notesToModify[i].beat][notesToModify[i].line][notesToModify[i].sNote].disabled = false;
+        duration = spaces[notes.indexOf(this.state.noteType)];
         allNotesCopy[measure][beat][line][sNote].duration = 1;
         duration--;
         if(duration > 0) {
@@ -219,6 +221,11 @@ class TabWriter extends Component {
     let sNote = parseInt(idArray[3].substring(1), 10);
     let allNotesCopy = this.state.allNotes;
     let focusedNote = allNotesCopy[measure][beat][line][sNote];
+    let focusedNoteEntered = focusedNote.noteEntered;
+    let parsedFocusedNoteEntered = parseFloat(focusedNoteEntered);
+
+    if(focusedNoteEntered !== "X" && focusedNoteEntered !== "x" && (isNaN(focusedNoteEntered) || parsedFocusedNoteEntered % 1 !== 0 || parsedFocusedNoteEntered < 0 || parsedFocusedNoteEntered > 24))
+      return;
 
     if(event.keyCode === 40) {
       if(focusedNote.duration === 1 || focusedNote.duration === -1)
@@ -231,14 +238,18 @@ class TabWriter extends Component {
       }
     }
     else {
-      if(focusedNote.duration === -1)
-        return;
-      let addressOfLast = this.getEndOfNote(measure, beat, line, sNote, "add");
-      if(addressOfLast.beat > 3 || allNotesCopy[addressOfLast.measure][addressOfLast.beat][addressOfLast.line][addressOfLast.sNote].value !== "")
-        return;
+      if(focusedNote.duration === -1) {
+        allNotesCopy[measure][beat][line][sNote].value = focusedNoteEntered;
+        allNotesCopy[measure][beat][line][sNote].duration = 1;
+      }
+      else {
+        let addressOfLast = this.getEndOfNote(measure, beat, line, sNote, "add");
+        if(addressOfLast.beat > 3 || allNotesCopy[addressOfLast.measure][addressOfLast.beat][addressOfLast.line][addressOfLast.sNote].value !== "")
+          return;
         allNotesCopy[addressOfLast.measure][addressOfLast.beat][addressOfLast.line][addressOfLast.sNote].disabled = true;
         allNotesCopy[measure][beat][line][sNote].duration += 1;
-        this.setState({allNotes: allNotesCopy, pressedUporDown: true});
+      }
+      this.setState({allNotes: allNotesCopy, pressedUporDown: true});
     }
   }
 
