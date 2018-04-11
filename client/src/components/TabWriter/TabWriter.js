@@ -366,22 +366,26 @@ class TabWriter extends Component {
     let tempMode=!this.state.editMode;
     let tempMsg="Play";
     const synth = new Tone.Synth().toMaster();
-    let part=[];
+    // let part=[];
+    // console.log(part);
 
     if (tempMode===false){
       const promise1=this.noteConverter();
       tempMsg="Stop";
       let that=this;
+      console.log(this.state.tempNotes);
 
       Promise.all([promise1]).then(function(){
           console.log(that.state.tempNotes);
-          part = new Tone.Part(function(time,event){
+          let part=[];
+           part = new Tone.Part(function(time,event){
           synth.triggerAttackRelease(event.note, event.dur, time)
           },that.state.tempNotes);
 
           part.start(0);
           part.loop=true;
 
+          console.log(part);
           Tone.Transport.start("+0.1");
       
       });
@@ -391,7 +395,7 @@ class TabWriter extends Component {
     else{
            Tone.Transport.stop();
            let that=this;
-           that.state.tempNotes=[];
+           that.setState({tempNotes:[]});
         }
         
       this.setState({editMode:tempMode, btnMessage:tempMsg});
