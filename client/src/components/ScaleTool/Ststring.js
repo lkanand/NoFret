@@ -2,14 +2,23 @@ import React, {Component} from "react";
 import Stfret from "./Stfret";
 
 class Ststring extends (Component) {
-	state = {
-		stringvalue: this.props.stringvalue,
-		boardstate: this.props.boardstate,
-		allNotes: []
-	}
 
+	constructor(props) {
+		super(props);
+		this.state = {
+			stringvalue: props.stringvalue,
+			boardstate: props.boardstate,
+			allNotes: []
+		}
+	}
+		
 	componentDidMount() {
 		this.defineFrets(this.state.stringvalue);
+	}
+
+	componentWillReceiveProps(props) {
+		console.log("props recieved by strings");
+		this.setState({boardstate: props.boardstate});
 	}
 
 	defineFrets = openNote => {
