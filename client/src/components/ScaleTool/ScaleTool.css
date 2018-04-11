@@ -1,4 +1,15 @@
+.stNeck {
+	display: flex;
+}
 
+.stFretGuide {
+	width: 100px;
+	height: 30px;
+	background-color: #843d3d;
+	color: white;
+	line-height: 30px;
+	text-align: center;
+}
 
 .stFret {
 	width: 90px;
@@ -39,6 +50,10 @@
 
 .hideFret {
 	visibility: hidden;
+}
+
+.showFret {
+	cursor: pointer;
 }
 
 .root, .second, .third, .fourth, .fifth, .sixth, .seventh {
