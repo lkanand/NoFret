@@ -23,6 +23,13 @@
 	line-height: 50px;
 	background-color: #843d3d;
 	color: white;
+	/*prevents highlighting on frets*/
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Safari */
+	-khtml-user-select: none; /* Konqueror HTML */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none; /* Non-prefixed version, currently*/
 }
 
 .fretSect {
@@ -88,3 +95,6 @@
 	background-color: #fff;
 }
 
+.MIDISounds{
+	display: none;
+}

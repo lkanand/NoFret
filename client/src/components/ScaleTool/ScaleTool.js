@@ -29,7 +29,7 @@ class ScaleTool extends Component {
 				<Stfretguide />
                 {this.state.openStrings.map(string => {
                   return (
-                  	<Ststring key={string} stringvalue={string} boardstate={this.state}/>
+                  	<Ststring key={string} stringvalue={string} boardstate={this.state} midi={this.props.midi}/>
                   );
                 })}
 				<Stfretguide />

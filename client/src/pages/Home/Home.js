@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TabWriter from "../../components/TabWriter";
 import ScaleTool from "../../components/ScaleTool";
+import MIDISounds from 'midi-sounds-react';
 
 class Home extends Component {
 
@@ -15,6 +16,7 @@ class Home extends Component {
 
     componentDidMount() {
         this.tuneStrings(this.state.tuning);
+        this.midiSounds.setEchoLevel(0);
     }
 
     handleScaleChange = event => {
@@ -42,40 +44,76 @@ class Home extends Component {
     tuneStrings = tuning => {
         // 0 = C1 anything below E1 is not supported by our app
         if (tuning === "standard") {
-            this.setState({openStrings: [40, 35, 31, 26, 21, 16]});
+            this.setState({openStrings: [64, 59, 55, 50, 45, 40]});
         } else if (tuning === "drop D") {
-            this.setState({openStrings: [40, 35, 31, 26, 21, 14]});
+            this.setState({openStrings: [64, 59, 55, 50, 45, 38]});
         } else if (tuning === "double drop D") {
-            this.setState({openStrings: [38, 35, 31, 26, 21, 14]});
+            this.setState({openStrings: [62, 59, 55, 50, 45, 38]});
         } else if (tuning === "maj thirds") {
-            this.setState({openStrings: [38, 34, 30, 26, 22, 18]});
+            this.setState({openStrings: [62, 58, 54, 50, 47, 42]});
         } else if (tuning === "all fourths") {
-            this.setState({openStrings: [41, 36, 31, 26, 21, 16]});
+            this.setState({openStrings: [65, 60, 55, 50, 45, 40]});
         } else if (tuning === "aug fourths") {
-            this.setState({openStrings: [42, 36, 30, 24, 18, 12]});
+            this.setState({openStrings: [66, 60, 54, 48, 42, 36]});
         } else if (tuning === "new standard") {
-            this.setState({openStrings: [43, 40, 33, 26, 19, 12]});
+            this.setState({openStrings: [67, 64, 57, 50, 43, 36]});
         } else if (tuning === "open A") {
-            this.setState({openStrings: [40, 33, 28, 25, 21, 16]});
+            this.setState({openStrings: [64, 57, 52, 49, 45, 40]});
         } else if (tuning === "slide open A") {
-            this.setState({openStrings: [40, 37, 33, 28, 21, 16]});
+            this.setState({openStrings: [68, 61, 57, 52, 45, 40]});
         } else if (tuning === "open C") {
-            this.setState({openStrings: [40, 36, 31, 24, 19, 12]});
+            this.setState({openStrings: [64, 60, 55, 48, 43, 36]});
         } else if (tuning === "open D") {
-            this.setState({openStrings: [38, 33, 30, 26, 21, 14]});
+            this.setState({openStrings: [62, 57, 54, 50, 45, 38]});
         } else if (tuning === "open E") {
-            this.setState({openStrings: [40, 35, 32, 28, 23, 16]});
+            this.setState({openStrings: [64, 59, 56, 52, 47, 40]});
         } else if (tuning === "open G") {
-            this.setState({openStrings: [38, 35, 31, 26, 19, 14]});
+            this.setState({openStrings: [62, 59, 55, 50, 43, 38]});
         } else if (tuning === "DADGAD") {
-            this.setState({openStrings: [38, 33, 31, 26, 21, 14]});
+            this.setState({openStrings: [62, 57, 55, 50, 45, 38]});
         } else if (tuning === "DADADD") {
-            this.setState({openStrings: [38, 38, 33, 26, 21, 14]});
+            this.setState({openStrings: [62, 62, 57, 50, 45, 38]});
         } else if (tuning === "standard Eb") {
-            this.setState({openStrings: [39, 34, 30, 25, 20, 15]});
+            this.setState({openStrings: [63, 58, 54, 49, 44, 39]});
         } else if (tuning === "standard D") {
-            this.setState({openStrings: [38, 33, 29, 24, 19, 14]});
+            this.setState({openStrings: [62, 57, 53, 48, 43, 38]});
         }
+
+        // if (tuning === "standard") {
+        //     this.setState({openStrings: [52, 47, 43, 38, 33, 28]});
+        // } else if (tuning === "drop D") {
+        //     this.setState({openStrings: [52, 47, 43, 38, 33, 26]});
+        // } else if (tuning === "double drop D") {
+        //     this.setState({openStrings: [50, 47, 43, 38, 33, 26]});
+        // } else if (tuning === "maj thirds") {
+        //     this.setState({openStrings: [50, 46, 42, 38, 35, 30]});
+        // } else if (tuning === "all fourths") {
+        //     this.setState({openStrings: [53, 48, 43, 38, 33, 28]});
+        // } else if (tuning === "aug fourths") {
+        //     this.setState({openStrings: [54, 48, 42, 36, 30, 24]});
+        // } else if (tuning === "new standard") {
+        //     this.setState({openStrings: [55, 52, 45, 38, 31, 24]});
+        // } else if (tuning === "open A") {
+        //     this.setState({openStrings: [52, 45, 40, 37, 33, 28]});
+        // } else if (tuning === "slide open A") {
+        //     this.setState({openStrings: [52, 49, 45, 40, 33, 28]});
+        // } else if (tuning === "open C") {
+        //     this.setState({openStrings: [52, 48, 43, 36, 31, 24]});
+        // } else if (tuning === "open D") {
+        //     this.setState({openStrings: [50, 45, 42, 38, 33, 26]});
+        // } else if (tuning === "open E") {
+        //     this.setState({openStrings: [52, 47, 44, 40, 35, 28]});
+        // } else if (tuning === "open G") {
+        //     this.setState({openStrings: [50, 47, 43, 38, 31, 26]});
+        // } else if (tuning === "DADGAD") {
+        //     this.setState({openStrings: [50, 45, 43, 38, 33, 26]});
+        // } else if (tuning === "DADADD") {
+        //     this.setState({openStrings: [50, 50, 45, 38, 33, 26]});
+        // } else if (tuning === "standard Eb") {
+        //     this.setState({openStrings: [51, 46, 42, 27, 32, 27]});
+        // } else if (tuning === "standard D") {
+        //     this.setState({openStrings: [50, 45, 41, 26, 31, 26]});
+        // }
     }
 
   render() {
@@ -99,7 +137,12 @@ class Home extends Component {
             </select>
     		<select name="scaleType" onChange={this.handleScaleChange}>
     			<option value="major">Major</option>
-    			<option value="major pent">Major Pentatonic</option>
+                <option value="major pent">Major Pentatonic</option>
+                <option value="blues">Blues</option>
+                <option value="minor pent">Minor Pentatonic</option>
+    			<option value="natural minor">Natural Minor</option>
+                <option value="dorian">Dorian Mode</option>
+                <option value="mixolydian">Mixolydian Mode</option>
     		</select>
     		Tuning: 
     		<select name="tuning" onChange={this.handleTuneChange}>
@@ -124,8 +167,9 @@ class Home extends Component {
     		Tempo: 
     		<input type="number" name="bpm" placeholder="100" onChange={this.handleBPMChange}></input>BPM
     	</nav>
-		<ScaleTool scaleType={this.state.scaleType} tuning={this.state.tuning} root={this.state.root} openstrings={this.state.openStrings}/>
+		<ScaleTool scaleType={this.state.scaleType} tuning={this.state.tuning} root={this.state.root} openstrings={this.state.openStrings} midi={this.midiSounds}/>
 		<TabWriter />
+        <MIDISounds ref={(ref) => (this.midiSounds = ref)} instruments={[275]} /> 
 	</div>
     );
   }
