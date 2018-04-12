@@ -35,7 +35,7 @@ class Ststring extends (Component) {
 			<div className="stString" stringvalue={this.props.stringvalue} >
                 {this.state.allNotes.map((notevalue, index) => {
                   return (
-					<Stfret key = {index} value={notevalue} boardstate={this.state.boardstate}/>
+					<Stfret key = {index} value={notevalue} boardstate={this.state.boardstate} midi={this.props.midi}/>
                   );
                 })}
 			</div>	
