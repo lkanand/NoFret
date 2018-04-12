@@ -91,8 +91,8 @@ class Stfret extends (Component) {
 	};
 
 	fretInit = (value, scale) => {
-		console.log("fretInit");
-		console.log(this.state.scaleValues);
+		// console.log("fretInit");
+		// console.log(this.state.scaleValues);
 		const note = value%12;
 		this.setState({hide: false})
 		if (scale[0]%12 === note) {

@@ -168,7 +168,7 @@ class Home extends Component {
     		<input type="number" name="bpm" placeholder="100" onChange={this.handleBPMChange}></input>BPM
     	</nav>
 		<ScaleTool scaleType={this.state.scaleType} tuning={this.state.tuning} root={this.state.root} openstrings={this.state.openStrings} midi={this.midiSounds}/>
-		<TabWriter />
+		<TabWriter openstrings={this.state.openStrings} midi={this.midiSounds}/>
         <MIDISounds ref={(ref) => (this.midiSounds = ref)} instruments={[275]} /> 
 	</div>
     );
