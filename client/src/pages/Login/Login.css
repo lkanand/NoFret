@@ -1,0 +1,7 @@
+.loginLabel,.inputField{
+	clear:both;
+}
+
+.inputField{
+	width:100px;
+}
