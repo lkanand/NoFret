@@ -2,22 +2,33 @@ import React, { Component } from 'react';
 import NoteSelector from "../NoteSelector";
 import WTWrapper from "../WTWrapper";
 import Wrapper from "../Wrapper";
-import Tone from 'tone';
+import MIDISounds from 'midi-sounds-react';
 
 const notes = ["sixtyfourth", "thirtysecond", "sixteenth", "eighth", "quarter", "half", "whole"];
 const spaces = [1, 2, 4, 8, 16, 32, 64];
 
 class TabWriter extends Component {
-  state={
-    allNotes:[],
-  	measureNumber:1,
-    noteSelected: "",
-    noteType: "quarter",
-    activeNoteId: "",
-    pressedUporDown: false,
-    editMode:true,
-    btnMessage:"Play",
-    tempNotes:[]
+  constructor(props) {
+    super(props);
+    this.state = {
+      midi: props.midi,
+      openStrings: props.openstrings,
+      allNotes:[],
+      measureNumber:1,
+      noteSelected: "",
+      noteType: "quarter",
+      activeNoteId: "",
+      pressedUporDown: false,
+      editMode:true,
+      btnMessage:"Play",
+      tempNotes:[],
+      instrument: 275,
+      bpm: 120
+    };
+  }
+
+  componentWillReceiveProps(props) {
+    this.setState({openStrings: props.openstrings});
   }
 
   componentDidMount(){
@@ -259,151 +270,124 @@ class TabWriter extends Component {
     let notesValues=[];
 
     for(let i=0;i<this.state.measureNumber-1;i++){
+      let mArray=[];
     for(let j=0;j<4;j++){
+      let bArray=[];
       for(let k=0;k<6;k++){
+        let lArray=[];
         for(let l=0;l<16;l++){
-          if (allNotesCopy[i][j][k][l].value!==""){
+          if (allNotesCopy[i][j][k][l].value===""){
+              const nullNotes={
+                id: allNotesCopy[i][j][k][l].snoteID,
+                duration: 0,
+                measure: i,
+                beat: j,
+                snote:l,
+                note:""
+              };
+              lArray.push(nullNotes);
+          }
+          // if (allNotesCopy[i][j][k][l].value!==""){
+          else{
            let lineValue=-1;
            //setting notes here;
            switch(k) {
                 case 0:
-                    lineValue=40;
+                    lineValue=this.state.openStrings[0];
                     break;
                 case 1:
-                    lineValue=35;
+                    lineValue=this.state.openStrings[1];
                     break;
                 case 2:
-                    lineValue=31;
+                    lineValue=this.state.openStrings[2];
                     break;
                 case 3:
-                    lineValue=26;
+                    lineValue=this.state.openStrings[3];
                     break;
                 case 4:
-                    lineValue=21;
+                    lineValue=this.state.openStrings[4];
                     break; 
                 case 5:
-                    lineValue=16;
+                    lineValue=this.state.openStrings[5];
                     break;    
             }
-             let uniqueVal=lineValue+allNotesCopy[i][j][k][l].value;
-             let rawNote=uniqueVal%12;
-             let thisNote="";
-             let octave=Math.floor(uniqueVal/12)+1;
+             let userVal=allNotesCopy[i][j][k][l].value;
 
-             switch(rawNote){
-               case 0:
-                    thisNote="C"+octave;
-                    break;
-                case 1:
-                    thisNote="Db"+octave;
-                    break;
-                case 2:
-                    thisNote="D"+octave;
-                    break;
-                case 3:
-                    thisNote="Eb"+octave;
-                    break;
-                case 4:
-                    thisNote="E"+octave;
-                    break; 
-                case 5:
-                    thisNote="F"+octave;
-                    break;
-                case 6:
-                    thisNote="F#"+octave;
-                    break;
-                case 7:
-                    thisNote="G"+octave;
-                    break;
-                case 8:
-                    thisNote="Ab"+octave;
-                    break;
-                case 9:
-                    thisNote="A"+octave;
-                    break;
-                case 10:
-                    thisNote="Bb"+octave;
-                    break; 
-                case 11:
-                    thisNote="B"+octave;
-                    break;   
-             }
-
-          const notes = {
-            id: allNotesCopy[i][j][k][l].snoteID,
-            duration: 64/(allNotesCopy[i][j][k][l].duration),
-            measure: i,
-            beat: j,
-            snote:l,
-            note:thisNote
-          };
-          notesValues.push(notes);
-        }
-        }
+            const notes = {
+              // id: allNotesCopy[i][j][k][l].snoteID,
+              duration: (allNotesCopy[i][j][k][l].duration)/64,
+              // measure: i,
+              // beat: j,
+              // snote:l,
+              note:userVal+lineValue
+            };
+            lArray.push(notes);
+          }
+        } 
+        bArray.push(lArray);
       }
+      mArray.push(bArray);
     }
+    notesValues.push(mArray);
   }
+  
   this.tonePopulater(notesValues);
   }
 
   tonePopulater=(notes)=>{
-    // let tempNotes=[];
-    let tempNotes=this.state.tempNotes;
+    this.setState({tempNotes:[]});
+    let masterArray = [];
     for (let i=0; i<notes.length; i++){
-      let thisNote={
-        time:notes[i].measure+":"+notes[i].beat+":"+notes[i].snote,
-        // time:i,
-        note:notes[i].note,
-        dur:notes[i].duration+"n"
+      for(let j = 0; j < notes[i].length;j++){
+        for(let k = 0; k < notes[i][j][0].length; k++) {
+          let notesToPlay = [];
+          for(let m = 0; m < 6; m++) {
+            console.log(notes[i][j][m][k]);
+            if(notes[i][j][m][k].note !== "") {
+              let instrumentNote = [this.state.instrument, [notes[i][j][m][k].note],notes[i][j][m][k].duration, "down"];
+              notesToPlay.push(instrumentNote);
+            }
+          }
+          let sixtyFourArray = [[], notesToPlay];
+          masterArray.push(sixtyFourArray);
+        }
       }
-        tempNotes.push(thisNote);
     }
-
+    this.setState({tempNotes:masterArray});
   }
 
   changeMode =(event)=>{
     event.preventDefault();
     let tempMode=!this.state.editMode;
     let tempMsg="Play";
-    const synth = new Tone.Synth().toMaster();
-    // let part=[];
-    // console.log(part);
+
+    const promise1=this.noteConverter();
+
 
     if (tempMode===false){
       const promise1=this.noteConverter();
       tempMsg="Stop";
       let that=this;
-      console.log(this.state.tempNotes);
+      // console.log(this.state.tempNotes);
 
       Promise.all([promise1]).then(function(){
-          console.log(that.state.tempNotes);
-          let part=[];
-           part = new Tone.Part(function(time,event){
-          synth.triggerAttackRelease(event.note, event.dur, time)
-          },that.state.tempNotes);
-
-          part.start(0);
-          part.loop=true;
-
-          console.log(part);
-          Tone.Transport.start("+0.1");
+          that.props.midi.startPlayLoop(that.state.tempNotes,that.state.bpm,1/64,0);
       
       });
 
     }
 
     else{
-           Tone.Transport.stop();
-           let that=this;
-           that.setState({tempNotes:[]});
+           this.props.midi.stopPlayLoop();
+           this.props.midi.beatIndex=0;
         }
         
       this.setState({editMode:tempMode, btnMessage:tempMsg});
     }
 
-test=()=>{
-  console.log("test function");
-}
+// test=()=>{
+//   console.log("test function");
+// }
 
   render() {
     return (
@@ -412,6 +396,7 @@ test=()=>{
         <NoteSelector notes = {notes} selectedNoteType = {this.state.noteType} setNoteType = {this.setNoteType}/>
       	<button onClick={this.addMeasure}>Add Measure</button>
         <button onClick={this.changeMode}>{this.state.btnMessage}</button>
+        <button onClick={this.clearAll}>Clear All Measures</button>
           {(this.state.editMode===true)?(
         	   <WTWrapper allNotes={this.state.allNotes} noteClick={this.noteClick}
               noteSubmit={this.noteSubmit} noteChange = {this.noteChange} setActiveNote = {this.setActiveNote} 
