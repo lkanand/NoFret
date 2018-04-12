@@ -7,7 +7,6 @@ class Ststring extends (Component) {
 		super(props);
 		this.state = {
 			stringvalue: props.stringvalue,
-			boardstate: props.boardstate,
 			allNotes: []
 		}
 	}
@@ -17,7 +16,6 @@ class Ststring extends (Component) {
 	}
 
 	componentWillReceiveProps(props) {
-		console.log("props recieved by strings");
 		this.setState({boardstate: props.boardstate});
 	}
 
@@ -35,7 +33,7 @@ class Ststring extends (Component) {
 			<div className="stString" stringvalue={this.props.stringvalue} >
                 {this.state.allNotes.map((notevalue, index) => {
                   return (
-					<Stfret key = {index} value={notevalue} boardstate={this.state.boardstate} midi={this.props.midi}/>
+					<Stfret key = {index} value={notevalue} midi={this.props.midi} boardmode={this.props.boardstate.mode} scaleRoot={this.props.boardstate.scaleRoot} scaleType={this.props.boardstate.scaleType}/>
                   );
                 })}
 			</div>	

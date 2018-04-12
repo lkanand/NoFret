@@ -1,16 +1,12 @@
 import React, {Component} from "react";
-import MIDISounds from 'midi-sounds-react';
-// import Tone from 'tone';
-// var synth = new Tone.Synth().toMaster();
 
 class Stfret extends (Component) {
 	constructor(props) {
 		super(props);
 		this.state = {
 			value: props.value,
-			scaleRoot: props.boardstate.scaleRoot,
-			scaleType: props.boardstate.scaleType,
-			scaleValues: [],
+			scaleRoot: props.scaleRoot,
+			scaleType: props.scaleType,
 			boardstate: props.boardstate,
 			scaleRel: "",
 			hide: false,
@@ -25,16 +21,21 @@ class Stfret extends (Component) {
 	};
 
 	componentWillReceiveProps(props) {
-		this.setState({scaleRoot: props.boardstate.scaleRoot});
-		this.setState({scaleType: props.boardstate.scaleType});
-		this.setState({boardstate: props.boardstate});
-		this.setScaleVals(props.boardstate.scaleRoot, props.boardstate.scaleType);
+		if (this.state.scaleRoot != props.scaleRoot) {
+			this.setState({scaleRoot: props.scaleRoot});
+			this.setScaleVals(props.scaleRoot, props.scaleType);
+		} else if (this.state.scaleType != props.scaleType) {
+			this.setState({scaleType: props.scaleType});
+			this.setScaleVals(props.scaleRoot, props.scaleType);
+		}
+		// this.setState({mode: props.boardmode});
 	}
 
-	handleClick = (n,v) => {
-		console.log("shark");
+	handleClick = () => {
+		// console.log("shark");
 		// edit mode
-		if (this.state.boardstate.mode === "edit") {
+		if (this.props.boardmode === "edit") {
+			console.log(this.props.boardmode + " should be edit")
 			if (this.state.hide === false) {
 				this.setState({hide: true});
 			} else {
@@ -42,7 +43,8 @@ class Stfret extends (Component) {
 			}
 		}
 		// listen mode
-		if (this.state.boardstate.mode === "listen" && this.state.hide === false) {
+		if (this.props.boardmode === "listen" && this.state.hide === false) {
+			console.log(this.props.boardmode + " should be listen")
 
 
 			const scientificPitch = this.state.note + this.state.octave;
@@ -52,24 +54,8 @@ class Stfret extends (Component) {
 		}
 	}
 
-	keyDown(n,v){
-		this.keyUp(n);
-		var volume=1;
-		if(v){
-			volume=v;
-		}
-		this.envelopes[n]=this.midiSounds.player.queueWaveTable(this.midiSounds.audioContext
-			, this.midiSounds.equalizer.input
-			, window[this.midiSounds.player.loader.instrumentInfo(this.state.selectedInstrument).variable]
-			, 0, n, 9999,volume);
-		this.setState(this.state);
-	}
-
 	//scale relationships could be stored in DB 
 	setScaleVals = (root, type) => {
-		// console.log("props recieved by frets and scalevals fired");
-		// console.log(root);
-		// console.log(type);
 		let newScaleValues = []
 		if (type === "major") {
 			newScaleValues.push(root, root+2, root+4, root+5, root+7, root+9, root+11);
@@ -86,13 +72,12 @@ class Stfret extends (Component) {
 		} else if (type === "mixolydian") {
 			newScaleValues.push(root, root+2, root+4, root+5, root+7, root+9, root+10);
 		}
-		this.setState({scaleValues: newScaleValues});
+		// this.setState({scaleValues: newScaleValues});
 		this.fretInit(this.state.value, newScaleValues);
 	};
 
 	fretInit = (value, scale) => {
-		console.log("fretInit");
-		console.log(this.state.scaleValues);
+		this.setState({scaleRel: " "})
 		const note = value%12;
 		this.setState({hide: false})
 		if (scale[0]%12 === note) {

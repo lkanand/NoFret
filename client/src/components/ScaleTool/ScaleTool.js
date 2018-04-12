@@ -16,16 +16,17 @@ class ScaleTool extends Component {
 	}
 
 	componentWillReceiveProps(props) {
-		console.log("props recieved by scale tool");
-		console.log(this.state)
 		this.setState({scaleType: props.scaleType});
 		this.setState({scaleRoot: props.root})
 		this.setState({openStrings: props.openstrings})
+		this.setState({mode: props.mode})
 	}
 
 	render() {
 	    return (
 			<div className="stFretboard">
+
+
 				<Stfretguide />
                 {this.state.openStrings.map(string => {
                   return (
