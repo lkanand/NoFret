@@ -6,36 +6,92 @@ import "./Login.css";
 class Login extends Component {
 	state = {
     username: null,
-    password: null
+    password: null,
+    error:null,
   }
   handleInputChanged = (event) => {
     this.setState({
       [event.target.name]: event.target.value
     });
   }
- //  handleLogin = (event) => {
- //    event.preventDefault();
 
- //    const { username, password } = this.state;
- //    const { history } = this.props;
+  handleLogin = (event) => {
+    event.preventDefault();
 
- //    axios.post('/api/auth', {
- //      username,
- //      password
- //    })
- //    .then(user => {
- //      update(user.data);
- //      history.push('/');
- //    })
- //    .catch(err => {
+    const { username, password } = this.state;
 
- //      this.setState({
- //        error: err.response.status === 401 ? 'Invalid username or password.' : err.message
- //      });
- //    });
- //  }
+    this.setState({
+      error: null
+    });
+
+    // check to make sure they've entered a username and password.
+    // this is very poor validation, and there are better ways
+    // to do this in react, but this will suffice for the example
+    if (!username || !password) {
+      this.setState({
+        error: 'A username and password is required.'
+      });
+      return;
+    }
+
+    axios.post('/api/auth', {
+      username,
+      password
+    })
+    .then(user => {
+      // update(user.data);
+      console.log(user);
+    })
+    .catch(err => {
+
+      this.setState({
+        error: err.response.status === 401 ? 'Invalid username or password.' : err.message
+      });
+    });
+  }
+
+  createLogin = (event) => {
+    event.preventDefault();
+    console.log("got to function");
+
+    const { username, password } = this.state;
+    
+
+    // clear any previous errors so we don't confuse the user
+    this.setState({
+      error: null
+    });
+
+    // check to make sure they've entered a username and password.
+    // this is very poor validation, and there are better ways
+    // to do this in react, but this will suffice for the example
+    if (!username || !password) {
+      this.setState({
+        error: 'A username and password is required.'
+      });
+      return;
+    }
+
+    // post an auth request
+    axios.post('/api/users', {
+      username,
+      password
+    })
+      .then(user => {
+        // if the response is successful, make them log in
+        console.log(" axios response");
+        console.log(user);
+      })
+      .catch(err => {
+        console.log("an error");
+        this.setState({
+          error: err.response.data.message || err.message
+        });
+      });
+  }
+
   render() {
-    // const { error } = this.state;
+    const { error } = this.state;
 
     return (
       <div>
@@ -58,9 +114,15 @@ class Login extends Component {
 		              />
                 <div><button 
                 	disabled={!(this.state.username && this.state.password)}
-                	// onClick={this.handleSubmit}
+                	onClick={this.handleLogin}
                 	>
                   Log In
+                </button></div>
+                <div><button 
+                  disabled={!(this.state.username && this.state.password)}
+                  onClick={this.createLogin}
+                  >
+                  Create Account
                 </button></div>
             </form>
     	</div>

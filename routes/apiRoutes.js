@@ -5,6 +5,7 @@ const db = require('../models');
 const mustBeLoggedIn = require('../shared/middleware/mustBeLoggedIn');
 
 function getCurrentUser(req, res) {
+  console.log("get current user");
 
   const { id, username } = req.user;
   res.json({
@@ -47,13 +48,14 @@ router.route('/users')
   .post((req, res, next) => {
     db.User.create(req.body)
       .then(user => {
+        console.log("then");
         const { id, username } = user;
         res.json({
           id, username
         });
       })
       .catch(err => {
-
+        console.log("Error here")
         if (err.code === 11000) {
           res.status(400).json({
             message: 'Username already in use.'

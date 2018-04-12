@@ -1,7 +1,5 @@
 import React, {Component} from "react";
-import MIDISounds from 'midi-sounds-react';
-// import Tone from 'tone';
-// var synth = new Tone.Synth().toMaster();
+// import MIDISounds from 'midi-sounds-react';
 
 class Stfret extends (Component) {
 	constructor(props) {
