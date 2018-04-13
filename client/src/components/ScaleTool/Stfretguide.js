@@ -19,9 +19,9 @@ class Stfretguide extends (Component) {
 	render() {
 		return (
 			<span className="stNeck">
-	            {this.state.frets.map(fret => {
+	            {this.state.frets.map((fret, index) => {
 	            	return (
-						<div className="stFretGuide">
+						<div key={index+"fg"} className="stFretGuide">
 	            			{fret}
 						</div>	
 	            	);
