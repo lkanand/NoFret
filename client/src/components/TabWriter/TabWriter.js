@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import NoteSelector from "../NoteSelector";
 import WTWrapper from "../WTWrapper";
 import Wrapper from "../Wrapper";
-import MIDISounds from 'midi-sounds-react';
+// import MIDISounds from 'midi-sounds-react';
 
 const notes = ["sixtyfourth", "thirtysecond", "sixteenth", "eighth", "quarter", "half", "whole"];
 const spaces = [1, 2, 4, 8, 16, 32, 64];

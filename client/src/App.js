@@ -1,5 +1,5 @@
-import axios from 'axios';
-import React, { Component, Fragment } from 'react';
+// import axios from 'axios';
+import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Home from './pages/Home';
@@ -24,6 +24,7 @@ class App extends Component {
   //     });
   // }
   render() {
+    // const { user } = this.props;
      return (
       <Router>
             <Switch>
