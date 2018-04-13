@@ -16,6 +16,10 @@ const WTWrapper = props => {
 					activeNoteId = {props.activeNoteId} incOrDecDuration = {props.incOrDecDuration} />
 				</div>
 			</div>
+			<div className = "measureButtonContainer">
+				<button onClick = {() => props.clearIndividualMeasure(index+1)}>Clear</button>
+				<button onClick = {() => props.deleteIndividualMeasure(index+1)}>Delete</button>
+			</div>
 		</div>
 	);
 };
