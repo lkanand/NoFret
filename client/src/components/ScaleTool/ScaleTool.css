@@ -3,18 +3,19 @@
 }
 
 .stFretGuide {
-	width: 100px;
+	width: 98px;
 	height: 30px;
-	background-color: #843d3d;
+	background-color: #38363d;
 	color: white;
 	line-height: 30px;
 	text-align: center;
 }
 
 .stFret {
+	opacity: 1;
 	width: 90px;
 	height: 50px;
-	border: 1px black solid;
+	/*border: white solid 1px;*/
 	margin: 0;
 	text-align: center;
 	padding-top: auto;
@@ -23,6 +24,7 @@
 	line-height: 50px;
 	background-color: #843d3d;
 	color: white;
+	font-weight: bold;
 	/*prevents highlighting on frets*/
 	-webkit-touch-callout: none; /* iOS Safari */
 	-webkit-user-select: none; /* Safari */
@@ -64,33 +66,68 @@
 }
 
 .root, .second, .third, .fourth, .fifth, .sixth, .seventh {
-	color: black;
+	/*color: black;*/
 }
+
+.noRel {
+	background-color: #444!important;
+	color: #ccc;
+}
+
+
 
 .root {
-	background-color: #71cfd8;
+	box-sizing: border-box;
+	background-color: #eee!important;
+	color: #212121;
+	/*font-weight: bold;*/
+	/*border: 2px solid #ddd;*/
 }
 
-.second {
-	background-color: #aaa;
+.C {
+	background-color: #d37d7c;
 }
 
-.third {
-	background-color: #bbb;
+.Db {
+	background-color: #4f332c;
 }
 
-.fourth {
-	background-color: #ccc;
+.D {
+	background-color: #7a7aad;
 }
 
-.fifth {
-	background-color: #ddd;
+.Eb {
+	background-color: #6f2f24;
 }
 
-.sixth {
-	background-color: #eee;
+.E {
+	background-color: #228768;
 }
 
-.seventh {
-	background-color: #fff;
+.F {
+	background-color: #39525a;
+}
+
+.F\# {
+	background-color: #a4b9a7;
+}
+
+.G {
+	background-color: #67524e;
+}
+
+.Ab {
+	background-color: #809aa4;
+}
+
+.A {
+	background-color: #a7a076;
+}
+
+.Bb {
+	background-color: #7c4787;
+}
+
+.B {
+	background-color: #857a8a;
 }

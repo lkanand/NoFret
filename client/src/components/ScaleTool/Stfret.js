@@ -12,6 +12,7 @@ class Stfret extends (Component) {
 			hide: false,
 			note: "",
 			octave: 0,
+			noteclass: "",
 			instrument: 275
 		};
 	};
@@ -28,14 +29,11 @@ class Stfret extends (Component) {
 			this.setState({scaleType: props.scaleType});
 			this.setScaleVals(props.scaleRoot, props.scaleType);
 		}
-		// this.setState({mode: props.boardmode});
 	}
 
 	handleClick = () => {
-		// console.log("shark");
 		// edit mode
 		if (this.props.boardmode === "edit") {
-			console.log(this.props.boardmode + " should be edit")
 			if (this.state.hide === false) {
 				this.setState({hide: true});
 			} else {
@@ -44,12 +42,7 @@ class Stfret extends (Component) {
 		}
 		// listen mode
 		if (this.props.boardmode === "listen" && this.state.hide === false) {
-			console.log(this.props.boardmode + " should be listen")
-
-
 			const scientificPitch = this.state.note + this.state.octave;
-			console.log(scientificPitch);
-			console.log(this.state.value);
 			this.props.midi.playChordNow(this.state.instrument, [this.state.value], .75);
 		}
 	}
@@ -71,31 +64,39 @@ class Stfret extends (Component) {
 			newScaleValues.push(root, root+2, root+3, root+5, root+7, root+9, root+10);
 		} else if (type === "mixolydian") {
 			newScaleValues.push(root, root+2, root+4, root+5, root+7, root+9, root+10);
+		} else if (type === "noscale") {
+			newScaleValues.push(root, root+1, root+2, root+3, root+4, root+5, root+6, root+7, root+8, root+9, root+10, root+11)
 		}
-		// this.setState({scaleValues: newScaleValues});
 		this.fretInit(this.state.value, newScaleValues);
 	};
 
 	fretInit = (value, scale) => {
 		this.setState({scaleRel: " "})
 		const note = value%12;
-		this.setState({hide: false})
-		if (scale[0]%12 === note) {
-			this.setState({scaleRel: "root"});
-		} else if (scale[1]%12 === note) {
-			this.setState({scaleRel: "second"});
-		} else if (scale[2]%12 === note) {
-			this.setState({scaleRel: "third"});
-		} else if (scale[3]%12 === note) {
-			this.setState({scaleRel: "fourth"});
-		} else if (scale[4]%12 === note) {
-			this.setState({scaleRel: "fifth"});
-		} else if (scale[5]%12 === note) {
-			this.setState({scaleRel: "sixth"});
-		} else if (scale[6]%12 === note) {
-			this.setState({scaleRel: "seventh"});
+		if (scale.length < 8) {
+			console.log(scale.length);
+			this.setState({hide: false})
+			if (scale[0]%12 === note) {
+				this.setState({scaleRel: "root"});
+			} else if (scale[1]%12 === note) {
+				this.setState({scaleRel: "second"});
+			} else if (scale[2]%12 === note) {
+				this.setState({scaleRel: "third"});
+			} else if (scale[3]%12 === note) {
+				this.setState({scaleRel: "fourth"});
+			} else if (scale[4]%12 === note) {
+				this.setState({scaleRel: "fifth"});
+			} else if (scale[5]%12 === note) {
+				this.setState({scaleRel: "sixth"});
+			} else if (scale[6]%12 === note) {
+				this.setState({scaleRel: "seventh"});
+			} else {
+				this.setState({scaleRel: "noRel"})
+				this.setState({hide: true})
+			}
 		} else {
-			this.setState({hide: true})
+			this.setState({scaleRel: " "})
+			this.setState({hide: true})	
 		}
 
 		if (note === 0) {
@@ -130,8 +131,8 @@ class Stfret extends (Component) {
 	render() {
 		return (
 			<div className="fretSect" onClick={this.handleClick.bind(this)}>
-               	<div className={this.state.hide ? 'stFret hideFret ' : 'stFret showFret '+this.state.scaleRel}>
-               		{this.state.note}{this.state.octave}
+               	<div className={this.state.hide ? 'stFret hideFret '+this.state.note : 'stFret showFret '+this.state.scaleRel+' '+this.state.note}>
+               		{this.state.note} {this.state.octave}
               	</div>	
 			</div>
 		)

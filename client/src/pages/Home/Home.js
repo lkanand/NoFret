@@ -6,9 +6,9 @@ import MIDISounds from 'midi-sounds-react';
 class Home extends Component {
 
 	state = {
-		scaleType: "major",
+		scaleType: "noscale",
 		bpm: 100,
-		stMode: "listen",
+		stMode: "edit",
         tuning: "standard",
         root: 0,
         openStrings: []
@@ -110,7 +110,7 @@ class Home extends Component {
                 <option value="3">Eb</option>
                 <option value="4">E</option>
                 <option value="5">F</option>
-                <option value="6">F#</option>
+                <option value="6">Gb</option>
                 <option value="7">G</option>
                 <option value="8">Ab</option>
                 <option value="9">A</option>
@@ -118,6 +118,7 @@ class Home extends Component {
                 <option value="11">B</option>
             </select>
             <select name="scaleType" onChange={this.handleScaleChange}>
+                <option value="noscale">No Scale</option>
                 <option value="major">Major</option>
                 <option value="major pent">Major Pentatonic</option>
                 <option value="blues">Blues</option>
@@ -128,13 +129,13 @@ class Home extends Component {
             </select>
             <span> Board Mode: </span>
             <select name="boardMode" onChange={this.handleBoardModeChange}>
-                <option value="listen">listen</option>
                 <option value="edit">edit</option>
+                <option value="listen">listen</option>
             </select>
         </form>
         <ScaleTool scaleType={this.state.scaleType} root={this.state.root} mode={this.state.stMode} openstrings={this.state.openStrings} midi={this.midiSounds}/>
         <form> 
-            Tuning: 
+            <span> Tuning: </span> 
             <select name="tuning" onChange={this.handleTuneChange}>
                 <option value="standard">Standard</option>
                 <option value="drop D">Drop D</option>
@@ -154,27 +155,10 @@ class Home extends Component {
                 <option value="DADGAD">DADGAD</option>
                 <option value="DADADD">DADADD</option>
             </select>
-            Tempo: 
+            <span> Tempo: </span>
             <input type="number" name="bpm" min="1" max="300" onChange={this.handleBPMChange} />BPM
-            Key Shift:
-            <select name="shift" onChange={this.handleKeyShift}>
-                <option value="-6">3 steps Down</option>
-                <option value="-5">2.5 steps Down</option>
-                <option value="-4">2 Steps Down</option>
-                <option value="-3">1.5 Steps Down</option>
-                <option value="-2">1 Step Down</option>
-                <option value="-1">.5 Step Down</option>
-                <option value="1">.5 Step Up</option>
-                <option value="2">1 Step Up</option>
-                <option value="3">1.5 Steps Up</option>
-                <option value="4">2 Steps Up</option>
-                <option value="5">2.5 Steps Up</option>
-                <option value="6">3 Steps Up</option>
-            </select>
-
         </form>
-
-		<TabWriter />
+		<TabWriter openstrings={this.state.openStrings} midi={this.midiSounds}/>
         <MIDISounds ref={(ref) => (this.midiSounds = ref)} instruments={[275]} /> 
 	</div>
     );
