@@ -14,15 +14,16 @@ class Ststring extends (Component) {
 	}
 		
 	componentDidMount() {
-		this.defineFrets(this.state.stringvalue);
+		this.defineFrets(this.props.stringvalue);
 	}
 
 	componentWillReceiveProps(props) {
 		// console.log("string")
-		// console.log(props.stringvalue)
-		this.setState({boardstate: props.boardstate});
+		console.log(props.stringvalue)
+		// I don't understand how this is doing anything
+		// this.setState({boardstate: props.boardstate});
 		this.setState({stringvalue: props.stringvalue});
-		this.defineFrets(props.stringvalue);
+		// this.defineFrets(props.stringvalue);
 	}
 
 	defineFrets = openNote => {
@@ -75,7 +76,7 @@ class Ststring extends (Component) {
                 <div className="StStringValue">{this.state.openNote}</div>
                 {this.state.allNotes.map((notevalue, index) => {
                   return (  
-					<Stfret key={index} value={notevalue} midi={this.props.midi} boardmode={this.props.boardstate.mode} scaleRoot={this.props.boardstate.root} scaleType={this.props.boardstate.scaleType}/>
+					<Stfret key={index} value={notevalue} midi={this.props.midi} boardmode={this.props.boardstate.mode} scaleRoot={this.props.boardstate.root} scaleType={this.props.boardstate.scaleType} stringvalue={this.props.stringvalue}/>
                   );
                 })}
 			</div>	

@@ -34,6 +34,14 @@
 	user-select: none; /* Non-prefixed version, currently*/
 }
 
+.StStringValue {
+	color: white;
+	width: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
 .fretSect {
 	border-right: 1px solid #666;
 	border-left: 1px solid #666;

@@ -40,10 +40,6 @@ class Stfret extends (Component) {
 			this.setState({scaleType: props.scaleType});
 			this.setScaleVals(props.scaleRoot, props.scaleType);
 		}
-		if (this.state.value !== props.value) {
-			this.setState({value: props.value});
-			this.setScaleVals(props.scaleRoot, props.scaleType);
-		}
 	}
 
 	//scale relationships could be stored in DB 
@@ -73,7 +69,6 @@ class Stfret extends (Component) {
 	fretInit = (value, scale) => {
 		this.setState({scaleRel: " "})
 		const note = value%12;
-		// console.log(scale);
 		if (scale.length > 4) {
 			this.setState({hide: false})
 			const notes = scale.map(x => x%12)
@@ -123,8 +118,8 @@ class Stfret extends (Component) {
 		return (
 			<div className="fretSect" onClick={this.handleClick.bind(this)}>
                	<div className={this.state.hide ? 'stFret hideFret '+this.state.note : 'stFret showFret '+this.state.scaleRel+' '+this.state.note}>
-               		{this.state.value}
-               	{/*{this.state.octave}*/}
+               {/*these do not change*/}
+               {this.state.note}{this.state.octave}
               	</div>	
 			</div>
 		)

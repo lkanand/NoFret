@@ -78,6 +78,27 @@ class Home extends Component {
         }
     }
 
+
+    incrementValue = (event, stringno) => {
+        event.preventDefault()
+        this.setState((prevState) => {
+            let tunedStrings = prevState.openStrings;
+            const newval = tunedStrings[stringno] + 1;
+            tunedStrings.splice(stringno, 1, newval);
+            return {stringvalue: tunedStrings}
+        })
+    }
+
+    decrementValue = (event, stringno) => {
+        event.preventDefault()
+        this.setState((prevState) => {
+            let tunedStrings = prevState.openStrings;
+            const newval = tunedStrings[stringno] - 1;
+            tunedStrings.splice(stringno, 1, newval);
+            return {stringvalue: tunedStrings}
+        })
+    }
+
   render() {
     return (
     <div>
@@ -132,6 +153,32 @@ class Home extends Component {
                 <option value="edit">edit</option>
                 <option value="listen">listen</option>
             </select>
+
+            <div className = "tuningPeg">
+                <button onClick={(e) => this.incrementValue(e, 0)}>Up</button>
+                <button onClick={(e) => this.decrementValue(e, 0)}>Down</button>
+            </div>
+            <div className = "tuningPeg">
+                <button onClick={(e) => this.incrementValue(e, 1)}>Up</button>
+                <button onClick={(e) => this.decrementValue(e, 1)}>Down</button>
+            </div>
+            <div className = "tuningPeg">
+                <button onClick={(e) => this.incrementValue(e, 2)}>Up</button>
+                <button onClick={(e) => this.decrementValue(e, 2)}>Down</button>
+            </div>
+            <div className = "tuningPeg">
+                <button onClick={(e) => this.incrementValue(e, 3)}>Up</button>
+                <button onClick={(e) => this.decrementValue(e, 3)}>Down</button>
+            </div>
+            <div className = "tuningPeg">
+                <button onClick={(e) => this.incrementValue(e, 4)}>Up</button>
+                <button onClick={(e) => this.decrementValue(e, 4)}>Down</button>
+            </div>
+            <div className = "tuningPeg">
+                <button onClick={(e) => this.incrementValue(e, 5)}>Up</button>
+                <button onClick={(e) => this.decrementValue(e, 5)}>Down</button>
+            </div>
+
         </form>
         <ScaleTool scaleType={this.state.scaleType} root={this.state.root} mode={this.state.stMode} openstrings={this.state.openStrings} midi={this.midiSounds}/>
         <form> 

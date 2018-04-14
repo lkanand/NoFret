@@ -13,22 +13,18 @@ class StTuningPeg extends (Component) {
 
 	incrementValue = () => {
 		this.setState((prevState) => {
-			// console.log("peg")
-			// console.log(prevState.stringvalue + 1);
 			return {stringvalue: prevState.stringvalue + 1}
 		})
 	}
 
 	decrementValue = () => {
 		this.setState((prevState) => {
-			// console.log("peg")
-			// console.log(prevState.stringvalue - 1);
 			return {stringvalue: prevState.stringvalue - 1}
 		})
-		// this.setState({stringvalue: this.state.stringvalue-1})
 	}
 
 	render() {
+		console.log(this.state.stringvalue);
 		return (
 			<div className="stLine">
 				<div className = "tuningPeg">
