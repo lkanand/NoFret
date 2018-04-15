@@ -30,7 +30,7 @@ class Stfret extends (Component) {
 		}
 		// listen mode
 		if (this.props.boardmode === "listen" && this.state.hide === false) {
-			this.props.midi.playChordNow(this.state.instrument, [this.props.value], .75);
+			this.props.midi.playChordNow(this.state.instrument, [this.props.value], .5);
 		}
 	}
 

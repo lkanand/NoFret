@@ -7,13 +7,15 @@ class ScaleTool extends Component {
 	render() {
 	    return (
 			<div className="stFretboard">
-				<Stfretguide />
-                {this.props.openstrings.map(string => {
+				<Stfretguide className="stFretGuide"/>
+                {this.props.openstrings.map((string, ind) => {
+                	console.log(ind);
+                	console.log(string);
                   return (
                   	<Ststring key={string} stringvalue={string} boardstate={this.props} midi={this.props.midi}/>
                   );
                 })}
-				<Stfretguide />
+				<Stfretguide className="stFretGuide"/>
 			</div>
 
 	    );

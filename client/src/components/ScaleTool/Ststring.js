@@ -74,11 +74,13 @@ class Ststring extends (Component) {
 		return (
 			<div className="stString">
                 <div className="StStringValue">{this.state.openNote}</div>
+                <div className="StFrets">
                 {this.state.allNotes.map((notevalue, index) => {
                   return (  
-					<Stfret key={index} value={notevalue} midi={this.props.midi} boardmode={this.props.boardstate.mode} scaleRoot={this.props.boardstate.root} scaleType={this.props.boardstate.scaleType} stringvalue={this.props.stringvalue}/>
+					<Stfret key={"strval"+this.props.stringvalue+"fret"+index} value={notevalue} midi={this.props.midi} boardmode={this.props.boardstate.mode} scaleRoot={this.props.boardstate.root} scaleType={this.props.boardstate.scaleType} stringvalue={this.props.stringvalue}/>
                   );
                 })}
+                </div>
 			</div>	
 		)
 	}
