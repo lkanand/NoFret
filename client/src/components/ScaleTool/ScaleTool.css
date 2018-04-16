@@ -16,7 +16,6 @@
 	opacity: 1;
 	width: 90px;
 	height: 50px;
-	/*border: white solid 1px;*/
 	margin: 0;
 	text-align: center;
 	padding-top: auto;
@@ -26,7 +25,9 @@
 	background-color: #843d3d;
 	color: white;
 	font-weight: 400;
-	/*prevents highlighting on frets*/
+}
+
+.StSect * {
 	-webkit-touch-callout: none; /* iOS Safari */
 	-webkit-user-select: none; /* Safari */
 	-khtml-user-select: none; /* Konqueror HTML */

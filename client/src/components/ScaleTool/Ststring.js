@@ -18,12 +18,8 @@ class Ststring extends (Component) {
 	}
 
 	componentWillReceiveProps(props) {
-		// console.log("string")
 		console.log(props.stringvalue)
-		// I don't understand how this is doing anything
-		// this.setState({boardstate: props.boardstate});
 		this.setState({stringvalue: props.stringvalue});
-		// this.defineFrets(props.stringvalue);
 	}
 
 	defineFrets = openNote => {
@@ -57,17 +53,12 @@ class Ststring extends (Component) {
 
 		this.setState({openNote: letter+Math.floor(openNote/12)})
 
-
-		// console.log("fired");
-		// console.log(openNote);
 		const allNotes = [];
 		for (let i=0;i<25;i++) {
 			const fretValue = openNote + i;
 			allNotes.push(fretValue);
 		}
 		this.setState({allNotes: allNotes})
-		// console.log(this.state.allNotes);
-		// console.log(allNotes);
 	}
 
 	render() {

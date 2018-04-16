@@ -9,10 +9,8 @@ class ScaleTool extends Component {
 			<div className="stFretboard">
 				<Stfretguide className="stFretGuide"/>
                 {this.props.openstrings.map((string, ind) => {
-                	console.log(ind);
-                	console.log(string);
                   return (
-                  	<Ststring key={string} stringvalue={string} boardstate={this.props} midi={this.props.midi}/>
+                  	<Ststring key={"strno"+ind+"openval"+string} stringvalue={string} boardstate={this.props} midi={this.props.midi}/>
                   );
                 })}
 				<Stfretguide className="stFretGuide"/>
