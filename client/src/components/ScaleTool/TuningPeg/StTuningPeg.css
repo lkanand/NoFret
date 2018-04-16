@@ -1,0 +1,21 @@
+.tuningPeg {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+	width: 50px;
+}
+
+.stLine {
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: center;
+}
+
+.StStringValue {
+	color: white;
+	width: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}

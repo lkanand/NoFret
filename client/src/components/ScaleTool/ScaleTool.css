@@ -1,20 +1,21 @@
 .stNeck {
 	display: flex;
+	padding-left: 40px;
+	background-color: #38363d;
+	height: 30px;
 }
 
 .stFretGuide {
-	width: 100px;
-	height: 30px;
-	background-color: #843d3d;
+	width: 98px;
 	color: white;
 	line-height: 30px;
 	text-align: center;
 }
 
 .stFret {
+	opacity: 1;
 	width: 90px;
 	height: 50px;
-	border: 1px black solid;
 	margin: 0;
 	text-align: center;
 	padding-top: auto;
@@ -23,13 +24,36 @@
 	line-height: 50px;
 	background-color: #843d3d;
 	color: white;
-	/*prevents highlighting on frets*/
+	font-weight: 400;
+}
+
+.StSect * {
 	-webkit-touch-callout: none; /* iOS Safari */
 	-webkit-user-select: none; /* Safari */
 	-khtml-user-select: none; /* Konqueror HTML */
 	-moz-user-select: none; /* Firefox */
 	-ms-user-select: none; /* Internet Explorer/Edge */
 	user-select: none; /* Non-prefixed version, currently*/
+}
+
+.StStringValue {
+	color: white;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+    position: absolute;
+    height: 58px;
+    width: 40px;
+    border: 1px solid #999;
+    box-sizing: border-box;
+    background-color: #212121;
+}
+
+.StFrets {
+	flex: 1;
+	display: flex;
+	justify-content: flex-start;
+	padding-left: 40px;
 }
 
 .fretSect {
@@ -40,12 +64,31 @@
 	padding: 3px;
 }
 
+.fretSect:hover {
+	background-color: #333;
+	cursor: pointer; 
+}
+
 .stFretboard {
 	width: 100%;
 	overflow-x: scroll;
 	display: flex;
 	justify-content: flex-start;
 	flex-wrap: wrap;
+}
+
+.stFretboard::-webkit-scrollbar {
+    width: 1em;
+}
+ 
+.stFretboard::-webkit-scrollbar-track {
+	background-color: #843d3d;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,1);
+}
+ 
+.stFretboard::-webkit-scrollbar-thumb {
+  background-color: #212121;
+  outline: 1px solid slategrey;
 }
 
 .stString {
@@ -64,37 +107,68 @@
 }
 
 .root, .second, .third, .fourth, .fifth, .sixth, .seventh {
-	color: black;
+	/*color: black;*/
 }
+
+.noRel {
+	background-color: #444!important;
+	color: #ccc;
+}
+
+
 
 .root {
-	background-color: #71cfd8;
+	box-sizing: border-box;
+	background-color: #eee!important;
+	color: #212121;
+	/*font-weight: bold;*/
+	/*border: 2px solid #ddd;*/
 }
 
-.second {
-	background-color: #aaa;
+.C {
+	background-color: #d37d7c;
 }
 
-.third {
-	background-color: #bbb;
+.Db {
+	background-color: #4f332c;
 }
 
-.fourth {
-	background-color: #ccc;
+.D {
+	background-color: #7a7aad;
 }
 
-.fifth {
-	background-color: #ddd;
+.Eb {
+	background-color: #6f2f24;
 }
 
-.sixth {
-	background-color: #eee;
+.E {
+	background-color: #228768;
 }
 
-.seventh {
-	background-color: #fff;
+.F {
+	background-color: #39525a;
 }
 
-.MIDISounds{
-	display: none;
+.F\# {
+	background-color: #a4b9a7;
+}
+
+.G {
+	background-color: #67524e;
+}
+
+.Ab {
+	background-color: #809aa4;
+}
+
+.A {
+	background-color: #a7a076;
+}
+
+.Bb {
+	background-color: #7c4787;
+}
+
+.B {
+	background-color: #857a8a;
 }
