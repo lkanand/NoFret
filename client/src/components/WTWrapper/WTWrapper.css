@@ -1,11 +1,37 @@
 .WTWrapper{
-	padding: 10px;
+	margin: 10px;
 	clear:both;
+	display: flex;
+	justify-content: center;
+}
+
+.noClick{
+	pointer-events: none;
 }
 
 .measure{
-	height: 150px;
-	width: 1140px;
-	float: left;
+	margin-left: 15px;
+}
+
+.measureButtonContainer{
+	margin-right: auto;
+	margin-left: auto;
+	display: flex;
+	align-items: center;
+}
+
+.WTWrapper button{
+	background: white;
+	color: black;
+	border: 1px solid black;
+	font: Arial;
+	font-size: 15px;
 	margin-left: 10px;
+	text-align: center;
+}
+
+.WTWrapper button:hover{
+	background: black;
+	color: white;
+	cursor: pointer;
 }

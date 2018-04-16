@@ -2,9 +2,11 @@ import React, { Component } from "react";
 import "./Snote.css";
 
 class Snote extends Component {
+
 	focus(input) {
 		if(input !== null && this.props.activeNoteId === "") {
 			input.focus();
+			input.select();
 			this.props.setActiveNote(input.parentElement.parentElement.id);
 		}
 	}

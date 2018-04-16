@@ -1,16 +1,15 @@
 .beat{
-	width: 265px;
-	height: 135px;
-	border-top:1px solid black;
-	border-bottom:1px solid black;
+	/*border-top:1px solid black;
+	border-bottom:1px solid black;*/
+	float:left;
+	/*border-right: 1px solid black;*/
+	padding-top: 11px;
+	padding-bottom: 11px;
 	margin-top: 10px;
 	margin-bottom: 10px;
-	float:left;
-	border-right: 1px solid black;
-	padding-top: 10px;	
-	/*padding-left: 6px;*/
+	border: 1px solid black;
 }
 
 .beat:first-child{
-	border-left: 1px solid black;
+	/*border-left: 1px solid black;*/
 }

@@ -1,10 +1,31 @@
 .chordLetters{
-		float:left;
-		width: 20px;
-		font-size: 18px;
-		margin-top: 10px;
-	}
+	float: left;
+	font-size: 17px;
+}
 
-.letter1{
-		margin-top:9px;
-	}
+.letter{
+	text-align: center;
+}
+
+.letter:first-child{
+	margin-top: 21px;
+}
+
+.letter:nth-child(2){
+	margin-top: 3px;
+}
+
+.letter:nth-child(3){
+	margin-top: 2px;
+}
+
+.letter:nth-child(4){
+	margin-top: 2px;
+}
+
+.letter:nth-child(5){
+	margin-top: 2px;
+}
+.letter:last-child{
+	margin-top: 2px;
+}
