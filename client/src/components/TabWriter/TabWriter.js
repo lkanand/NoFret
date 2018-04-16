@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import NoteSelector from "../NoteSelector";
 import WTWrapper from "../WTWrapper";
 import Wrapper from "../Wrapper";
+import "./TabWriter.css";
 // import MIDISounds from 'midi-sounds-react';
 
 const notes = ["sixtyfourth", "thirtysecond", "sixteenth", "eighth", "quarter", "half", "whole"];
@@ -505,16 +506,18 @@ class TabWriter extends Component {
           <button onClick={this.changeMode}>{this.state.btnMessage}</button>
           <button onClick={this.clearAllMeasures}>Clear All Measures</button>
         </div>
-        {(this.state.editMode===true)?(
-        	   <WTWrapper allNotes={this.state.allNotes} noteClick={this.noteClick}
-              noteSubmit={this.noteSubmit} noteChange = {this.noteChange} setActiveNote = {this.setActiveNote} 
-              activeNoteId = {this.state.activeNoteId} incOrDecDuration = {this.incOrDecDuration} 
-              clearIndividualMeasure = {this.clearIndividualMeasure} deleteIndividualMeasure = {this.deleteIndividualMeasure} 
-              editMode = {this.state.editMode} />
-          ):(
-            <WTWrapper allNotes={this.state.allNotes} editMode = {this.state.editMode} />
-          )
-        }
+        <div className = "allMeasuresContainer">
+          {(this.state.editMode===true)?(
+          	   <WTWrapper allNotes={this.state.allNotes} noteClick={this.noteClick}
+                noteSubmit={this.noteSubmit} noteChange = {this.noteChange} setActiveNote = {this.setActiveNote} 
+                activeNoteId = {this.state.activeNoteId} incOrDecDuration = {this.incOrDecDuration} 
+                clearIndividualMeasure = {this.clearIndividualMeasure} deleteIndividualMeasure = {this.deleteIndividualMeasure} 
+                editMode = {this.state.editMode} />
+            ):(
+              <WTWrapper allNotes={this.state.allNotes} editMode = {this.state.editMode} />
+            )
+          }
+        </div>
       </Wrapper>
     );
   }

@@ -1,5 +1,5 @@
 .WTWrapper{
-	margin: 10px;
+	margin: 10px 0px;
 	clear:both;
 	display: flex;
 	justify-content: center;
@@ -9,14 +9,9 @@
 	pointer-events: none;
 }
 
-.measure{
-	margin-left: 15px;
-}
-
 .measureButtonContainer{
-	margin-right: auto;
-	margin-left: auto;
 	display: flex;
+	flex-wrap: wrap;
 	align-items: center;
 }
 
@@ -26,8 +21,15 @@
 	border: 1px solid black;
 	font: Arial;
 	font-size: 15px;
-	margin-left: 10px;
 	text-align: center;
+}
+
+.WTWrapper button:first-child{
+	margin-top: 50px;
+}
+
+.WTWrapper button:last-child{
+	margin-bottom: 50px;
 }
 
 .WTWrapper button:hover{
