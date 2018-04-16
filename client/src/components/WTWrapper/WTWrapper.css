@@ -1,13 +1,16 @@
 .WTWrapper{
-	padding: 10px;
+	margin: 10px;
 	clear:both;
 	display: flex;
 	justify-content: center;
 }
 
+.noClick{
+	pointer-events: none;
+}
+
 .measure{
-	float: left;
-	margin-left: 10px;
+	margin-left: 15px;
 }
 
 .measureButtonContainer{
