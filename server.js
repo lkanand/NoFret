@@ -3,8 +3,9 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 
-const app = express();
 const PORT = process.env.PORT || 3001;
+const app = express();
+
 
 app.use(morgan('dev'));
 
@@ -12,7 +13,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 
-app.use(express.static("client/build"));
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+}
 
 require('./passport')(app);
 const routes = require("./routes");

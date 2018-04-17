@@ -7,7 +7,7 @@ class Login extends Component {
 	state = {
     username: null,
     password: null,
-    error:null,
+    error:null
   }
   handleInputChanged = (event) => {
     this.setState({
@@ -19,6 +19,9 @@ class Login extends Component {
     event.preventDefault();
 
     const { username, password } = this.state;
+    const { history } = this.props;
+
+    console.log(this.state);
 
     this.setState({
       error: null
@@ -38,16 +41,17 @@ class Login extends Component {
       username,
       password
     })
-    .then(user => {
-      // update(user.data);
-      console.log(user);
-    })
-    .catch(err => {
+      .then(user => {
+        // if the response is successful, make them log in
+        // history.push('/login');
+        console.log("loggedin");
+      })
+      .catch(err => {
 
-      this.setState({
-        error: err.response.status === 401 ? 'Invalid username or password.' : err.message
+        this.setState({
+          error: err.response.data.message || err.message
+        });
       });
-    });
   }
 
   createLogin = (event) => {
@@ -81,6 +85,7 @@ class Login extends Component {
         // if the response is successful, make them log in
         console.log(" axios response");
         console.log(user);
+        this.setState({username:"",password:""});
       })
       .catch(err => {
         console.log("an error");
