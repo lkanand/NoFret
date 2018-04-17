@@ -1,4 +1,3 @@
-
 body * {
 	visibility: hidden;
 }
@@ -19,6 +18,10 @@ div .allMeasuresContainer{
 
 div .measureHeader h1{
 	font-size: 60px;
+}
+
+.noTabTitle{
+	visibility: hidden;
 }
 
 div .note{
