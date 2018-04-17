@@ -574,12 +574,12 @@ class TabWriter extends Component {
   render() {
     return (
       <Wrapper>
-        <NoteSelector notes = {notes} selectedNoteType = {this.state.noteType} setNoteType = {this.setNoteType}/>
-      	<div className = "tabControl">
+        <div className = "tabControl">
           <button onClick={this.addMeasure} className = {this.state.editMode ? "" : "noClick"}>Add Measure</button>
           <button onClick={(event) => this.props.changeMode(event)}>{this.state.btnMessage}</button>
           <button onClick={this.clearAllMeasures} className = {this.state.editMode ? "" : "noClick"}>Clear All Measures</button>
         </div>
+        <NoteSelector notes = {notes} selectedNoteType = {this.state.noteType} setNoteType = {this.setNoteType}/>
         <div className="allMeasuresContainer">
           <MeasureHeader editMode={this.state.editMode} allNotes={this.state.allNotes} bpm={this.props.bpm} timeSig={this.state.timeSig} tuning={this.props.tuning}/>
           {(this.state.editMode===true)?(

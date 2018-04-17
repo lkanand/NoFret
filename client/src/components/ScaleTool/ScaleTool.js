@@ -1,12 +1,14 @@
 import React, {Component} from "react";
 import Ststring from "./Ststring";
 import "./ScaleTool.css";
-import Stfretguide from "./Stfretguide"
+import Stfretguide from "./Stfretguide";
+import HorizontalScroll from 'react-scroll-horizontal';
+
 
 class ScaleTool extends Component {
 	render() {
 	    return (
-			<div className="stFretboard">
+	    	<div className="stFretboard" >
 				<Stfretguide className="stFretGuide"/>
                 {this.props.openstrings.map((string, ind) => {
                   return (
@@ -15,7 +17,6 @@ class ScaleTool extends Component {
                 })}
 				<Stfretguide className="stFretGuide"/>
 			</div>
-
 	    );
 	}
 }
