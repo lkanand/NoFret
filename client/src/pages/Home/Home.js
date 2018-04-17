@@ -8,11 +8,14 @@ class Home extends Component {
 
 	state = {
 		scaleType: "noscale",
-		bpm: 100,
+		bpm: 120,
+        timeSig: 4,
 		stMode: "edit",
         tuning: "standard",
         root: 0,
-        openStrings: []
+        openStrings: [],
+        editMode: true,
+        btnMessage: "Play"
 	}
 
     componentDidMount() {
@@ -24,20 +27,33 @@ class Home extends Component {
         this.setState({scaleType: event.target.value});
     }
 
-    handleTuneChange = event => {
-        this.setState({tuning: event.target.value});
-        this.tuneStrings(event.target.value);
-    }
-
-    handleBPMChange = event => {
-        this.setState({bpm: event.target.value});
-    }
-
     handleRootChange = event => {
         this.setState({root: parseInt(event.target.value)})
     }
     handleBoardModeChange = event => {
         this.setState({stMode: event.target.value})
+    }
+
+    submitTabForm = event => {
+        event.preventDefault();
+        let tuning = this.tuning.value;
+        let bpm = parseInt(this.bpm.value, 10);
+        let timeSig = parseInt(this.timeSig.value, 10);
+
+        if(bpm < 1)
+            bpm = 1;
+        else if(bpm > 300)
+            bpm = 300;
+
+        if(timeSig < 1)
+            timeSig = 1;
+        else if(timeSig > 8)
+            timeSig = 8;
+
+        this.tuneStrings(tuning);
+        this.bpm.value = bpm;
+        this.timeSig.value = timeSig;
+        this.setState({tuning, bpm, timeSig});
     }
 
     tuneStrings = tuning => {
@@ -79,7 +95,6 @@ class Home extends Component {
         }
     }
 
-
     incrementValue = (event, stringno) => {
         event.preventDefault()
         this.setState((prevState) => {
@@ -103,127 +118,148 @@ class Home extends Component {
         })
     }
 
-  render() {
-    return (
-    <div>
+    changeMode =(event)=>{
+        event.preventDefault();
+        let tempMode=!this.state.editMode;
+        let tempMsg="Play";
 
-        <section className="StSect">
-            <form className="StForm">
-                <div className="StBoardInfo">
-                    <span>Tuning: </span>
-                    <select name="tuning" onChange={this.handleTuneChange}>
-                        <option value="standard">Standard</option>
-                        <option value="drop D">Drop D</option>
-                        <option value="standard Eb">Standard (Eb)</option>
-                        <option value="standard D">Standard (D)</option>
-                        <option value="new standard">New Standard</option>
-                        <option value="open A">Open A</option>
-                        <option value="slide open A">Slide Open A</option>
-                        <option value="open C">Open C</option>
-                        <option value="open D">Open D</option>
-                        <option value="open E">Open E</option>
-                        <option value="open G">Open G</option>
-                        <option value="double drop D">Double Drop D</option>
-                        <option value="maj thirds">Major Thirds</option>
-                        <option value="all fourths">All Fourths</option>
-                        <option value="aug fourths">Augmented Fourths</option>
-                        <option value="DADGAD">DADGAD</option>
-                        <option value="DADADD">DADADD</option>
-                    </select>
-                    <span>Scale Root: </span> 
-                    <select name="note" onChange={this.handleRootChange}>
-                        <option value="0">C</option>
-                        <option value="1">Db</option>
-                        <option value="2">D</option>
-                        <option value="3">Eb</option>
-                        <option value="4">E</option>
-                        <option value="5">F</option>
-                        <option value="6">Gb</option>
-                        <option value="7">G</option>
-                        <option value="8">Ab</option>
-                        <option value="9">A</option>
-                        <option value="10">Bb</option>
-                        <option value="11">B</option>
-                    </select>
-                    <span>Scale Type: </span> 
-                    <select name="scaleType" onChange={this.handleScaleChange}>
-                        <option value="noscale">No Scale</option>
-                        <option value="major">Major</option>
-                        <option value="major pent">Major Pentatonic</option>
-                        <option value="blues">Blues</option>
-                        <option value="minor pent">Minor Pentatonic</option>
-                        <option value="natural minor">Natural Minor</option>
-                        <option value="dorian">Dorian Mode</option>
-                        <option value="mixolydian">Mixolydian Mode</option>
-                    </select>
-                    <span>Board Mode: </span>
-                    <form name="boardMode" onChange={this.handleBoardModeChange}>
-                        <input type="radio" name="mode" value="edit" checked="checked"/>Edit
-                        <input type="radio" name="mode" value="listen"/>Listen
+        if (tempMode===false){
+          tempMsg="Stop";
+          this.tuning.value = this.state.tuning;
+          this.bpm.value = this.state.bpm;
+          this.timeSig.value = this.state.timeSig; 
+        }
+            
+        this.setState({editMode:tempMode, btnMessage:tempMsg});
+    }
+
+    render() {
+        return (
+            <div>
+                <section className="StSect">
+                    <form className="StForm">
+                        <div className="StBoardInfo">
+                            <span>Tuning: </span>
+                            <select name="tuning" onChange={this.handleTuneChange}>
+                                <option value="standard">Standard</option>
+                                <option value="drop D">Drop D</option>
+                                <option value="standard Eb">Standard (Eb)</option>
+                                <option value="standard D">Standard (D)</option>
+                                <option value="new standard">New Standard</option>
+                                <option value="open A">Open A</option>
+                                <option value="slide open A">Slide Open A</option>
+                                <option value="open C">Open C</option>
+                                <option value="open D">Open D</option>
+                                <option value="open E">Open E</option>
+                                <option value="open G">Open G</option>
+                                <option value="double drop D">Double Drop D</option>
+                                <option value="maj thirds">Major Thirds</option>
+                                <option value="all fourths">All Fourths</option>
+                                <option value="aug fourths">Augmented Fourths</option>
+                                <option value="DADGAD">DADGAD</option>
+                                <option value="DADADD">DADADD</option>
+                            </select>
+                            <span>Scale Root: </span> 
+                            <select name="note" onChange={this.handleRootChange}>
+                                <option value="0">C</option>
+                                <option value="1">Db</option>
+                                <option value="2">D</option>
+                                <option value="3">Eb</option>
+                                <option value="4">E</option>
+                                <option value="5">F</option>
+                                <option value="6">Gb</option>
+                                <option value="7">G</option>
+                                <option value="8">Ab</option>
+                                <option value="9">A</option>
+                                <option value="10">Bb</option>
+                                <option value="11">B</option>
+                            </select>
+                            <span>Scale Type: </span> 
+                            <select name="scaleType" onChange={this.handleScaleChange}>
+                                <option value="noscale">No Scale</option>
+                                <option value="major">Major</option>
+                                <option value="major pent">Major Pentatonic</option>
+                                <option value="blues">Blues</option>
+                                <option value="minor pent">Minor Pentatonic</option>
+                                <option value="natural minor">Natural Minor</option>
+                                <option value="dorian">Dorian Mode</option>
+                                <option value="mixolydian">Mixolydian Mode</option>
+                            </select>
+                            <span>Board Mode: </span>
+                            <form name="boardMode" onChange={this.handleBoardModeChange}>
+                                <input type="radio" name="mode" value="edit" checked="checked"/>Edit
+                                <input type="radio" name="mode" value="listen"/>Listen
+                            </form>
+                        </div>
+
+                        <div className="StTuningPegs">                    
+                            <div className = "tuningPeg">
+                                <button onClick={(e) => this.incrementValue(e, 0)}><i class="fas fa-chevron-up"></i></button>
+                                <button onClick={(e) => this.decrementValue(e, 0)}><i class="fas fa-chevron-down"></i></button>
+                            </div>
+                            <div className = "tuningPeg">
+                                <button onClick={(e) => this.incrementValue(e, 1)}><i class="fas fa-chevron-up"></i></button>
+                                <button onClick={(e) => this.decrementValue(e, 1)}><i class="fas fa-chevron-down"></i></button>
+                            </div>
+                            <div className = "tuningPeg">
+                                <button onClick={(e) => this.incrementValue(e, 2)}><i class="fas fa-chevron-up"></i></button>
+                                <button onClick={(e) => this.decrementValue(e, 2)}><i class="fas fa-chevron-down"></i></button>
+                            </div>
+                            <div className = "tuningPeg">
+                                <button onClick={(e) => this.incrementValue(e, 3)}><i class="fas fa-chevron-up"></i></button>
+                                <button onClick={(e) => this.decrementValue(e, 3)}><i class="fas fa-chevron-down"></i></button>
+                            </div>
+                            <div className = "tuningPeg">
+                                <button onClick={(e) => this.incrementValue(e, 4)}><i class="fas fa-chevron-up"></i></button>
+                                <button onClick={(e) => this.decrementValue(e, 4)}><i class="fas fa-chevron-down"></i></button>
+                            </div>
+                            <div className = "tuningPeg">
+                                <button onClick={(e) => this.incrementValue(e, 5)}><i class="fas fa-chevron-up"></i></button>
+                                <button onClick={(e) => this.decrementValue(e, 5)}><i class="fas fa-chevron-down"></i></button>
+                            </div>
+                        </div>
+
                     </form>
+                    <ScaleTool scaleType={this.state.scaleType} root={this.state.root} mode={this.state.stMode} openstrings={this.state.openStrings} midi={this.midiSounds}/>
+                </section>
+
+
+                <div className = "tabWriterContainer">
+                    <form onSubmit = {(event) => this.submitTabForm(event)} className = {this.state.editMode ? "" : "noClick"}> 
+                        <span> Tuning: </span> 
+                        <select name="tuning" defaultValue = {this.state.tuning} ref={(element) => {this.tuning = element}}>
+                            <option value="standard">Standard</option>
+                            <option value="drop D">Drop D</option>
+                            <option value="standard Eb">Standard (Eb)</option>
+                            <option value="standard D">Standard (D)</option>
+                            <option value="new standard">New Standard</option>
+                            <option value="open A">Open A</option>
+                            <option value="slide open A">Slide Open A</option>
+                            <option value="open C">Open C</option>
+                            <option value="open D">Open D</option>
+                            <option value="open E">Open E</option>
+                            <option value="open G">Open G</option>
+                            <option value="double drop D">Double Drop D</option>
+                            <option value="maj thirds">Major Thirds</option>
+                            <option value="all fourths">All Fourths</option>
+                            <option value="aug fourths">Augmented Fourths</option>
+                            <option value="DADGAD">DADGAD</option>
+                            <option value="DADADD">DADADD</option>
+                        </select>
+                        <span>Tempo: </span>
+                        <input type="number" name="bpm" defaultValue = {this.state.bpm} ref={(element) => {this.bpm = element}} /><span>BPM </span>
+                        <span>&nbsp;&nbsp;Time Sig: </span>
+                        <input type="number" name="timeSig" defaultValue = {this.state.timeSig} ref={(element) => {this.timeSig = element}} /><span>/ 4</span>
+                        <br />
+                        <input type="submit" value="Submit Tab Preferences" />
+                    </form>
+            		<TabWriter openstrings={this.state.openStrings} midi={this.midiSounds} bpm={this.state.bpm} editMode={this.state.editMode} btnMessage={this.state.btnMessage}
+                    changeMode={this.changeMode} timeSig={this.state.timeSig} />
                 </div>
-
-                <div className="StTuningPegs">                    
-                    <div className = "tuningPeg">
-                        <button onClick={(e) => this.incrementValue(e, 0)}><i class="fas fa-chevron-up"></i></button>
-                        <button onClick={(e) => this.decrementValue(e, 0)}><i class="fas fa-chevron-down"></i></button>
-                    </div>
-                    <div className = "tuningPeg">
-                        <button onClick={(e) => this.incrementValue(e, 1)}><i class="fas fa-chevron-up"></i></button>
-                        <button onClick={(e) => this.decrementValue(e, 1)}><i class="fas fa-chevron-down"></i></button>
-                    </div>
-                    <div className = "tuningPeg">
-                        <button onClick={(e) => this.incrementValue(e, 2)}><i class="fas fa-chevron-up"></i></button>
-                        <button onClick={(e) => this.decrementValue(e, 2)}><i class="fas fa-chevron-down"></i></button>
-                    </div>
-                    <div className = "tuningPeg">
-                        <button onClick={(e) => this.incrementValue(e, 3)}><i class="fas fa-chevron-up"></i></button>
-                        <button onClick={(e) => this.decrementValue(e, 3)}><i class="fas fa-chevron-down"></i></button>
-                    </div>
-                    <div className = "tuningPeg">
-                        <button onClick={(e) => this.incrementValue(e, 4)}><i class="fas fa-chevron-up"></i></button>
-                        <button onClick={(e) => this.decrementValue(e, 4)}><i class="fas fa-chevron-down"></i></button>
-                    </div>
-                    <div className = "tuningPeg">
-                        <button onClick={(e) => this.incrementValue(e, 5)}><i class="fas fa-chevron-up"></i></button>
-                        <button onClick={(e) => this.decrementValue(e, 5)}><i class="fas fa-chevron-down"></i></button>
-                    </div>
-                </div>
-
-            </form>
-            <ScaleTool scaleType={this.state.scaleType} root={this.state.root} mode={this.state.stMode} openstrings={this.state.openStrings} midi={this.midiSounds}/>
-        </section>
-
-
-        <form> 
-            <span> Tuning: </span> 
-            <select name="tuning" onChange={this.handleTuneChange}>
-                <option value="standard">Standard</option>
-                <option value="drop D">Drop D</option>
-                <option value="standard Eb">Standard (Eb)</option>
-                <option value="standard D">Standard (D)</option>
-                <option value="new standard">New Standard</option>
-                <option value="open A">Open A</option>
-                <option value="slide open A">Slide Open A</option>
-                <option value="open C">Open C</option>
-                <option value="open D">Open D</option>
-                <option value="open E">Open E</option>
-                <option value="open G">Open G</option>
-                <option value="double drop D">Double Drop D</option>
-                <option value="maj thirds">Major Thirds</option>
-                <option value="all fourths">All Fourths</option>
-                <option value="aug fourths">Augmented Fourths</option>
-                <option value="DADGAD">DADGAD</option>
-                <option value="DADADD">DADADD</option>
-            </select>
-            <span> Tempo: </span>
-            <input type="number" name="bpm" min="1" max="300" onChange={this.handleBPMChange} />BPM
-        </form>
-		<TabWriter openstrings={this.state.openStrings} midi={this.midiSounds}/>
-        <MIDISounds ref={(ref) => (this.midiSounds = ref)} instruments={[275]} /> 
-	</div>
-    );
-  }
+                <MIDISounds ref={(ref) => (this.midiSounds = ref)} instruments={[275]} /> 
+            </div>
+        );
+    }
 };
 
 export default Home;

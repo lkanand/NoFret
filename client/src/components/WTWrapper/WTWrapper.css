@@ -1,17 +1,16 @@
 .WTWrapper{
-	margin: 10px 0px;
+	margin: 10px auto;
 	clear:both;
 	display: flex;
 	justify-content: center;
-}
-
-.noClick{
-	pointer-events: none;
+	width: 100%;
 }
 
 .measureButtonContainer{
+	margin-left: 15px;
 	display: flex;
-	flex-wrap: wrap;
+	flex-direction: column;
+	justify-content: center;
 	align-items: center;
 }
 
@@ -19,17 +18,19 @@
 	background: white;
 	color: black;
 	border: 1px solid black;
-	font: Arial;
 	font-size: 15px;
 	text-align: center;
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .WTWrapper button:first-child{
-	margin-top: 50px;
+	margin-bottom: 7px;
 }
 
 .WTWrapper button:last-child{
-	margin-bottom: 50px;
+	margin-top: 7px;
 }
 
 .WTWrapper button:hover{

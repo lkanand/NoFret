@@ -35,7 +35,21 @@
 	outline: none;
 }
 
+.tabWriterContainer{
+	background: lightgray;
+	padding-bottom: 20px;
+}
+
 .tuningPeg button:hover {
 	background-color: #333;
 	cursor: pointer;
+}
+
+.noClick{
+	pointer-events: none;
+}
+
+input[type=submit]{
+	width: auto;
+	font-size: 11px;
 }
