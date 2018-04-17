@@ -587,9 +587,9 @@ class TabWriter extends Component {
                 noteSubmit={this.noteSubmit} noteChange = {this.noteChange} setActiveNote = {this.setActiveNote} 
                 activeNoteId = {this.state.activeNoteId} incOrDecDuration = {this.incOrDecDuration} 
                 clearIndividualMeasure = {this.clearIndividualMeasure} deleteIndividualMeasure = {this.deleteIndividualMeasure} 
-                editMode = {this.state.editMode} />
+                editMode = {this.state.editMode} openStrings = {this.state.openStrings}/>
             ):(
-              <WTWrapper allNotes={this.state.allNotes} editMode = {this.state.editMode} />
+              <WTWrapper allNotes={this.state.allNotes} editMode = {this.state.editMode}  openStrings = {this.state.openStrings}/>
             )
           }
         </div>

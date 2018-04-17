@@ -7,7 +7,7 @@ const WTWrapper = props => {
 	let {allNotes, editMode, clearIndividualMeasure, deleteIndividualMeasure, ...other} = props;
 	return allNotes.map((element, index)=>
 	  	<div className={editMode === true ? "WTWrapper" : "WTWrapper noClick"} key={index+1}>
-	  		<LetterBox/>
+	  		<LetterBox openStrings={props.openStrings}/>
 		  	<div className="measure">
 				<Beat measureIndex = {"m"+index} arrayOfBeats = {element} {...other} />
 			</div>

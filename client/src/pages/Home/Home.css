@@ -81,11 +81,6 @@ optgroup {
 	outline: 0;
 }
 
-/*doesn't work*/
-.StBoardInfo select :active {
-	background-color: #333;
-}
-
 .StTuningPegs {
 	margin-top: 50px;
 	margin-bottom: 30px; 

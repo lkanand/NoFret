@@ -1,14 +1,14 @@
 import React from "react";
 import "./LetterBox.css";
 
-const LetterBox = () => (
+const LetterBox = (props) => (
   <div className="chordLetters">
-		<div className="letter">e</div>
-		<div className="letter">B</div>
-		<div className="letter">G</div>
-		<div className="letter">D</div>
-		<div className="letter">A</div>
-		<div className="letter">E</div>
+  		{/*props.length*/}
+        {props.openStrings.map(string => {
+          return (
+			<div className="letter">{string}</div>
+          );
+        })}
 	</div>
 );
 
