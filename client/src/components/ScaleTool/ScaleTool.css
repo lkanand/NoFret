@@ -55,8 +55,8 @@
     background-color: #212121;
 }
 
-.test {
-	width: 100px;
+.scroller {
+	overflow-x: scroll;
 }
 
 .StFrets {

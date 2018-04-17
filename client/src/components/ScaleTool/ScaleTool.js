@@ -2,13 +2,13 @@ import React, {Component} from "react";
 import Ststring from "./Ststring";
 import "./ScaleTool.css";
 import Stfretguide from "./Stfretguide";
-import DragScroll from 'react-dragscroll';
+import HorizontalScroll from 'react-scroll-horizontal';
 
 
 class ScaleTool extends Component {
 	render() {
 	    return (
-			<div className="stFretboard" height={200} width={300}>
+	    	<div className="stFretboard" >
 				<Stfretguide className="stFretGuide"/>
                 {this.props.openstrings.map((string, ind) => {
                   return (

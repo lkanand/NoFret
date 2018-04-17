@@ -2,7 +2,7 @@ import React from "react";
 import "./NoteSelector.css";
 
 const NoteOption = props => 
-	<img className = {props.selectedNoteType === props.noteId ? "noteOption solidBorder" : "noteOption transparentBorder"} 
+	<img className = {props.selectedNoteType === props.noteId ? "noteOption solidBorder" : "noteOption"} 
 	src = {"./img/" + props.noteId + "note.png"} alt = {props.noteId} onClick = {() => props.setNoteType(props.noteId)} />
 
 export default NoteOption;

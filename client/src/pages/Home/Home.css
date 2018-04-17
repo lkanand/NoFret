@@ -114,8 +114,16 @@ optgroup {
 }
 
 .tabWriterContainer{
-	background: lightgray;
+	background: linear-gradient(to bottom, #993333 , #212121);
 	padding-bottom: 20px;
+	color: white;
+}
+
+.tabWriterContainer input[type="number"] {
+	background-color: rgba(0,0,0,0);
+	border-radius: 12px;
+	border: 1px white solid;
+	color: white;
 }
 
 .tuningPeg button:hover {

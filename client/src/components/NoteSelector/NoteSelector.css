@@ -5,22 +5,30 @@
 	width: 60%;
 	margin-left: auto;
 	margin-right: auto;
+	box-sizing: border-box;
 }
 
 .noteOption {
-	height: 50px;
-	width: auto;
+	/*box-sizing: border-box;*/
+	height: 70px;
+	/*width: 42.5px;*/
 	padding: 10px;
-}
-
-.transparentBorder {
 	border: 2px solid transparent;
+	border-radius: 12px;
+	cursor: pointer;
+	filter: invert(100%);
 }
 
 .solidBorder {
-	border: 2px solid black;
+	/*box-sizing: border-box;*/
+	border: 2px solid #555;
+	/*background-color: rgba(100,100,100,.2);*/
+	border-radius: 12px;
 }
 
 .noteOption:hover{
-	border: 2px solid black;
+	/*box-sizing: border-box;*/
+	/*border: 2px solid black;*/
+	background-color: rgba(255,255,255,.1);
+	border-radius: 12px;
 }

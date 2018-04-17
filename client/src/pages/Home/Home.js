@@ -204,8 +204,8 @@ class Home extends Component {
                     <div>
                         <span>Board Mode: </span>
                         <form name="boardMode" onChange={this.handleBoardModeChange}>
-                            <input type="radio" name="mode" value="edit" defaultChecked="checked"/>Edit
-                            <input type="radio" name="mode" value="listen"/>Listen
+                            <input type="radio" name="mode" value="edit" defaultChecked="checked"/><span>Edit </span> 
+                            <input type="radio" name="mode" value="listen"/><span>Listen </span>
                         </form>
                     </div>
 
@@ -244,7 +244,7 @@ class Home extends Component {
 
         <div className = "tabWriterContainer">
             <form onSubmit = {(event) => this.submitTabForm(event)} className = {this.state.editMode ? "" : "noClick"}> 
-                <span> Tuning: </span> 
+                <span>Tuning:&nbsp;</span> 
                 <select name="tuning" defaultValue = {this.state.tuning} ref={(element) => {this.tuning = element}}>
                     <option value="standard">Standard</option>
                     <option value="drop D">Drop D</option>
@@ -264,9 +264,9 @@ class Home extends Component {
                     <option value="DADGAD">DADGAD</option>
                     <option value="DADADD">DADADD</option>
                 </select>
-                <span>Tempo: </span>
+                <span>&nbsp;Tempo:&nbsp;&nbsp;</span>
                 <input type="number" name="bpm" defaultValue = {this.state.bpm} ref={(element) => {this.bpm = element}} /><span>BPM </span>
-                <span>&nbsp;&nbsp;Time Sig: </span>
+                <span>&nbsp;&nbsp;Time Sig: &nbsp;</span>
                 <input type="number" name="timeSig" defaultValue = {this.state.timeSig} ref={(element) => {this.timeSig = element}} /><span>/ 4</span>
                 <br />
                 <input type="submit" value="Submit Tab Preferences" />
