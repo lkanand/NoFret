@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import "./App.css";
 import Home from './pages/Home';
 import Login from './pages/Login';
-
+// import { withUser, update } from './services/withUser';
 class App extends Component {
   // componentDidMount() {
   //   // this is going to double check that the user is still actually logged in

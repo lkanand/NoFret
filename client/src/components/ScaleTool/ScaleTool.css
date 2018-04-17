@@ -31,6 +31,8 @@
 
 .StSect {
 	padding-top: 100px;
+	display: flex;
+	flex-wrap: nowrap;
 }
 
 .StSect * {

@@ -9,26 +9,19 @@
 }
 
 .noteOption {
-	/*box-sizing: border-box;*/
 	height: 70px;
-	/*width: 42.5px;*/
 	padding: 10px;
 	border: 2px solid transparent;
-	border-radius: 12px;
 	cursor: pointer;
 	filter: invert(100%);
 }
 
 .solidBorder {
-	/*box-sizing: border-box;*/
-	border: 2px solid #555;
-	/*background-color: rgba(100,100,100,.2);*/
-	border-radius: 12px;
+	border-bottom: 2px solid #000;
 }
 
 .noteOption:hover{
-	/*box-sizing: border-box;*/
-	/*border: 2px solid black;*/
-	background-color: rgba(255,255,255,.1);
-	border-radius: 12px;
+	filter: invert(85%);
+	border-bottom: 2px solid rgba(0,0,0,.85)
+	/*background-color: rgba(255,255,255,.1);*/
 }

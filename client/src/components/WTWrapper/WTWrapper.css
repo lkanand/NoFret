@@ -14,13 +14,11 @@
 	align-items: center;
 }
 
+.measure{
+	width: 1029px;
+}
+
 .WTWrapper button{
-	background: white;
-	color: black;
-	border: 1px solid black;
-	font-size: 15px;
-	text-align: center;
-	width: 100%;
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -31,10 +29,4 @@
 
 .WTWrapper button:last-child{
 	margin-top: 7px;
-}
-
-.WTWrapper button:hover{
-	background: black;
-	color: white;
-	cursor: pointer;
 }

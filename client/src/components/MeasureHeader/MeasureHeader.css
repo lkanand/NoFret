@@ -1,0 +1,20 @@
+.measureHeader{
+	display: flex;
+}
+
+.measureHeader h1{
+	font-size: 35px;
+	display: inline-block;
+	margin-left: 30px;
+	margin-right: auto;
+	margin-bottom: 0;
+}
+
+#printTab, #saveTab{
+	width: auto;
+	margin: 35px 8px;
+}
+
+#printTab{
+	margin-right: 30px;
+}
