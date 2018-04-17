@@ -1,3 +1,11 @@
 .tabControl{
-	margin-bottom: 10px;
+	margin-bottom: 20px;
+}
+
+.allMeasuresContainer{
+	background: white;
+	width: 95%;
+	border: 2px solid green;
+	margin-left: auto;
+	margin-right: auto;
 }

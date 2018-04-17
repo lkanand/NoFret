@@ -8,7 +8,7 @@ import DragScroll from 'react-dragscroll';
 class ScaleTool extends Component {
 	render() {
 	    return (
-			<DragScroll className="stFretboard" height={200} width={300}>
+			<div className="stFretboard" height={200} width={300}>
 				<Stfretguide className="stFretGuide"/>
                 {this.props.openstrings.map((string, ind) => {
                   return (
@@ -16,7 +16,7 @@ class ScaleTool extends Component {
                   );
                 })}
 				<Stfretguide className="stFretGuide"/>
-			</DragScroll>
+			</div>
 	    );
 	}
 }

@@ -2,19 +2,19 @@
 	height: 1px;
 	width: 100%;
 	background-color: black;
-	margin-top: 10px
+	margin-top: 10px;
 }
 
 .disabledNote{
 	height: 5px;
-	width: 1.4vw;
+	width: 16px;
 	background-color: rgba(17, 196, 137, 1);
 	margin-top: 8px;
 }
 
 .disabledNoteBox{
 	height: 20px;
-	width: 1.4vw;
+	width: 16px;
 	margin-bottom: 2px;
 	padding-left: 0;
 	padding-right: 0;
@@ -23,22 +23,22 @@
 .note{
 	text-align: center;
 	height: 22px;
-	padding-right: .3vw;
-	padding-left: .3vw;
-	width: .8vw;
+	padding-right: 3px;
+	padding-left: 3px;
+	width: 10px;
 	font-size: 14px;
 }
 
 .enteredNote{
 	height: 15px;
 	margin-top: 3px;
-	width: 1.4vw;
+	width: 16px;
 	font-size: 14px;
 	background-color: rgba(17, 196, 137, 1);
 	color: white;
 	border-radius: 50%;
 	position: relative;
-	left: -.3vw;
+	left: -3px;
 }
 
 .flashForward{
@@ -73,4 +73,6 @@ input{
 	width: .75vw;
 	font-size: 8px;
 	text-align: center;
+	position: relative;
+	left: -3px;
 }

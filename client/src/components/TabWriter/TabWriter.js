@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import NoteSelector from "../NoteSelector";
 import WTWrapper from "../WTWrapper";
 import Wrapper from "../Wrapper";
-// import MIDISounds from 'midi-sounds-react';
+import "./TabWriter.css";
 
 const notes = ["sixtyfourth", "thirtysecond", "sixteenth", "eighth", "quarter", "half", "whole"];
 const spaces = [1, 2, 4, 8, 16, 32, 64];
-var intervals = [];
-var timeouts = [];
+let intervals = [];
+let timeouts = [];
+let tempNotes = [];
 
 class TabWriter extends Component {
   constructor(props) {
@@ -20,23 +21,48 @@ class TabWriter extends Component {
       noteType: "quarter",
       activeNoteId: "",
       pressedUporDown: false,
-      editMode:true,
-      btnMessage:"Play",
-      tempNotes:[],
+      editMode: props.editMode,
+      btnMessage: props.btnMessage,
       instrument: 275,
-      bpm: 120
+      timeSig: props.timeSig
     };
   }
 
   componentWillReceiveProps(props) {
-    this.setState({openStrings: props.openstrings});
+    if(props.editMode === false && this.state.editMode === true) {
+      const promise1 = this.noteConverter();
+      let that = this;
+      Promise.all([promise1]).then(function(){
+        that.props.midi.startPlayLoop(tempNotes,that.props.bpm,1/64,0);
+        that.setLightUpEvents();
+        let intervalFunction = setInterval(function(){
+          that.setLightUpEvents();
+        }, 1000*(60 / that.props.bpm)*that.state.timeSig*(that.state.measureNumber-1));
+        intervals.push(intervalFunction);
+      });
+    }
+    else if(props.editMode === true && this.state.editMode === false) {
+      this.removeAllFlashClasses();
+      intervals.forEach(element => clearInterval(element));
+      timeouts.forEach(element => clearTimeout(element));
+      intervals = [];
+      timeouts = [];
+      this.props.midi.stopPlayLoop();
+      this.props.midi.beatIndex=0;
+    }
+
+    if(props.timeSig !== this.state.timeSig) {
+      this.modifyMeasureArrays(props.timeSig, this.state.timeSig);
+    }
+
+    this.setState({openStrings: props.openstrings, editMode: props.editMode, btnMessage: props.btnMessage, timeSig: props.timeSig});
   }
 
   componentDidMount(){
     this.addMeasure();
   }
 
-  addMeasure = ()=>{
+  addMeasure = () => {
     let tempArr=this.state.allNotes;
     let newMeasure = this.createMeasure(this.state.measureNumber);
     tempArr.push(newMeasure);
@@ -80,26 +106,65 @@ class TabWriter extends Component {
 
   createMeasure = (measureNumber) => {
     let mArray=[];
-    for(let j=1;j<5;j++){
-      let bArray=[];
-      for(let k=1;k<7;k++){
-        let lArray=[];
-        for(let l=1;l<17;l++){
-          const noteObject = {
-            snoteID: "m"+measureNumber+"-b"+j+"-l"+k+"-s"+l,
-            value: "",
-            clicked: false,
-            noteEntered: "",
-            duration: -1,
-            disabled: false
-          };
-          lArray.push(noteObject);
-        }
-        bArray.push(lArray);
-      }
+    for(let j=1;j<this.state.timeSig+1;j++){
+      let bArray=this.createNewBeat(measureNumber, j);
       mArray.push(bArray);
     }
     return mArray;
+  }
+
+  modifyMeasureArrays = (newTimeSig, oldTimeSig) => {
+    let allNotesCopy = this.state.allNotes;
+    if(newTimeSig < oldTimeSig) {
+      for(let q = 0; q < allNotesCopy.length; q++)
+        allNotesCopy[q].splice(newTimeSig);
+
+      for(let i = 0; i < allNotesCopy.length; i++) {
+        for(let j = 0; j < allNotesCopy[i].length; j++) {
+          for(let k = 0; k < allNotesCopy[i][j].length; k++) {
+            for(let m = 0; m < allNotesCopy[i][j][k].length; m++) {
+              if(allNotesCopy[i][j][k][m].value !== "") {
+                let currentIndex = j * 16 + (m + 1);
+                let maxIndex = newTimeSig * 16;
+                console.log("current index: " + currentIndex);
+                console.log("max index: " + maxIndex);
+                let thisDuration = allNotesCopy[i][j][k][m].duration;
+                let endingIndex = currentIndex + thisDuration - 1;
+                if(endingIndex > maxIndex)
+                  allNotesCopy[i][j][k][m].duration = thisDuration - (endingIndex - maxIndex); 
+              }
+            }
+          }
+        }
+      }
+    }
+    else {
+      for(let i = 0; i < allNotesCopy.length; i++) {
+        for(let j = oldTimeSig; j < newTimeSig; j++)
+          allNotesCopy[i].push(this.createNewBeat(i + 1, j + 1));
+      }
+    }
+    this.setState({allNotes: allNotesCopy});
+  }
+
+  createNewBeat = (measureNumber, beatNumber) => {
+    let newBeat = [];
+    for(var k = 1; k < 7; k++) {
+      let newLine = [];
+      for(var m = 1; m < 17; m++) {
+        const noteObject = {
+          snoteID: "m"+measureNumber+"-b"+beatNumber+"-l"+k+"-s"+m,
+          value: "",
+          clicked: false,
+          noteEntered: "",
+          duration: -1,
+          disabled: false
+        };
+        newLine.push(noteObject);
+      }
+      newBeat.push(newLine);
+    }
+    return newBeat;
   }
 
   extractId = (id) => {
@@ -190,7 +255,7 @@ class TabWriter extends Component {
     let currentBeat = parseInt(location.beat, 10);
     let currentSnote = parseInt(location.sNote, 10);
     let noteToAdd;
-    while(duration > 0 && currentBeat < 4) {
+    while(duration > 0 && currentBeat < this.state.timeSig) {
       if(currentSnote < 15) {
         let address = {
           measure: parseInt(location.measure, 10),
@@ -206,7 +271,7 @@ class TabWriter extends Component {
         else
           return notesToModify;
       }
-      else if(currentBeat < 3) {
+      else if(currentBeat < this.state.timeSig - 1) {
         currentBeat++;
         currentSnote = 0;
         let address = {
@@ -281,7 +346,7 @@ class TabWriter extends Component {
       }
       else {
         let addressOfLast = this.getEndOfNote(measure, beat, line, sNote, "add");
-        if(addressOfLast.beat > 3 || allNotesCopy[addressOfLast.measure][addressOfLast.beat][addressOfLast.line][addressOfLast.sNote].value !== "")
+        if(addressOfLast.beat > this.state.timeSig - 1 || allNotesCopy[addressOfLast.measure][addressOfLast.beat][addressOfLast.line][addressOfLast.sNote].value !== "")
           return;
         allNotesCopy[addressOfLast.measure][addressOfLast.beat][addressOfLast.line][addressOfLast.sNote].disabled = true;
         allNotesCopy[measure][beat][line][sNote].duration += 1;
@@ -296,8 +361,8 @@ class TabWriter extends Component {
       duration--;
     if(duration <= (15 - sNote))
       return {measure, beat, line, sNote: sNote + duration};
-    else if(duration === (15 - sNote) + 16 * (3 - beat))
-      return {measure, beat: 3, line, sNote: 15};
+    else if(duration === (15 - sNote) + 16 * (this.state.timeSig - 1 - beat))
+      return {measure, beat: this.state.timeSig - 1, line, sNote: 15};
     else {
       duration -= (15 - sNote);
       let newBeat = beat + 1;
@@ -305,41 +370,6 @@ class TabWriter extends Component {
       duration -= 16 * Math.floor(duration / 17);
       return {measure, beat: newBeat, line, sNote: duration - 1};
     }
-  }
-
-  changeMode =(event)=>{
-    event.preventDefault();
-    let tempMode=!this.state.editMode;
-    let tempMsg="Play";
-
-    if (tempMode===false){
-      const promise1=this.noteConverter();
-      tempMsg="Stop";
-      let that=this;
-
-      Promise.all([promise1]).then(function(){
-        that.props.midi.startPlayLoop(that.state.tempNotes,that.state.bpm,1/64,0);
-        that.setLightUpEvents();
-        let intervalFunction = setInterval(function(){
-          that.removeAllFlashClasses();
-          that.setLightUpEvents();
-        }, 1000*(60 / 120)*4*(that.state.measureNumber-1));
-        intervals.push(intervalFunction);
-      });
-
-    }
-
-    else {
-      this.removeAllFlashClasses();
-      intervals.forEach(element => clearInterval(element));
-      timeouts.forEach(element => clearTimeout(element));
-      intervals = [];
-      timeouts = [];
-      this.props.midi.stopPlayLoop();
-      this.props.midi.beatIndex=0;
-    }
-        
-    this.setState({editMode:tempMode, btnMessage:tempMsg});
   }
 
   noteConverter=()=>{
@@ -350,7 +380,7 @@ class TabWriter extends Component {
 
     for(let i=0;i<this.state.measureNumber-1;i++){
       let mArray=[];
-    for(let j=0;j<4;j++){
+    for(let j=0;j<this.state.timeSig;j++){
       let bArray=[];
       for(let k=0;k<6;k++){
         let lArray=[];
@@ -413,7 +443,7 @@ class TabWriter extends Component {
   }
 
   tonePopulater=(notes)=>{
-    this.setState({tempNotes:[]});
+    tempNotes = [];
     let masterArray = [];
     for (let i=0; i<notes.length; i++){
       for(let j = 0; j < notes[i].length;j++){
@@ -430,7 +460,7 @@ class TabWriter extends Component {
         }
       }
     }
-    this.setState({tempNotes:masterArray});
+    tempNotes = masterArray;
   }
 
   setLightUpEvents = () => {
@@ -441,18 +471,58 @@ class TabWriter extends Component {
           for(var m = 0; m < arrayOfNotesCopy[i][j][k].length; m++) {
             let duration = arrayOfNotesCopy[i][j][k][m].duration; 
             if(duration > 0) {
-              let arrayToLight = this.getIds(duration, {measure: i, beat: j, line: k, sNote: m}, "remove");
+              let arrayToLight = this.getIdsToLight(duration, {measure: i, beat: j, line: k, sNote: m});
               let thisAddress = {measure: i, beat: j, line: k, sNote: m};
               arrayToLight.unshift(thisAddress);
               arrayToLight.pop();
               let that = this;
-              let timeoutFunction = setTimeout(that.toLightUpNotes(arrayToLight, duration), ((60 / 120) * 4 * i + (60 / 120) * j + (60 / 120) / 16 * m)*1000);
+              let timeoutFunction = setTimeout(that.toLightUpNotes(arrayToLight, duration), ((60 / that.props.bpm) * this.state.timeSig * i + (60 / that.props.bpm) * j + (60 / that.props.bpm) / 16 * m)*1000);
               timeouts.push(timeoutFunction);
             }
           }
         }
       }
     }
+  }
+
+  getIdsToLight = (duration, location) => {
+    let notesToModify = [];
+    let currentBeat = location.beat;
+    let currentSnote = location.sNote;
+    while(duration > 0 && currentBeat < this.state.timeSig) {
+      if(currentSnote < 15) {
+        let address = {
+          measure: parseInt(location.measure, 10),
+          beat: currentBeat,
+          line: parseInt(location.line, 10),
+          sNote: currentSnote += 1
+        }
+        notesToModify.push(address);
+      }
+      else if(currentBeat < this.state.timeSig - 1) {
+        currentBeat++;
+        currentSnote = 0;
+        let address = {
+          measure: parseInt(location.measure, 10),
+          beat: currentBeat,
+          line: parseInt(location.line, 10),
+          sNote: currentSnote
+        }
+        notesToModify.push(address);
+      }
+      else {
+        let address = {
+          measure: parseInt(location.measure, 10),
+          beat: currentBeat,
+          line: parseInt(location.line, 10),
+          sNote: currentSnote
+        }
+        notesToModify.push(address);
+        return notesToModify;
+      }
+      duration--;
+    }
+    return notesToModify;
   }
 
   toLightUpNotes = (arrayToLight, duration) => {
@@ -468,11 +538,12 @@ class TabWriter extends Component {
       let beat = arrayOfNotes[i].beat;
       let line = arrayOfNotes[i].line;
       let sNote = arrayOfNotes[i].sNote;
-      let elementToLight = document.getElementById("m" + arrayOfNotes[i].measure + "-b" + arrayOfNotes[i].beat + "-l" + 
-        arrayOfNotes[i].line + "-s" + arrayOfNotes[i].sNote).children[0];
+      let elementToLight = document.getElementById("m" + measure + "-b" + beat + "-l" + 
+        line + "-s" + sNote).children[0];
+      elementToLight.classList.remove("flashBackward");
       elementToLight.classList.add("flashForward");
       let that = this;
-      let timeoutFunction = setTimeout(that.toRemoveFlash(elementToLight), 1000*duration*(60 / 120) / 16);
+      let timeoutFunction = setTimeout(that.toRemoveFlash(elementToLight), 1000*duration*(60 / that.props.bpm) / 16);
       timeouts.push(timeoutFunction);
     }
   }
@@ -485,14 +556,15 @@ class TabWriter extends Component {
   }
 
   removeFlash = (elementToUnlight) => {
+    elementToUnlight.classList.remove("flashForward");
     elementToUnlight.classList.add("flashBackward");
   }
 
   removeAllFlashClasses = () => {
-    let animatedNotes = document.querySelectorAll(".flashForward.flashBackward");
-    animatedNotes.forEach((element, index) => {
-      element.classList.remove("flashForward", "flashBackward");
-    });
+    let animatedNotes = document.querySelectorAll(".flashForward");
+    animatedNotes.forEach((element, index) => element.classList.remove("flashForward"));
+    animatedNotes = document.querySelectorAll(".flashBackward");
+    animatedNotes.forEach((element, index) => element.classList.remove("flashBackward"));
   }
 
   render() {
@@ -501,20 +573,22 @@ class TabWriter extends Component {
         <h1>Select a note and then enter any fret from 0 to 24</h1>
         <NoteSelector notes = {notes} selectedNoteType = {this.state.noteType} setNoteType = {this.setNoteType}/>
       	<div className = "tabControl">
-          <button onClick={this.addMeasure}>Add Measure</button>
-          <button onClick={this.changeMode}>{this.state.btnMessage}</button>
-          <button onClick={this.clearAllMeasures}>Clear All Measures</button>
+          <button onClick={this.addMeasure} className = {this.state.editMode ? "" : "noClick"}>Add Measure</button>
+          <button onClick={(event) => this.props.changeMode(event)}>{this.state.btnMessage}</button>
+          <button onClick={this.clearAllMeasures} className = {this.state.editMode ? "" : "noClick"}>Clear All Measures</button>
         </div>
-        {(this.state.editMode===true)?(
-        	   <WTWrapper allNotes={this.state.allNotes} noteClick={this.noteClick}
-              noteSubmit={this.noteSubmit} noteChange = {this.noteChange} setActiveNote = {this.setActiveNote} 
-              activeNoteId = {this.state.activeNoteId} incOrDecDuration = {this.incOrDecDuration} 
-              clearIndividualMeasure = {this.clearIndividualMeasure} deleteIndividualMeasure = {this.deleteIndividualMeasure} 
-              editMode = {this.state.editMode} />
-          ):(
-            <WTWrapper allNotes={this.state.allNotes} editMode = {this.state.editMode} />
-          )
-        }
+        <div className = "allMeasuresContainer">
+          {(this.state.editMode===true)?(
+          	   <WTWrapper allNotes={this.state.allNotes} noteClick={this.noteClick}
+                noteSubmit={this.noteSubmit} noteChange = {this.noteChange} setActiveNote = {this.setActiveNote} 
+                activeNoteId = {this.state.activeNoteId} incOrDecDuration = {this.incOrDecDuration} 
+                clearIndividualMeasure = {this.clearIndividualMeasure} deleteIndividualMeasure = {this.deleteIndividualMeasure} 
+                editMode = {this.state.editMode} />
+            ):(
+              <WTWrapper allNotes={this.state.allNotes} editMode = {this.state.editMode} />
+            )
+          }
+        </div>
       </Wrapper>
     );
   }
