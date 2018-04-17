@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import NoteSelector from "../NoteSelector";
 import WTWrapper from "../WTWrapper";
 import Wrapper from "../Wrapper";
+import MeasureHeader from "../MeasureHeader";
 import "./TabWriter.css";
 
 const notes = ["sixtyfourth", "thirtysecond", "sixteenth", "eighth", "quarter", "half", "whole"];
@@ -36,6 +37,9 @@ class TabWriter extends Component {
         that.props.midi.startPlayLoop(tempNotes,that.props.bpm,1/64,0);
         that.setLightUpEvents();
         let intervalFunction = setInterval(function(){
+          that.props.midi.stopPlayLoop();
+          that.props.midi.beatIndex = 0;
+          that.props.midi.startPlayLoop(tempNotes,that.props.bpm,1/64,0);
           that.setLightUpEvents();
         }, 1000*(60 / that.props.bpm)*that.state.timeSig*(that.state.measureNumber-1));
         intervals.push(intervalFunction);
@@ -570,14 +574,14 @@ class TabWriter extends Component {
   render() {
     return (
       <Wrapper>
-        <h1>Select a note and then enter any fret from 0 to 24</h1>
         <NoteSelector notes = {notes} selectedNoteType = {this.state.noteType} setNoteType = {this.setNoteType}/>
       	<div className = "tabControl">
           <button onClick={this.addMeasure} className = {this.state.editMode ? "" : "noClick"}>Add Measure</button>
           <button onClick={(event) => this.props.changeMode(event)}>{this.state.btnMessage}</button>
           <button onClick={this.clearAllMeasures} className = {this.state.editMode ? "" : "noClick"}>Clear All Measures</button>
         </div>
-        <div className = "allMeasuresContainer">
+        <div className="allMeasuresContainer">
+          <MeasureHeader editMode={this.state.editMode} allNotes={this.state.allNotes} bpm={this.props.bpm} timeSig={this.state.timeSig} tuning={this.props.tuning}/>
           {(this.state.editMode===true)?(
           	   <WTWrapper allNotes={this.state.allNotes} noteClick={this.noteClick}
                 noteSubmit={this.noteSubmit} noteChange = {this.noteChange} setActiveNote = {this.setActiveNote} 

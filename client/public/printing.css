@@ -1,0 +1,46 @@
+
+body * {
+	visibility: hidden;
+}
+
+.allMeasuresContainer * {
+	visibility: visible;
+	-webkit-print-color-adjust: exact;
+}
+
+.allMeasuresContainer button{
+	visibility: hidden;
+}
+
+div .allMeasuresContainer{
+	position: absolute;
+	top: 0;
+}
+
+div .measureHeader h1{
+	font-size: 60px;
+}
+
+div .note{
+	padding-right: 3px;
+	padding-left: 3px;
+	width: 8px;
+}
+
+div .disabledNote{
+	width: 14px;
+}
+
+div .disabledNoteBox{
+	width: 14px;
+}
+
+div .enteredNote{
+	width: 16px;
+	position: relative;
+	left: -4px;
+}
+
+div .measureButtonContainer {
+	display: none;
+}

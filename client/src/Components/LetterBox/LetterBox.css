@@ -1,33 +1,14 @@
 .chordLetters{
-	font-size: 17px;
+	font-size: 18px;
 	margin-right: 10px;
 }
 
 .letter{
 	width: 100%;
 	text-align: center;
+	height: 22px;
 }
 
 .letter:first-child{
 	margin-top: 21px;
-}
-
-.letter:nth-child(2){
-	margin-top: 4px;
-}
-
-.letter:nth-child(3){
-	margin-top: 4px;
-}
-
-.letter:nth-child(4){
-	margin-top: 2px;
-}
-
-.letter:nth-child(5){
-	margin-top: 3px;
-}
-
-.letter:last-child{
-	margin-top: 4px;
 }

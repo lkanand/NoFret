@@ -6,7 +6,7 @@ const Beat = props => {
 	let {arrayOfBeats, ...other} = props;
 	return arrayOfBeats.map((element, index)=>{
   		return (
-    		<div className="beat" key={index} >
+    		<div className={index === 4 ? "beat beatFour" : "beat"} key={index} >
       			<Line beatIndex = {props.measureIndex+'-b'+index} arrayOfLines = {element} {...other}/>
     		</div>
     	)

@@ -254,7 +254,7 @@ class Home extends Component {
                         <input type="submit" value="Submit Tab Preferences" />
                     </form>
             		<TabWriter openstrings={this.state.openStrings} midi={this.midiSounds} bpm={this.state.bpm} editMode={this.state.editMode} btnMessage={this.state.btnMessage}
-                    changeMode={this.changeMode} timeSig={this.state.timeSig} />
+                    changeMode={this.changeMode} timeSig={this.state.timeSig} tuning={this.state.tuning}/>
                 </div>
                 <MIDISounds ref={(ref) => (this.midiSounds = ref)} instruments={[275]} /> 
             </div>
