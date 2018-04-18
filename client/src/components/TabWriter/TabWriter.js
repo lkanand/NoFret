@@ -26,6 +26,8 @@ class TabWriter extends Component {
       instrument: 275,
       timeSig: props.timeSig
     };
+
+    this.modalFunction=props.modalFunction;
   }
 
   componentWillReceiveProps(props) {
@@ -573,7 +575,7 @@ class TabWriter extends Component {
       <Wrapper>
         <NoteSelector notes = {notes} selectedNoteType = {this.state.noteType} setNoteType = {this.setNoteType}/>
         <div className="allMeasuresContainer">
-          <MeasureHeader editMode={this.state.editMode} allNotes={this.state.allNotes} bpm={this.props.bpm} timeSig={this.state.timeSig} 
+          <MeasureHeader allNotes={this.state.allNotes} modalFunction={this.modalFunction} loggedIn={this.props.loggedIn} editMode={this.state.editMode} allNotes={this.state.allNotes} bpm={this.props.bpm} timeSig={this.state.timeSig} 
           tuning={this.props.tuning} addMeasure={this.addMeasure} clearAllMeasures={this.clearAllMeasures}/>
           {(this.state.editMode===true)?(
           	   <WTWrapper allNotes={this.state.allNotes} noteClick={this.noteClick}

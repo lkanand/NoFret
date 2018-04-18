@@ -34,11 +34,14 @@ class Home extends Component {
 
     onCloseModal = () => {
     this.setState({ open: false });
-    };
+    }
 
     triggerModal = () => {
-    this.setState({ open: true });
-    };
+        this.setState({ open: true });
+        
+    }
+
+
 
     //login function
     handleLoginChanged = (event) => {
@@ -51,11 +54,11 @@ class Home extends Component {
     axios.delete('api/auth')
     .then(user=>{
         console.log("logged out");
-        this.setState({ loggedIn: false });
+        this.setState({ username:"",password:"",loggedIn: false });
     })
     .catch(err => { console.log(err);
     });
-    };
+    }
 
   handleLogin = (event) => {
     event.preventDefault();
@@ -69,10 +72,8 @@ class Home extends Component {
       password
     })
       .then(user => {
-        // if the response is successful, make them log in
-        // history.push('/login');
         console.log("loggedin");
-        this.setState({username:"",password:"", loggedIn:true, open:false});
+        this.setState({loggedIn:true, open:false});
       })
       .catch(err => {
 
@@ -82,7 +83,6 @@ class Home extends Component {
 
   createLogin = (event) => {
     event.preventDefault();
-    console.log("got to function");
 
     const { username, password } = this.state;
     
@@ -92,13 +92,18 @@ class Home extends Component {
       password
     })
       .then(user => {
-        console.log(" axios response");
         console.log(user);
-        this.setState({username:"",password:"", loggedIn:true, open: false});
+        this.handleLogin();
       })
       .catch(err => {
         console.log("an error");
       });
+  }
+
+  //saving
+
+  saveTabs=()=>{
+    console.log("save some tabs");
   }
   //music functions
 
@@ -224,6 +229,7 @@ class Home extends Component {
                         <button onClick={this.triggerModal}>Sign In</button>
                     </div>
                   : <div className="signedInDiv">
+                        <div className="currentUserBox">Logged in as {this.state.username}</div>
                         <button onClick={this.triggerModal}>My Projects</button>
                         <button onClick={this.triggerLogout}>Logout</button>
                     </div>
@@ -349,8 +355,8 @@ class Home extends Component {
                     </button>
                 </div>
             </form>
-    		<TabWriter openstrings={this.state.openStrings} midi={this.midiSounds} bpm={this.state.bpm} editMode={this.state.editMode} 
-            timeSig={this.state.timeSig} tuning={this.state.tuning}/>
+            <TabWriter openstrings={this.state.openStrings} modalFunction={this.triggerModal} loggedIn={this.state.loggedIn} midi={this.midiSounds} bpm={this.state.bpm} editMode={this.state.editMode} timeSig={this.state.timeSig} tuning={this.state.tuning}/>
+            
         </div>
         <MIDISounds ref={(ref) => (this.midiSounds = ref)} instruments={[275]} /> 
     
