@@ -18,7 +18,6 @@ class Ststring extends (Component) {
 	}
 
 	componentWillReceiveProps(props) {
-		console.log(props.stringvalue)
 		this.setState({stringvalue: props.stringvalue});
 	}
 
