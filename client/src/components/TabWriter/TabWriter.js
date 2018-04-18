@@ -129,8 +129,6 @@ class TabWriter extends Component {
               if(allNotesCopy[i][j][k][m].value !== "") {
                 let currentIndex = j * 16 + (m + 1);
                 let maxIndex = newTimeSig * 16;
-                console.log("current index: " + currentIndex);
-                console.log("max index: " + maxIndex);
                 let thisDuration = allNotesCopy[i][j][k][m].duration;
                 let endingIndex = currentIndex + thisDuration - 1;
                 if(endingIndex > maxIndex)
