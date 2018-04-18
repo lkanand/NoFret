@@ -2,8 +2,6 @@ import React, {Component} from "react";
 import Ststring from "./Ststring";
 import "./ScaleTool.css";
 import Stfretguide from "./Stfretguide";
-import HorizontalScroll from 'react-scroll-horizontal';
-
 
 class ScaleTool extends Component {
 	render() {

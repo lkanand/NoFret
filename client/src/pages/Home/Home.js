@@ -126,7 +126,6 @@ class Home extends Component {
 
         if (tempMode===false){
           tempMsg="Stop";
-          this.tuning.value = this.state.tuning;
           this.bpm.value = this.state.bpm;
           this.timeSig.value = this.state.timeSig; 
         }
@@ -244,21 +243,26 @@ class Home extends Component {
             <ScaleTool scaleType={this.state.scaleType} root={this.state.root} mode={this.state.stMode} openstrings={this.state.openStrings} midi={this.midiSounds}/>
         </section>
         <div className = "tabWriterContainer">
-            <form onSubmit = {(event) => this.submitTabForm(event)} className = {this.state.editMode ? "tabPrefDiv " : "tabPrefDiv noClick"}>
-                <div>
+            <form onSubmit = {(event) => this.submitTabForm(event)} className = "tabPrefDiv">
+                <div className = {this.state.editMode ? "" : "noClick"}>
                     <span>&nbsp;Tempo: &nbsp;&nbsp;</span>
                     <input type="number" name="bpm" defaultValue = {this.state.bpm} ref={(element) => {this.bpm = element}} /><span>BPM </span>
                 </div>
-                <div>
+                <div className = {this.state.editMode ? "" : "noClick"}>
                     <span>&nbsp;&nbsp;Time Sig: &nbsp;</span>
                     <input type="number" name="timeSig" defaultValue = {this.state.timeSig} ref={(element) => {this.timeSig = element}} /><span>/ 4&nbsp;</span>
                 </div>
-                <div>
+                <div className = {this.state.editMode ? "" : "noClick"}>
                     <input type="submit" value="Submit Tab Preferences" />
                 </div>
+                <div>
+                    <button onClick={(event) => this.changeMode(event)}> 
+                        <i className = {this.state.editMode ? "fas fa-play" : "fas fa-stop"}></i>
+                    </button>
+                </div>
             </form>
-    		<TabWriter openstrings={this.state.openStrings} midi={this.midiSounds} bpm={this.state.bpm} editMode={this.state.editMode} btnMessage={this.state.btnMessage}
-            changeMode={this.changeMode} timeSig={this.state.timeSig} tuning={this.state.tuning}/>
+    		<TabWriter openstrings={this.state.openStrings} midi={this.midiSounds} bpm={this.state.bpm} editMode={this.state.editMode} 
+            timeSig={this.state.timeSig} tuning={this.state.tuning}/>
         </div>
         <MIDISounds ref={(ref) => (this.midiSounds = ref)} instruments={[275]} /> 
     </div>
