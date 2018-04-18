@@ -117,10 +117,6 @@
 	cursor: pointer;
 }
 
-.root, .second, .third, .fourth, .fifth, .sixth, .seventh {
-	/*color: black;*/
-}
-
 .noRel {
 	background-color: #444!important;
 	color: #ccc;
@@ -130,8 +126,6 @@
 	box-sizing: border-box;
 	background-color: #eee!important;
 	color: #212121;
-	/*font-weight: bold;*/
-	/*border: 2px solid #ddd;*/
 }
 
 .C {

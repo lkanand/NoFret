@@ -1,14 +1,14 @@
 .editableNote{
 	height: 1px;
 	width: 100%;
-	background-color: black;
+	background-color: #212121;
 	margin-top: 10px;
 }
 
 .disabledNote{
 	height: 5px;
 	width: 16px;
-	/*background-color: #38363d;*/
+	background-color: #212121;
 	margin-top: 8px;
 }
 
@@ -25,18 +25,24 @@
 	height: 22px;
 	padding-right: 3px;
 	padding-left: 3px;
-	width: 10px;
+	width: 16px;
 	font-size: 14px;
+	box-sizing: border-box;
+}
+
+.note * {
+	box-sizing: border-box;
 }
 
 .enteredNote{
 	height: 15px;
 	margin-top: 3px;
+	padding-top: 2px;
 	width: 16px;
-	font-size: 14px;
-	/*background-color: #38363d;*/
+	font-size: 10px;
+	background-color: #212121;
 	color: white;
-	border-radius: 50%;
+	border-radius: 35%;
 	position: relative;
 	left: -3px;
 }
@@ -49,8 +55,8 @@
 }
 
 @keyframes flash-forward{
-	0% { opacity: 1;} 
-    100% { opacity: .75;}
+	0% { background-color: #212121;} 
+    100% { background-color: #993333;}
 }
 
 .flashBackward{
@@ -61,8 +67,8 @@
 }
 
 @keyframes flash-backward{
-	0% { opacity: .75;}
-	100% { opacity: 1;} 
+	0% { background-color: #993333;}
+	100% { background-color: #212121;} 
 }
 
 input{
