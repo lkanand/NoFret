@@ -356,41 +356,45 @@ class Home extends Component {
     
         <div>
         <Modal className="loginModal" open={open} onClose={this.onCloseModal} little>
-          <div>
-            <form className="loginForm">
-                <div className="userLine"><label className="loginLabel">Username</label></div>
-                    <input
-                        className="inputField"
-                        type="text"
-                        value={this.state.username}
-                        onChange={this.handleLoginChanged}
-                        name="username"
-                      />
-                <div className="passLine"><label className="loginLabel">Password</label></div>
-                    <input
-                        className="inputField"
-                        type="password"
-                        value={this.state.password}
-                        onChange={this.handleLoginChanged}
-                        name="password"
-                      />
-                <div className="buttonBox">
-                    <button className="createButton"
-                      disabled={!(this.state.username && this.state.password)}
-                      onClick={this.createLogin}
-                      >
-                      Create Account
-                    </button>
-                    <button 
-                        disabled={!(this.state.username && this.state.password)}
-                        onClick={this.handleLogin}
-                        >
-                      Login to Account
-                    </button>
-                    
-                </div>
-            </form>
-            </div>
+        {
+            (this.state.loggedIn === false)
+            
+               ? <form className="loginForm">
+                    <div className="userLine"><label className="loginLabel">Username</label></div>
+                        <input
+                            className="inputField"
+                            type="text"
+                            value={this.state.username}
+                            onChange={this.handleLoginChanged}
+                            name="username"
+                          />
+                    <div className="passLine"><label className="loginLabel">Password</label></div>
+                        <input
+                            className="inputField"
+                            type="password"
+                            value={this.state.password}
+                            onChange={this.handleLoginChanged}
+                            name="password"
+                          />
+                    <div className="buttonBox">
+                        <button className="createButton"
+                          disabled={!(this.state.username && this.state.password)}
+                          onClick={this.createLogin}
+                          >
+                          Create Account
+                        </button>
+                        <button 
+                            disabled={!(this.state.username && this.state.password)}
+                            onClick={this.handleLogin}
+                            >
+                          Login to Account
+                        </button>
+                        
+                    </div>
+                </form>
+
+            : <div>Projects go here</div>
+            }
         </Modal>
       </div>
     </Wrapper>
