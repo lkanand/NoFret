@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./MeasureHeader.css";
+import axios from 'axios';
 
 class MeasureHeader extends Component {
 	constructor(props) {
@@ -7,8 +8,15 @@ class MeasureHeader extends Component {
 		this.state = {
 			title: "",
 			titleActive: false,
+			loggedIn:props.loggedIn
 		};
+
+		this.modalFunction=props.modalFunction;
 	}
+
+	componentWillReceiveProps(props) {
+		this.state.loggedIn=props.loggedIn;
+  }
 
 	printTab = () => {
     	window.print();  
@@ -35,6 +43,25 @@ class MeasureHeader extends Component {
   		this.setState({title: event.target.value});
   	}
 
+  	triggerSaveModal = () => {
+        
+
+            let tabData={
+                title:this.state.title,
+                notes:this.props.allNotes,
+                bpm:this.state.bpm,
+                timeSig:this.state.timeSig
+            };
+
+            axios.post('api/usertabs',tabData)
+            .then(data=>{
+                console.log(data);
+            })
+            .catch(err=>{console.log(err);
+            });
+
+    }
+
 	render() {
 		let title;
 		if(this.state.titleActive === false)
@@ -50,7 +77,10 @@ class MeasureHeader extends Component {
 						{title}
 					</div>
 					<div className="savePrint">
-						<button id="saveTab"><i class="fas fa-cloud-upload-alt"></i></button>
+						{(this.state.loggedIn===false)
+							?<button id="saveTab" onClick={this.modalFunction}><i class="fas fa-cloud-upload-alt"></i></button>
+							:<button id="saveTab" onClick={this.triggerSaveModal}><i class="fas fa-cloud-upload-alt"></i></button>
+						}
 						<button id="printTab" onClick={this.printTab}><i class="fas fa-print"></i></button>
 					</div>
 				</div>
