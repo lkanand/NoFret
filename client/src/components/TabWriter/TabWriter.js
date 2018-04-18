@@ -23,7 +23,6 @@ class TabWriter extends Component {
       activeNoteId: "",
       pressedUporDown: false,
       editMode: props.editMode,
-      btnMessage: props.btnMessage,
       instrument: 275,
       timeSig: props.timeSig
     };
@@ -59,7 +58,7 @@ class TabWriter extends Component {
       this.modifyMeasureArrays(props.timeSig, this.state.timeSig);
     }
 
-    this.setState({openStrings: props.openstrings, editMode: props.editMode, btnMessage: props.btnMessage, timeSig: props.timeSig});
+    this.setState({openStrings: props.openstrings, editMode: props.editMode, timeSig: props.timeSig});
   }
 
   componentDidMount(){
@@ -574,14 +573,10 @@ class TabWriter extends Component {
   render() {
     return (
       <Wrapper>
-        <div className = "tabControl">
-          <button onClick={this.addMeasure} className = {this.state.editMode ? "" : "noClick"}>Add Measure</button>
-          <button onClick={(event) => this.props.changeMode(event)}>{this.state.btnMessage}</button>
-          <button onClick={this.clearAllMeasures} className = {this.state.editMode ? "" : "noClick"}>Clear All Measures</button>
-        </div>
         <NoteSelector notes = {notes} selectedNoteType = {this.state.noteType} setNoteType = {this.setNoteType}/>
         <div className="allMeasuresContainer">
-          <MeasureHeader editMode={this.state.editMode} allNotes={this.state.allNotes} bpm={this.props.bpm} timeSig={this.state.timeSig} tuning={this.props.tuning}/>
+          <MeasureHeader editMode={this.state.editMode} allNotes={this.state.allNotes} bpm={this.props.bpm} timeSig={this.state.timeSig} 
+          tuning={this.props.tuning} addMeasure={this.addMeasure} clearAllMeasures={this.clearAllMeasures}/>
           {(this.state.editMode===true)?(
           	   <WTWrapper allNotes={this.state.allNotes} noteClick={this.noteClick}
                 noteSubmit={this.noteSubmit} noteChange = {this.noteChange} setActiveNote = {this.setActiveNote} 

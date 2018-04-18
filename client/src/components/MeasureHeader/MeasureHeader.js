@@ -45,10 +45,17 @@ class MeasureHeader extends Component {
 			</form>	
 		return ( 
 			<div className={this.props.editMode ? "measureHeader" : "measureHeader noClick"}>
-				{title}
-				<button id="saveTab">Save Tab</button>
-				<button id="printTab" onClick={this.printTab}>Print Tab</button>
+				<div className="saveOrPrintMeasures">
+					{title}
+					<button id="saveTab">Save Tab</button>
+					<button id="printTab" onClick={this.printTab}>Print Tab</button>
+				</div>
+				<div className="addOrClearMeasures">
+					<button id="addMeasure" onClick={this.props.addMeasure}>Add Measure</button>
+          			<button id="clearMeasures" onClick={this.props.clearAllMeasures}>Clear All Measures</button>
+				</div>
 			</div>
+	
 		);
 	}
 }

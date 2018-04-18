@@ -133,11 +133,6 @@ input [name="timeSig"] {
 	pointer-events: none;
 }
 
-input[type=submit]{
-	width: auto;
-	font-size: 11px;
-}
-
 .tabPrefDiv {
 	padding: 20px;
 	background-color: rgba(33,33,33,.3);
@@ -148,10 +143,37 @@ input[type=submit]{
 	margin: 0 auto; 
 }
 
-.tabPrefDiv input[type="submit"] {
+.tabPrefDiv input[type="submit"], .tabPrefDiv button {
 	background-color: rgba(0,0,0,0);
 	color: white;
 	border: 1px solid white;
 	border-radius: 12px;
 	height: 2em;
+	width: auto;
+	font-size: 11px;
+}
+
+.tabPrefDiv input[type="submit"]:hover{
+	color: black;
+	background: white;
+	cursor: pointer;
+}
+
+.tabPrefDiv input[type="submit"]:focus{
+	outline: none;
+}
+
+.tabPrefDiv button:hover{
+	color: black;
+	background: white;
+	cursor: pointer;
+}
+
+.tabPrefDiv button:focus{
+	outline: none;
+}
+
+.tabPrefDiv button i{
+	font-size: 11px;
+	text-align: center;
 }

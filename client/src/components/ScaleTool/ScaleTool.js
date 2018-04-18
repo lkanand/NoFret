@@ -3,7 +3,6 @@ import Ststring from "./Ststring";
 import "./ScaleTool.css";
 import Stfretguide from "./Stfretguide";
 
-
 class ScaleTool extends Component {
 	render() {
 	    return (
