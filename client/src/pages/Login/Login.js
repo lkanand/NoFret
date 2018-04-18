@@ -19,7 +19,6 @@ class Login extends Component {
     event.preventDefault();
 
     const { username, password } = this.state;
-    const { history } = this.props;
 
     console.log(this.state);
 
@@ -96,8 +95,6 @@ class Login extends Component {
   }
 
   render() {
-    const { error } = this.state;
-
     return (
       <div>
             <form>

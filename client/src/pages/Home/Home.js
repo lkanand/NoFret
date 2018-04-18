@@ -20,8 +20,8 @@ class Home extends Component {
         editMode: true,
         btnMessage: "Play",
         open: false,
-        username: null,
-        password: null,
+        username: "",
+        password: "",
         loggedIn: false
 	}
 
@@ -33,12 +33,13 @@ class Home extends Component {
     //modal functions
 
     onCloseModal = () => {
-    this.setState({ open: false });
-    };
+    this.setState({ open: false, username: "", password: ""});
+    document.getElementById("loginError").innerHTML = "";
+    }
 
     triggerModal = () => {
     this.setState({ open: true });
-    };
+    }
 
     //login function
     handleLoginChanged = (event) => {
@@ -55,14 +56,12 @@ class Home extends Component {
     })
     .catch(err => { console.log(err);
     });
-    };
+    }
 
   handleLogin = (event) => {
     event.preventDefault();
 
     const { username, password } = this.state;
-    const { history } = this.props;
-
 
     axios.post('/api/auth', {
       username,
@@ -72,7 +71,7 @@ class Home extends Component {
         // if the response is successful, make them log in
         // history.push('/login');
         console.log("loggedin");
-        this.setState({username:"",password:"", loggedIn:true, open:false});
+        this.setState({loggedIn:true, open:false});
       })
       .catch(err => {
 
@@ -82,7 +81,7 @@ class Home extends Component {
 
   createLogin = (event) => {
     event.preventDefault();
-    console.log("got to function");
+    document.getElementById("loginError").innerHTML = "";
 
     const { username, password } = this.state;
     
@@ -91,13 +90,17 @@ class Home extends Component {
       username,
       password
     })
-      .then(user => {
-        console.log(" axios response");
-        console.log(user);
-        this.setState({username:"",password:"", loggedIn:true, open: false});
+      .then(response => {
+        console.log(response);
+        if(response.data.hasOwnProperty("errors"))
+            document.getElementById("loginError").innerHTML = response.data.message.split(":")[2].substr(1);
+        else if(response.data.hasOwnProperty("code") && response.data.code === 11000)
+            document.getElementById("loginError").innerHTML = "An account with that email already exists";
+        else         
+            this.setState({loggedIn:true, open: false});
       })
       .catch(err => {
-        console.log("an error");
+        console.log(err);
       });
   }
   //music functions
@@ -107,7 +110,7 @@ class Home extends Component {
     }
 
     handleRootChange = event => {
-        this.setState({root: parseInt(event.target.value)})
+        this.setState({root: parseInt(event.target.value, 10)})
     }
     handleBoardModeChange = event => {
         this.setState({stMode: event.target.value})
@@ -293,8 +296,8 @@ class Home extends Component {
                     <div>
                         <span>Board Mode: </span>
                         <form name="boardMode" onChange={this.handleBoardModeChange}>
-                            <input type="radio" name="mode" value="edit" defaultChecked="checked"/><label for="edit">Edit </label> 
-                            <input type="radio" name="mode" value="listen"/><label for="edit">listen </label>
+                            <input type="radio" name="mode" value="edit" defaultChecked="checked"/><label htmlFor="edit">Edit </label> 
+                            <input type="radio" name="mode" value="listen"/><label htmlFor="edit">listen </label>
                         </form>
                     </div>
 
@@ -360,7 +363,7 @@ class Home extends Component {
             (this.state.loggedIn === false)
             
                ? <form className="loginForm">
-                    <div className="userLine"><label className="loginLabel">Username</label></div>
+                    <div className="userLine"><label className="loginLabel">Email</label></div>
                         <input
                             className="inputField"
                             type="text"
@@ -389,7 +392,7 @@ class Home extends Component {
                             >
                           Login to Account
                         </button>
-                        
+                        <p id="loginError"></p>
                     </div>
                 </form>
 

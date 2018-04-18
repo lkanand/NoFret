@@ -45,24 +45,17 @@ router.route('/auth')
 
 router.route('/users')
 
-  .post((req, res, next) => {
+  .post((req, res) => {
     db.User.create(req.body)
       .then(user => {
-        console.log("then");
+        console.log(user);
         const { id, username } = user;
         res.json({
           id, username
         });
       })
       .catch(err => {
-        console.log("Error here")
-        if (err.code === 11000) {
-          res.status(400).json({
-            message: 'Username already in use.'
-          })
-        }
-
-        next(err);
+        res.json(err);
       });
   });
 
