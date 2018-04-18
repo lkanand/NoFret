@@ -42,20 +42,26 @@ module.exports = (app) => {
       });
   });
 
-  passport.use(new LocalStrategy((username, password, done) => {
-    const errorMsg = 'Invalid username or password';
-
-    db.User.findOne({ username })
-      .then(user => {
-        if (!user) {
-          return done(null, false, { message: errorMsg });
-        }
-
-        return user.validatePassword(password)
-          .then(isMatch => done(null, isMatch ? user : false, isMatch ? null : { message: errorMsg }));
-      })
-      .catch(done);
-  }));
+passport.use(new LocalStrategy(
+  {
+    usernameField: "username"
+  },
+  function(username, password, done) {
+    db.User.findOne({
+      username: username
+    }).then(function(dbUser){
+      console.log(dbUser);
+      if(!dbUser) {
+        return done(null, false, "user");
+      }
+      else if(dbUser.password !== password)
+        return done(null, false, "password");
+      else {
+        return done(null, dbUser, "correct");
+      }
+    });
+  }
+));
 
 
   app.use(passport.initialize());

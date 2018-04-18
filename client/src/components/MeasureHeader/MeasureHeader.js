@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./MeasureHeader.css";
+import axios from 'axios';
 
 class MeasureHeader extends Component {
 	constructor(props) {
@@ -7,10 +8,15 @@ class MeasureHeader extends Component {
 		this.state = {
 			title: "",
 			titleActive: false,
+			loggedIn:props.loggedIn
 		};
 
 		this.modalFunction=props.modalFunction;
 	}
+
+	componentWillReceiveProps(props) {
+		this.state.loggedIn=props.loggedIn;
+  }
 
 	printTab = () => {
     	window.print();  
@@ -37,6 +43,25 @@ class MeasureHeader extends Component {
   		this.setState({title: event.target.value});
   	}
 
+  	triggerSaveModal = () => {
+        
+
+            let tabData={
+                title:this.state.title,
+                notes:this.props.allNotes,
+                bpm:this.state.bpm,
+                timeSig:this.state.timeSig
+            };
+
+            axios.post('api/usertabs',tabData)
+            .then(data=>{
+                console.log(data);
+            })
+            .catch(err=>{console.log(err);
+            });
+
+    }
+
 	render() {
 		let title;
 		if(this.state.titleActive === false)
@@ -49,7 +74,10 @@ class MeasureHeader extends Component {
 			<div className={this.props.editMode ? "measureHeader" : "measureHeader noClick"}>
 				<div className="saveOrPrintMeasures">
 					{title}
-					<button id="saveTab" onClick={this.modalFunction}>Save Tab</button>
+					{(this.state.loggedIn===false)
+						?<button id="saveTab" onClick={this.modalFunction}>Login to Save</button>
+						:<button id="saveTab" onClick={this.triggerSaveModal}>Save Tab</button>
+					}
 					<button id="printTab" onClick={this.printTab}>Print Tab</button>
 				</div>
 				<div className="addOrClearMeasures">
