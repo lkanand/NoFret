@@ -24,6 +24,10 @@ div .measureHeader h1{
 	visibility: hidden;
 }
 
+div .savePrint {
+	display: none;
+}
+
 div .note{
 	padding-right: 3px;
 	padding-left: 3px;

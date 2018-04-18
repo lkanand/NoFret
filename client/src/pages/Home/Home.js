@@ -206,7 +206,7 @@ class Home extends Component {
                         <span>Board Mode: </span>
                         <form name="boardMode" onChange={this.handleBoardModeChange}>
                             <input type="radio" name="mode" value="edit" defaultChecked="checked"/><label for="edit">Edit </label> 
-                            <input type="radio" name="mode" value="listen"/><label for="edit">listen </label>
+                            <input type="radio" name="mode" value="listen"/><label for="edit">Listen </label>
                         </form>
                     </div>
 
@@ -253,7 +253,7 @@ class Home extends Component {
                     <input type="number" name="timeSig" defaultValue = {this.state.timeSig} ref={(element) => {this.timeSig = element}} /><span>/ 4&nbsp;</span>
                 </div>
                 <div className = {this.state.editMode ? "" : "noClick"}>
-                    <input type="submit" value="Submit Tab Preferences" />
+                    <input type="submit" value="Change Settings" />
                 </div>
                 <div>
                     <button onClick={(event) => this.changeMode(event)}> 

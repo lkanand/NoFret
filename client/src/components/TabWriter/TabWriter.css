@@ -8,15 +8,16 @@
 
 .allMeasuresContainer button{
 	background: white;
-	color: black;
-	border: 1px solid black;
-	font-size: 15px;
+	color: #212121;
+	border: 1px solid #212121;
+	font-size: 1em;
 	text-align: center;
-	width: 100%;
+	/*width: 100%;*/
+	border-radius: 8px;
 }
 
 .allMeasuresContainer button:hover{
-	background: black;
+	background: #212121;
 	color: white;
 	cursor: pointer;
 }

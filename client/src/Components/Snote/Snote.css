@@ -8,7 +8,7 @@
 .disabledNote{
 	height: 5px;
 	width: 16px;
-	background-color: rgba(17, 196, 137, 1);
+	/*background-color: #38363d;*/
 	margin-top: 8px;
 }
 
@@ -34,7 +34,7 @@
 	margin-top: 3px;
 	width: 16px;
 	font-size: 14px;
-	background-color: rgba(17, 196, 137, 1);
+	/*background-color: #38363d;*/
 	color: white;
 	border-radius: 50%;
 	position: relative;
@@ -49,10 +49,8 @@
 }
 
 @keyframes flash-forward{
-	0% { background: rgba(17, 196, 137, 1);
-    box-shadow: none;} 
-    100% { background: rgba(17, 196, 137, 0.4);
-    box-shadow: 0px 3px 2.8vw 1px rgba(17, 196, 137, 0.2);}
+	0% { opacity: 1;} 
+    100% { opacity: .75;}
 }
 
 .flashBackward{
@@ -63,10 +61,8 @@
 }
 
 @keyframes flash-backward{
-	0% { background: rgba(17, 196, 137, 0.4);
-    box-shadow: 0px 3px 2.8vw 1px rgba(17, 196, 137, 0.2);}
-	100% { background: rgba(17, 196, 137, 1);
-    box-shadow: none;} 
+	0% { opacity: .75;}
+	100% { opacity: 1;} 
 }
 
 input{

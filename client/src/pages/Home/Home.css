@@ -10,8 +10,12 @@
 
 *::-webkit-scrollbar-thumb {
 	background-color: #212121;
-	outline: 1px solid slategrey;
 	border-left: 1px solid #333;
+}
+
+* {
+	outline: none;
+	user-select: none;
 }
 
 nav {
@@ -24,9 +28,7 @@ nav {
     align-items: center;
     padding-left: 50px;
     padding-right: 50px;
-    /*position: fixed;*/
     z-index: 200;
-    /*border-bottom: 1px solid #212121;*/
 }
 
 option {
@@ -34,16 +36,14 @@ option {
 	color: white;
 }
 
-optgroup {
-	background-color: #212121;
-}
-
 .signInDiv button {
 	background-color: rgba(0,0,0,0); 
 	color: white;
 	border: 1px solid white;
-	border-radius: 12px;
-	padding: 5px 8px; 
+	border-radius: 8px;
+	padding: 5px 8px;
+	cursor: pointer;
+	user-select: none;
 }
 
 .signInDiv button:hover {
@@ -51,7 +51,7 @@ optgroup {
 }
 
 .logo {
-	height: 80%;
+	height: 90%;
 	margin: 10px 0;
 }
 
@@ -63,7 +63,6 @@ optgroup {
 }
 
 .StBoardInfo {
-	/*padding: 30px;*/
 	padding-top: 50px;
 	padding-bottom: 63px;
 	padding-left: 30px; 
@@ -74,11 +73,11 @@ optgroup {
 }
 
 .StBoardInfo select {
-	border-radius: 12px;
+	border-radius: 8px;
 	background-color: rgba(0,0,0,0);
 	color: white;
 	height: 2em;
-	outline: 0;
+	margin-top: 5px;
 }
 
 .StTuningPegs {
@@ -99,7 +98,6 @@ optgroup {
 	background-color: #212121;
 	border: 1px solid #999;
 	color: white;
-	outline: none;
 }
 
 .tabWriterContainer{
@@ -110,10 +108,13 @@ optgroup {
 
 .tabWriterContainer input[type="number"] {
 	background-color: rgba(0,0,0,0);
-	border-radius: 12px;
+	border-radius: 8px;
 	border: 1px white solid;
 	color: white;
-	outline: none;
+}
+
+.tabWriterContainer input[name="timeSig"] {
+	width: 30px;
 }
 
 input [name="timeSig"] {
@@ -139,38 +140,34 @@ input [name="timeSig"] {
 	width: 700px;
 	display: flex;
 	justify-content: space-around;
-	border-radius: 12px;
-	margin: 0 auto; 
+	border-radius: 8px;
+	margin: 10px auto;
+	font-size: 1.2em;
 }
 
 .tabPrefDiv input[type="submit"], .tabPrefDiv button {
 	background-color: rgba(0,0,0,0);
 	color: white;
 	border: 1px solid white;
-	border-radius: 12px;
-	height: 2em;
+	border-radius: 8px;
+	height: 25.8px;
 	width: auto;
-	font-size: 11px;
+}
+
+.tabPrefDiv input[type="submit"] {
+	font-size: .8em;
 }
 
 .tabPrefDiv input[type="submit"]:hover{
-	color: black;
+	color: #212121;
 	background: white;
 	cursor: pointer;
-}
-
-.tabPrefDiv input[type="submit"]:focus{
-	outline: none;
 }
 
 .tabPrefDiv button:hover{
-	color: black;
+	color: #212121;
 	background: white;
 	cursor: pointer;
-}
-
-.tabPrefDiv button:focus{
-	outline: none;
 }
 
 .tabPrefDiv button i{
