@@ -183,3 +183,29 @@ input [name="timeSig"] {
 	font-size: 11px;
 	text-align: center;
 }
+
+.createButton{
+	margin-right: 10px;
+}
+
+.passLine{
+	margin-top: 10px;
+}
+
+.inputField{
+	margin-left: 10px;
+	width: 160px;
+	text-align: left;
+}
+
+.buttonBox{
+	margin-top: 30px;
+}
+
+.userLine, .passLine{
+	padding-left: 10px;
+}
+
+.Modal-modal-0-1-3{
+	padding: 40px !important;
+}
