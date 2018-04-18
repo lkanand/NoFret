@@ -47,7 +47,13 @@ optgroup {
 }
 
 .signInDiv button:hover {
-	background-color: rgba(0,0,0,.1);
+	background: white;
+	color: #212121;
+	cursor: pointer;
+}
+
+.signInDiv button:focus{
+	outline: none;
 }
 
 .logo {
