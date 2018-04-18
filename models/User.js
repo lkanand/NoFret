@@ -9,10 +9,16 @@ const UserSchema = new Schema({
     index: { unique: true }
   },
   password: {
-    type: String
-  }
+    type: String, 
+    minlength: 6
+  }, 
+  tabs: [
+  	{
+  		type: Schema.Types.ObjectId,
+  		ref: "Tab"
+  	}
+  ]
 });
-
 
 const User = mongoose.model('User', UserSchema);
 

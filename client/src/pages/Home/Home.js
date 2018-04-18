@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import Modal from 'react-responsive-modal';
 import TabWriter from "../../components/TabWriter";
+import Wrapper from "../../components/Wrapper";
 import ScaleTool from "../../components/ScaleTool";
 import MIDISounds from 'midi-sounds-react';
+import axios from 'axios';
 import "./Home.css";
 
 class Home extends Component {
@@ -15,13 +18,89 @@ class Home extends Component {
         root: 0,
         openStrings: [],
         editMode: true,
-        btnMessage: "Play"
+        btnMessage: "Play",
+        open: false,
+        username: null,
+        password: null,
+        loggedIn: false
 	}
 
     componentDidMount() {
         this.tuneStrings(this.state.tuning);
         this.midiSounds.setEchoLevel(0);
     }
+
+    //modal functions
+
+    onCloseModal = () => {
+    this.setState({ open: false });
+    };
+
+    triggerModal = () => {
+    this.setState({ open: true });
+    };
+
+    //login function
+    handleLoginChanged = (event) => {
+    this.setState({
+      [event.target.name]: event.target.value
+        });
+      }
+
+    triggerLogout = () => {
+    axios.delete('api/auth')
+    .then(user=>{
+        console.log("logged out");
+        this.setState({ loggedIn: false });
+    })
+    .catch(err => { console.log(err);
+    });
+    };
+
+  handleLogin = (event) => {
+    event.preventDefault();
+
+    const { username, password } = this.state;
+    const { history } = this.props;
+
+
+    axios.post('/api/auth', {
+      username,
+      password
+    })
+      .then(user => {
+        // if the response is successful, make them log in
+        // history.push('/login');
+        console.log("loggedin");
+        this.setState({username:"",password:"", loggedIn:true, open:false});
+      })
+      .catch(err => {
+
+        console.log(err);
+      });
+  }
+
+  createLogin = (event) => {
+    event.preventDefault();
+    console.log("got to function");
+
+    const { username, password } = this.state;
+    
+
+    axios.post('/api/users', {
+      username,
+      password
+    })
+      .then(user => {
+        console.log(" axios response");
+        console.log(user);
+        this.setState({username:"",password:"", loggedIn:true, open: false});
+      })
+      .catch(err => {
+        console.log("an error");
+      });
+  }
+  //music functions
 
     handleScaleChange = event => {
         this.setState({scaleType: event.target.value});
@@ -134,13 +213,22 @@ class Home extends Component {
     }
 
   render() {
+     const { open } = this.state;
     return (
-    <div>
+    <Wrapper>
         <nav>
             <img className="logo" src="./img/fretlogoForUse.png" alt="#"/>
-            <div className="signInDiv">
-                <button>Sign In</button>
-            </div>
+            {
+                (this.state.loggedIn === false)
+                  ? <div className="signInDiv">
+                        <button onClick={this.triggerModal}>Sign In</button>
+                    </div>
+                  : <div className="signedInDiv">
+                        <button onClick={this.triggerModal}>My Projects</button>
+                        <button onClick={this.triggerLogout}>Logout</button>
+                    </div>
+            }
+            
         </nav>
 
         <section className="StSect">
@@ -265,7 +353,51 @@ class Home extends Component {
             timeSig={this.state.timeSig} tuning={this.state.tuning}/>
         </div>
         <MIDISounds ref={(ref) => (this.midiSounds = ref)} instruments={[275]} /> 
-    </div>
+    
+        <div>
+        <Modal className="loginModal" open={open} onClose={this.onCloseModal} little>
+        {
+            (this.state.loggedIn === false)
+            
+               ? <form className="loginForm">
+                    <div className="userLine"><label className="loginLabel">Username</label></div>
+                        <input
+                            className="inputField"
+                            type="text"
+                            value={this.state.username}
+                            onChange={this.handleLoginChanged}
+                            name="username"
+                          />
+                    <div className="passLine"><label className="loginLabel">Password</label></div>
+                        <input
+                            className="inputField"
+                            type="password"
+                            value={this.state.password}
+                            onChange={this.handleLoginChanged}
+                            name="password"
+                          />
+                    <div className="buttonBox">
+                        <button className="createButton"
+                          disabled={!(this.state.username && this.state.password)}
+                          onClick={this.createLogin}
+                          >
+                          Create Account
+                        </button>
+                        <button 
+                            disabled={!(this.state.username && this.state.password)}
+                            onClick={this.handleLogin}
+                            >
+                          Login to Account
+                        </button>
+                        
+                    </div>
+                </form>
+
+            : <div>Projects go here</div>
+            }
+        </Modal>
+      </div>
+    </Wrapper>
     );
     }
 };
