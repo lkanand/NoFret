@@ -6,6 +6,7 @@
 	height: 35px;
 	box-sizing: border-box;
 	font-weight: normal; 
+	cursor: pointer;
 }
 
 .titleSavePrint {
@@ -39,8 +40,9 @@
 	width: 50px;
 	font-size: 1.3em;
 	padding: 2px;
-	border: 0;
+	max-height: 35.45px
 }
+
 
 #saveTab {
 	margin-right: 10px;
@@ -57,6 +59,12 @@
 	width: auto;
 	margin-bottom: 10px;
 	margin-right: 10px;
+	height: 30px;
+}
+
+.measureButtonContainer button {
+	width: 30px;
+	height: 30px;
 }
 
 

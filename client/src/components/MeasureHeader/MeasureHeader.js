@@ -46,7 +46,9 @@ class MeasureHeader extends Component {
 		return ( 
 			<div className={this.props.editMode ? "measureHeader" : "measureHeader noClick"}>
 				<div className="titleSavePrint">
-					{title}
+					<div className="tabTitleDiv">
+						{title}
+					</div>
 					<div className="savePrint">
 						<button id="saveTab"><i class="fas fa-cloud-upload-alt"></i></button>
 						<button id="printTab" onClick={this.printTab}><i class="fas fa-print"></i></button>
@@ -54,7 +56,7 @@ class MeasureHeader extends Component {
 				</div>
 				<div className="addOrClearMeasures">
 					<button id="addMeasure" onClick={this.props.addMeasure}>Add Measure</button>
-          			<button id="clearMeasures" onClick={this.props.clearAllMeasures}>Clear All Measures</button>
+          			<button id="clearMeasures" onClick={this.props.clearAllMeasures}>Reset</button>
 				</div>
 			</div>
 	

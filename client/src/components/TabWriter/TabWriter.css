@@ -3,21 +3,23 @@
 	width: 1200px;
 	margin: 0 auto 30px auto;
 	padding-bottom: 13px;
+	box-shadow: -18px 22px 40px -15px #212121;
 }
 
 .allMeasuresContainer button{
-	background: white;
-	color: #212121;
-	border: 1px solid #212121;
+	color: white;
+	/*border: 1px solid transparent;*/
 	font-size: 1em;
 	text-align: center;
 	/*width: 100%;*/
 	border-radius: 8px;
+	background: #212121;
+	border: 0;
 }
 
 .allMeasuresContainer button:hover{
-	background: #212121;
 	color: white;
+    background: linear-gradient(to right, #993333, #212121);
 	cursor: pointer;
 }
 

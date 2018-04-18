@@ -12,8 +12,8 @@ const WTWrapper = props => {
 				<Beat measureIndex = {"m"+index} arrayOfBeats = {element} {...other} />
 			</div>
 			<div className = "measureButtonContainer">
-				<button onClick = {() => clearIndividualMeasure(index+1)}>Clear</button>
-				<button onClick = {() => deleteIndividualMeasure(index+1)}>Delete</button>
+				<button onClick = {() => clearIndividualMeasure(index+1)}><i class="fas fa-eraser"></i></button>
+				<button onClick = {() => deleteIndividualMeasure(index+1)}><i class="fas fa-trash-alt"></i></button>
 			</div>
 		</div>
 	);
