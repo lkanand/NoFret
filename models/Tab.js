@@ -5,8 +5,7 @@ const TabSchema = new Schema({
   title: {
     type: String
   },
-  notes: {
-  },
+  notes: [],
   bpm: {
     type: Number,
     min: 1,

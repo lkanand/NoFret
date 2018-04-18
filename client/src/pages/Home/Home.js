@@ -49,13 +49,13 @@ class Home extends Component {
       }
 
     triggerLogout = () => {
-    axios.delete('api/auth')
-    .then(user=>{
-        console.log("logged out");
-        this.setState({ loggedIn: false });
-    })
-    .catch(err => { console.log(err);
-    });
+        axios.delete('api/auth')
+        .then(user=>{
+            console.log("logged out");
+            this.setState({ username:"",password:"",loggedIn: false });
+        })
+        .catch(err => { console.log(err);
+        });
     }
 
   handleLogin = (event) => {
@@ -68,8 +68,6 @@ class Home extends Component {
       password
     })
       .then(user => {
-        // if the response is successful, make them log in
-        // history.push('/login');
         console.log("loggedin");
         this.setState({loggedIn:true, open:false});
       })
@@ -79,29 +77,34 @@ class Home extends Component {
       });
   }
 
-  createLogin = (event) => {
-    event.preventDefault();
-    document.getElementById("loginError").innerHTML = "";
+    createLogin = (event) => {
+        event.preventDefault();
+        document.getElementById("loginError").innerHTML = "";
 
-    const { username, password } = this.state;
-    
+        const { username, password } = this.state;
+        
 
-    axios.post('/api/users', {
-      username,
-      password
-    })
-      .then(response => {
-        console.log(response);
-        if(response.data.hasOwnProperty("errors"))
-            document.getElementById("loginError").innerHTML = response.data.message.split(":")[2].substr(1);
-        else if(response.data.hasOwnProperty("code") && response.data.code === 11000)
-            document.getElementById("loginError").innerHTML = "An account with that email already exists";
-        else         
-            this.setState({loggedIn:true, open: false});
-      })
-      .catch(err => {
-        console.log(err);
-      });
+        axios.post('/api/users', {
+          username,
+          password
+        }).then(response => {
+            if(response.data.hasOwnProperty("errors"))
+                document.getElementById("loginError").innerHTML = response.data.message.split(":")[2].substr(1);
+            else if(response.data.hasOwnProperty("code") && response.data.code === 11000)
+                document.getElementById("loginError").innerHTML = "An account with that email already exists";
+            else {         
+                this.setState({loggedIn:true, open: false});
+                this.handleLogin();
+            }
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
+  //saving
+
+  saveTabs=()=>{
+    console.log("save some tabs");
   }
   //music functions
 
@@ -227,6 +230,7 @@ class Home extends Component {
                         <button onClick={this.triggerModal}>Sign In</button>
                     </div>
                   : <div className="signedInDiv">
+                        <div className="currentUserBox">Logged in as {this.state.username}</div>
                         <button onClick={this.triggerModal}>My Projects</button>
                         <button onClick={this.triggerLogout}>Logout</button>
                     </div>
@@ -352,8 +356,8 @@ class Home extends Component {
                     </button>
                 </div>
             </form>
-    		<TabWriter openstrings={this.state.openStrings} midi={this.midiSounds} bpm={this.state.bpm} editMode={this.state.editMode} 
-            timeSig={this.state.timeSig} tuning={this.state.tuning}/>
+            <TabWriter openstrings={this.state.openStrings} modalFunction={this.triggerModal} loggedIn={this.state.loggedIn} midi={this.midiSounds} bpm={this.state.bpm} editMode={this.state.editMode} timeSig={this.state.timeSig} tuning={this.state.tuning}/>
+            
         </div>
         <MIDISounds ref={(ref) => (this.midiSounds = ref)} instruments={[275]} /> 
     
