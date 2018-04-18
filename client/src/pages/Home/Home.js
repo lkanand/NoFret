@@ -205,8 +205,8 @@ class Home extends Component {
                     <div>
                         <span>Board Mode: </span>
                         <form name="boardMode" onChange={this.handleBoardModeChange}>
-                            <input type="radio" name="mode" value="edit" defaultChecked="checked"/><span>Edit </span> 
-                            <input type="radio" name="mode" value="listen"/><span>Listen </span>
+                            <input type="radio" name="mode" value="edit" defaultChecked="checked"/><label for="edit">Edit </label> 
+                            <input type="radio" name="mode" value="listen"/><label for="edit">listen </label>
                         </form>
                     </div>
 

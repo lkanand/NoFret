@@ -3,6 +3,16 @@ import "./Snote.css";
 
 class Snote extends Component {
 
+	componentDidMount(props) {
+		console.log("========");
+		console.log(this.props);
+	}
+
+	componentWillReceiveProps(props) {
+		console.log("========");
+		console.log(props);
+	}
+
 	focus(input) {
 		if(input !== null && this.props.activeNoteId === "") {
 			input.focus();
