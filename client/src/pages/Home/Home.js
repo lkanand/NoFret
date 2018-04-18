@@ -34,11 +34,11 @@ class Home extends Component {
 
     onCloseModal = () => {
     this.setState({ open: false });
-    };
+    }
 
     triggerModal = () => {
     this.setState({ open: true });
-    };
+    }
 
     //login function
     handleLoginChanged = (event) => {
@@ -55,7 +55,7 @@ class Home extends Component {
     })
     .catch(err => { console.log(err);
     });
-    };
+    }
 
   handleLogin = (event) => {
     event.preventDefault();
