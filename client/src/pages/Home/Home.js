@@ -51,7 +51,7 @@ class Home extends Component {
     axios.delete('api/auth')
     .then(user=>{
         console.log("logged out");
-        this.setState({ loggedIn: false });
+        this.setState({ username:"",password:"",loggedIn: false });
     })
     .catch(err => { console.log(err);
     });
@@ -72,7 +72,7 @@ class Home extends Component {
         // if the response is successful, make them log in
         // history.push('/login');
         console.log("loggedin");
-        this.setState({username:"",password:"", loggedIn:true, open:false});
+        this.setState({loggedIn:true, open:false});
       })
       .catch(err => {
 
@@ -94,7 +94,7 @@ class Home extends Component {
       .then(user => {
         console.log(" axios response");
         console.log(user);
-        this.setState({username:"",password:"", loggedIn:true, open: false});
+        this.setState({loggedIn:true, open: false});
       })
       .catch(err => {
         console.log("an error");
@@ -224,6 +224,7 @@ class Home extends Component {
                         <button onClick={this.triggerModal}>Sign In</button>
                     </div>
                   : <div className="signedInDiv">
+                        <div className="currentUserBox">Logged in as {this.state.username}</div>
                         <button onClick={this.triggerModal}>My Projects</button>
                         <button onClick={this.triggerLogout}>Logout</button>
                     </div>
@@ -349,7 +350,7 @@ class Home extends Component {
                     </button>
                 </div>
             </form>
-    		<TabWriter openstrings={this.state.openStrings} midi={this.midiSounds} bpm={this.state.bpm} editMode={this.state.editMode} 
+    		<TabWriter openstrings={this.state.openStrings} midi={this.midiSounds} modalFunction={this.triggerModal} bpm={this.state.bpm} editMode={this.state.editMode} 
             timeSig={this.state.timeSig} tuning={this.state.tuning}/>
         </div>
         <MIDISounds ref={(ref) => (this.midiSounds = ref)} instruments={[275]} /> 

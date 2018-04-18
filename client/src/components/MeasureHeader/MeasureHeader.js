@@ -8,6 +8,8 @@ class MeasureHeader extends Component {
 			title: "",
 			titleActive: false,
 		};
+
+		this.modalFunction=props.modalFunction;
 	}
 
 	printTab = () => {
@@ -47,7 +49,7 @@ class MeasureHeader extends Component {
 			<div className={this.props.editMode ? "measureHeader" : "measureHeader noClick"}>
 				<div className="saveOrPrintMeasures">
 					{title}
-					<button id="saveTab">Save Tab</button>
+					<button id="saveTab" onClick={this.modalFunction}>Save Tab</button>
 					<button id="printTab" onClick={this.printTab}>Print Tab</button>
 				</div>
 				<div className="addOrClearMeasures">
