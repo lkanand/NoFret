@@ -24,7 +24,7 @@ nav {
     align-items: center;
     padding-left: 50px;
     padding-right: 50px;
-    position: fixed;
+    /*position: fixed;*/
     z-index: 200;
     /*border-bottom: 1px solid #212121;*/
 }
