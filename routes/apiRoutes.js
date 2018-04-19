@@ -93,28 +93,28 @@ router.route('/users')
 router.route('/usertabs')
 
   .get((req, res) => {
-   db.Tab
-   .find(req.query)
+   db.User
+   .findOne({_id:req.session.passport.user}).populate("tabs")
    .then(data=>res.json(data))
    .catch(err=>res.status(422).json(err));
   })
 
   .post((req, res) => {
-    console.log(req.session.passport);
-    console.log(req.body);
     db.Tab
     .create(req.body)
     .then(data=>{
-      console.log(data);
-      // db.User
-      // .update({_id:req}),{
-      //   $push:{
-      //     tabs:data._id
-      //   }
-      // }
-    })
-    .then(data2=>console.log(data2))
-    .catch(err=>console.log(err));
+      console.log("here");
+      console.log(req.session.passport.user);
+      console.log("---");
+      console.log(data._id);
+      db.User.update({_id:req.session.passport.user},{
+        $push:{
+          tabs:data._id
+        }
+      }).catch(err=>console.log(err));
+    
+      console.log("success");
+    }).catch(err=>console.log(err));
 
   })
 
@@ -128,6 +128,17 @@ router.route('/usertabs')
       }))
       .catch(err=>console.log(err));
   });
+
+  router.route('/onetab')
+
+    .get((req, res) => {
+     db.User
+     .findOne({_id:req.tabId})
+     .then(data=>res.json(data))
+     .catch(err=>res.status(422).json(err));
+    })
+
+
 
 
 module.exports = router;

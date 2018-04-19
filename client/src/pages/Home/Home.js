@@ -22,7 +22,9 @@ class Home extends Component {
         open: false,
         username: null,
         password: null,
-        loggedIn: false
+        loggedIn: false,
+        projects:[],
+        tabId:""
 	}
 
     componentDidMount() {
@@ -41,6 +43,41 @@ class Home extends Component {
         
     }
 
+    populateProjects = () => {
+        this.setState({ open: true });
+
+        axios.get('api/usertabs')
+      .then(res =>{
+        console.log(res);
+        const tablist=[];
+        let cleanTitle="";
+        res.data.tabs.map(tabob=>{
+            if (tabob.title===""){
+                cleanTitle="Untitled";
+            }
+            else{
+                cleanTitle=tabob.title;
+            }
+
+            
+            let tempArray={
+                id:tabob.id,
+                title:cleanTitle,
+                bpm:tabob.bpm,
+                timeSig:tabob.timeSig
+            }
+            tablist.push(tempArray);
+        });
+        this.setState({projects:tablist});
+      })
+      .catch(err => console.log(err));
+  };
+
+      callTab=(id,beat,time)=>{
+        this.setState({open: false,tabId:id,bpm:beat,timeSig:time});
+        document.getElementById("tabFormBPM").value=beat;
+        document.getElementById("tabFormTimeSig").value=time;
+        }
 
 
     //login function
@@ -93,18 +130,13 @@ class Home extends Component {
     })
       .then(user => {
         console.log(user);
-        this.handleLogin();
+        this.setState({loggedIn:true, open:false});
       })
       .catch(err => {
         console.log("an error");
       });
   }
 
-  //saving
-
-  saveTabs=()=>{
-    console.log("save some tabs");
-  }
   //music functions
 
     handleScaleChange = event => {
@@ -217,6 +249,8 @@ class Home extends Component {
         this.setState({editMode:tempMode, btnMessage:tempMsg});
     }
 
+    
+
   render() {
      const { open } = this.state;
     return (
@@ -230,7 +264,7 @@ class Home extends Component {
                     </div>
                   : <div className="signedInDiv">
                         <div className="currentUserBox">Logged in as {this.state.username}</div>
-                        <button onClick={this.triggerModal}>My Projects</button>
+                        <button onClick={this.populateProjects}>My Projects</button>
                         <button onClick={this.triggerLogout}>Logout</button>
                     </div>
             }
@@ -340,11 +374,11 @@ class Home extends Component {
             <form onSubmit = {(event) => this.submitTabForm(event)} className = "tabPrefDiv">
                 <div className = {this.state.editMode ? "" : "noClick"}>
                     <span>&nbsp;Tempo: &nbsp;&nbsp;</span>
-                    <input type="number" name="bpm" defaultValue = {this.state.bpm} ref={(element) => {this.bpm = element}} /><span>BPM </span>
+                    <input type="number" id="tabFormBPM" name="bpm" defaultValue = {this.state.bpm} ref={(element) => {this.bpm = element}} /><span>BPM </span>
                 </div>
                 <div className = {this.state.editMode ? "" : "noClick"}>
                     <span>&nbsp;&nbsp;Time Sig: &nbsp;</span>
-                    <input type="number" name="timeSig" defaultValue = {this.state.timeSig} ref={(element) => {this.timeSig = element}} /><span>/ 4&nbsp;</span>
+                    <input type="number" id="tabFormTimeSig" name="timeSig" defaultValue = {this.state.timeSig} ref={(element) => {this.timeSig = element}} /><span>/ 4&nbsp;</span>
                 </div>
                 <div className = {this.state.editMode ? "" : "noClick"}>
                     <input type="submit" value="Submit Tab Preferences" />
@@ -355,7 +389,7 @@ class Home extends Component {
                     </button>
                 </div>
             </form>
-            <TabWriter openstrings={this.state.openStrings} modalFunction={this.triggerModal} loggedIn={this.state.loggedIn} midi={this.midiSounds} bpm={this.state.bpm} editMode={this.state.editMode} timeSig={this.state.timeSig} tuning={this.state.tuning}/>
+            <TabWriter openstrings={this.state.openStrings} tabId={this.state.tabId} modalFunction={this.triggerModal} loggedIn={this.state.loggedIn} midi={this.midiSounds} bpm={this.state.bpm} editMode={this.state.editMode} timeSig={this.state.timeSig} tuning={this.state.tuning}/>
             
         </div>
         <MIDISounds ref={(ref) => (this.midiSounds = ref)} instruments={[275]} /> 
@@ -399,7 +433,22 @@ class Home extends Component {
                     </div>
                 </form>
 
-            : <div>Projects go here</div>
+            : <div>My Projects
+                <ol>
+                 {
+                    this.state.projects.map(proj=>{
+                        return(
+                            <div>
+                            <li>
+                            <span onClick={()=>this.callTab(proj.id, proj.bpm, proj.timeSig)} key= {proj.id} id={proj.id}>
+                                {proj.title}</span>
+                                <button>X</button></li>
+                            </div>
+                            );
+                    })
+                }
+                    </ol>
+                </div>
             }
         </Modal>
       </div>
