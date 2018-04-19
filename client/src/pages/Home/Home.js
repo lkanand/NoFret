@@ -452,7 +452,7 @@ class Home extends Component {
         <MIDISounds ref={(ref) => (this.midiSounds = ref)} instruments={[275]} /> 
     
         <div>
-        <Modal id="loginModal" open={open} onClose={this.onCloseModal} little>
+        <Modal className="loginModal" open={open} onClose={this.onCloseModal} little>
         {
             (this.state.loggedIn === false)
             
