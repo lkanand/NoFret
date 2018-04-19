@@ -32,6 +32,7 @@
 
 .note * {
 	box-sizing: border-box;
+	transform: scale(1.2);
 }
 
 .enteredNote{
