@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-
+const bcrypt = require('bcryptjs');
 
 const UserSchema = new Schema({
   username: {
@@ -26,16 +26,35 @@ UserSchema.path('username').validate(function(email) {
 }, "Not a valid email");
 
 UserSchema.path('password').validate(function(password) {
-  return password.length > 5;
-}, "Password must be at least six characters");
+  return password.length > 5 && password.length < 16;
+}, "Password must be between 6 and 15 characters");
 
-UserSchema.methods.validatePassword = function(candidatePassword) {
+UserSchema.pre('save', function(next) {
+  const user = this;
+  if(!user.isModified('password'))
+    return next();
+
+  bcrypt.genSalt(10, function(err, salt){
+    if(err)
+      return next(err);
+
+    bcrypt.hash(user.password, salt, function(err, hash){
+      if(err)
+        return next(err);
+
+      user.password = hash;
+
+      next();
+    });
+  });
+});
+
+UserSchema.methods.validatePassword = function (candidatePassword) {
   return new Promise((resolve, reject) => {
-    if(candidatePassword === this.password) {
-      resolve(true);
-    }
-    else
-      resolve(false);
+    bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
+      if (err) return reject(err);
+      resolve(isMatch);
+    });
   });
 };
 

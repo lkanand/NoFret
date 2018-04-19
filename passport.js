@@ -6,7 +6,7 @@ const db = require('./models');
 
 module.exports = (app) => {
 
-    app.use(cookieparser());
+  app.use(cookieparser());
   app.use(session({
     secret: 'keyboard cat',
     resave: false,
@@ -50,7 +50,7 @@ module.exports = (app) => {
           return done(null, false, "user");
         }
         else
-          return dbUser.validatePassword(password).then(isMatch => {console.log(isMatch); done(null, isMatch ? true : false, isMatch ? null : "password")});
+          return dbUser.validatePassword(password).then(isMatch => done(null, isMatch ? true : false, isMatch ? null : "password"));
       }).catch(done);
     }
   ));
