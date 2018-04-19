@@ -253,7 +253,7 @@ class Home extends Component {
     return (
     <Wrapper>
         <nav>
-            <img className="logo" src="./img/fretlogoForUse.png" alt="#"/>
+            <img className="logo" src="./img/fretlogo4recolor.png" alt="#"/>
             {
                 (this.state.loggedIn === false)
                   ? <div className="signInDiv">
@@ -378,7 +378,7 @@ class Home extends Component {
                     <input type="number" id="tabFormTimeSig" name="timeSig" defaultValue = {this.state.timeSig} ref={(element) => {this.timeSig = element}} /><span>/ 4&nbsp;</span>
                 </div>
                 <div className = {this.state.editMode ? "" : "noClick"}>
-                    <input type="submit" value="Submit Tab Preferences" />
+                    <input type="submit" value="Commit Changes" />
                 </div>
                 <div>
                     <button onClick={(event) => this.changeMode(event)}> 
