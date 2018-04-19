@@ -9,6 +9,7 @@ class MeasureHeader extends Component {
 			title: "",
 			titleActive: false,
 			loggedIn:props.loggedIn
+			tabId:props.tabId
 		};
 
 		this.modalFunction=props.modalFunction;
@@ -16,6 +17,7 @@ class MeasureHeader extends Component {
 
 	componentWillReceiveProps(props) {
 		this.state.loggedIn=props.loggedIn;
+		this.state.tabId=props.tabId;
   }
 
 	printTab = () => {
@@ -49,13 +51,13 @@ class MeasureHeader extends Component {
             let tabData={
                 title:this.state.title,
                 notes:this.props.allNotes,
-                bpm:this.state.bpm,
-                timeSig:this.state.timeSig
+                bpm:this.props.bpm,
+                timeSig:this.props.timeSig
             };
 
             axios.post('api/usertabs',tabData)
             .then(data=>{
-                console.log(data);
+                console.log("voila");
             })
             .catch(err=>{console.log(err);
             });

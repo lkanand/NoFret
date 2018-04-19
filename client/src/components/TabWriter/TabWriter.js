@@ -3,6 +3,7 @@ import NoteSelector from "../NoteSelector";
 import WTWrapper from "../WTWrapper";
 import Wrapper from "../Wrapper";
 import MeasureHeader from "../MeasureHeader";
+import axios from 'axios';
 import "./TabWriter.css";
 
 const notes = ["sixtyfourth", "thirtysecond", "sixteenth", "eighth", "quarter", "half", "whole"];
@@ -24,7 +25,8 @@ class TabWriter extends Component {
       pressedUporDown: false,
       editMode: props.editMode,
       instrument: 275,
-      timeSig: props.timeSig
+      timeSig: props.timeSig,
+      tabId: props.tabId
     };
 
     this.modalFunction=props.modalFunction;
@@ -58,6 +60,40 @@ class TabWriter extends Component {
 
     if(props.timeSig !== this.state.timeSig) {
       this.modifyMeasureArrays(props.timeSig, this.state.timeSig);
+    }
+
+    if(this.state.tabId !== props.tabId) {
+      if(props.tabId === "") {
+        this.clearAllMeasures();
+      }
+      else {
+        axios.get('api/oneTab',)
+        .then(res =>{
+          console.log(res);
+          const tablist=[];
+          let cleanTitle="";
+          res.data.tabs.map(tabob=>{
+              if (tabob.title===""){
+                  cleanTitle="Untitled";
+              }
+              else{
+                  cleanTitle=tabob.title;
+              }
+
+              
+              let tempArray={
+                  id:tabob.id,
+                  title:cleanTitle,
+                  bpm:tabob.bpm,
+                  timeSig:tabob.timeSig
+              }
+              tablist.push(tempArray);
+          });
+          this.setState({projects:tablist});
+        })
+        .catch(err => console.log(err));
+
+        }
     }
 
     this.setState({openStrings: props.openstrings, editMode: props.editMode, timeSig: props.timeSig});
@@ -575,7 +611,7 @@ class TabWriter extends Component {
       <Wrapper>
         <NoteSelector notes = {notes} selectedNoteType = {this.state.noteType} setNoteType = {this.setNoteType}/>
         <div className="allMeasuresContainer">
-          <MeasureHeader allNotes={this.state.allNotes} modalFunction={this.modalFunction} loggedIn={this.props.loggedIn} editMode={this.state.editMode} allNotes={this.state.allNotes} bpm={this.props.bpm} timeSig={this.state.timeSig} 
+          <MeasureHeader tabId={this.props.tabId} allNotes={this.state.allNotes} modalFunction={this.modalFunction} loggedIn={this.props.loggedIn} editMode={this.state.editMode} allNotes={this.state.allNotes} bpm={this.props.bpm} timeSig={this.state.timeSig} 
           tuning={this.props.tuning} addMeasure={this.addMeasure} clearAllMeasures={this.clearAllMeasures}/>
           {(this.state.editMode===true)?(
           	   <WTWrapper allNotes={this.state.allNotes} noteClick={this.noteClick}
