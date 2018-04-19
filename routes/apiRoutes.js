@@ -69,17 +69,13 @@ router.route('/usertabs')
     db.Tab
     .create(req.body)
     .then(data=>{
-      console.log("here");
-      console.log(req.session.passport.user);
-      console.log("---");
-      console.log(data._id);
       db.User.update({_id:req.session.passport.user},{
         $push:{
           tabs:data._id
         }
       }).catch(err=>console.log(err));
     
-      console.log("success");
+      res.json(data);
     }).catch(err=>console.log(err));
 
   })
