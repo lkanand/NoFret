@@ -67,12 +67,20 @@ class Home extends Component {
       username,
       password
     })
-      .then(user => {
-        console.log("loggedin");
-        this.setState({loggedIn:true, open:false});
+      .then(info => {
+        document.getElementById("loginError").innerHTML = "";
+        console.log("info is crap");
+        console.log(info);
+        if(info === "error")
+            document.getElementById("loginError").innerHTML = "Sorry.There was a login error";
+        else if(info === "user")
+            document.getElementById("loginError").innerHTML = "We could not find that username";
+        else if(info === "password")
+            document.getElementById("That password is incorrect");
+        else
+            this.setState({loggedIn:true, open:false});
       })
       .catch(err => {
-
         console.log(err);
       });
   }
@@ -93,7 +101,6 @@ class Home extends Component {
             else if(response.data.hasOwnProperty("code") && response.data.code === 11000)
                 document.getElementById("loginError").innerHTML = "An account with that email already exists";
             else {         
-                this.setState({loggedIn:true, open: false});
                 this.handleLogin();
             }
         }).catch(err => {

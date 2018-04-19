@@ -26,14 +26,21 @@ router.route('/auth')
   })
 
   .post(passport.authenticate('local'), (req, res) => {
+    console.log("hello");
     console.log(req);
-    if (!req.user) {
-      return res.status(401).json({
-        message: 'Invalid username or password.'
-      })
-    }
-
-    getCurrentUser(req, res);
+    console.log(req.user);
+    /*if(error)
+      return res.json("error");
+    else if(user === false)
+      return res.json(info);
+    else {
+      req.login(user, function(err){
+        if(err)
+          return res.json("error");
+        else
+          return res.json(info);
+      });
+    }*/
   })
 
   .delete((req, res) => {
@@ -42,7 +49,7 @@ router.route('/auth')
     res.json({
       message: 'You have been logged out.'
     });
-  });
+  })
 
 router.route('/users')
 
@@ -57,29 +64,6 @@ router.route('/users')
       })
       .catch(err => {
         res.json(err);
-      });
-  });
-
-  router.route('/users')
-
-  .post((req, res, next) => {
-    db.User.create(req.body)
-      .then(user => {
-        console.log("then");
-        const { id, username } = user;
-        res.json({
-          id, username
-        });
-      })
-      .catch(err => {
-        console.log("Error here")
-        if (err.code === 11000) {
-          res.status(400).json({
-            message: 'Username already in use.'
-          })
-        }
-
-        next(err);
       });
   });
 

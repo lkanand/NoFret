@@ -29,6 +29,16 @@ UserSchema.path('password').validate(function(password) {
   return password.length > 5;
 }, "Password must be at least six characters");
 
+UserSchema.methods.validatePassword = function(candidatePassword) {
+  return new Promise((resolve, reject) => {
+    if(candidatePassword === this.password) {
+      resolve(true);
+    }
+    else
+      resolve(false);
+  });
+};
+
 const User = mongoose.model('User', UserSchema);
 
 module.exports = User;
