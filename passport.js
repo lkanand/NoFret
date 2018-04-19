@@ -6,7 +6,7 @@ const db = require('./models');
 
 module.exports = (app) => {
 
-    app.use(cookieparser());
+  app.use(cookieparser());
   app.use(session({
     secret: 'keyboard cat',
     resave: false,
@@ -42,27 +42,18 @@ module.exports = (app) => {
       });
   });
 
-passport.use(new LocalStrategy(
-  {
-    usernameField: "username"
-  },
-  function(username, password, done) {
-    db.User.findOne({
-      username: username
-    }).then(function(dbUser){
-      console.log(dbUser);
-      if(!dbUser) {
-        return done(null, false, "user");
-      }
-      else if(dbUser.password !== password)
-        return done(null, false, "password");
-      else {
-        return done(null, dbUser, "correct");
-      }
-    });
-  }
-));
-
+  passport.use(new LocalStrategy((username, password, done) => {
+      db.User.findOne({
+        username: username
+      }).then(function(dbUser){
+        if(!dbUser) {
+          return done(null, false, "user");
+        }
+        else
+          return dbUser.validatePassword(password).then(isMatch => done(null, isMatch ? true : false, isMatch ? null : "password"));
+      }).catch(done);
+    }
+  ));
 
   app.use(passport.initialize());
 

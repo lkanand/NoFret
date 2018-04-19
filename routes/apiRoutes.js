@@ -5,8 +5,6 @@ const db = require('../models');
 const mustBeLoggedIn = require('../shared/middleware/mustBeLoggedIn');
 
 function getCurrentUser(req, res) {
-  console.log("get current user");
-
   const { id, username } = req.user;
   res.json({
     id, username
@@ -14,7 +12,6 @@ function getCurrentUser(req, res) {
 }
 
 router.route('/auth')
-
   .get((req, res) => {
     if (!req.user) {
       return res.status(401).json({
@@ -26,11 +23,10 @@ router.route('/auth')
   })
 
   .post(passport.authenticate('local'), (req, res) => {
-    console.log(req);
-    if (!req.user) {
+    if(!req.user) {
       return res.status(401).json({
         message: 'Invalid username or password.'
-      })
+      });
     }
 
     getCurrentUser(req, res);
@@ -42,79 +38,49 @@ router.route('/auth')
     res.json({
       message: 'You have been logged out.'
     });
-  });
+  })
 
 router.route('/users')
 
-  .post((req, res, next) => {
+  .post((req, res) => {
     db.User.create(req.body)
       .then(user => {
-        console.log("then");
         const { id, username } = user;
         res.json({
           id, username
         });
       })
       .catch(err => {
-        console.log("Error here")
-        if (err.code === 11000) {
-          res.status(400).json({
-            message: 'Username already in use.'
-          })
-        }
-
-        next(err);
-      });
-  });
-
-  router.route('/users')
-
-  .post((req, res, next) => {
-    db.User.create(req.body)
-      .then(user => {
-        console.log("then");
-        const { id, username } = user;
-        res.json({
-          id, username
-        });
-      })
-      .catch(err => {
-        console.log("Error here")
-        if (err.code === 11000) {
-          res.status(400).json({
-            message: 'Username already in use.'
-          })
-        }
-
-        next(err);
+        console.log("caught an error");
+        res.json(err);
       });
   });
 
 router.route('/usertabs')
 
   .get((req, res) => {
-   db.Tab
-   .find(req.query)
+   db.User
+   .findOne({_id:req.session.passport.user}).populate("tabs")
    .then(data=>res.json(data))
    .catch(err=>res.status(422).json(err));
   })
 
   .post((req, res) => {
-    console.log(req.session.passport);
-    console.log(req.body);
     db.Tab
     .create(req.body)
     .then(data=>{
-      console.log(data);
-      // db.User
-      // .update({_id:req}),{
-      //   $push:{
-      //     tabs:data._id
-      //   }
-      // }
-    })
-    .then(data2=>console.log(data2))
-    .catch(err=>console.log(err));
+      console.log("here");
+      console.log(req.session.passport.user);
+      console.log("---");
+      console.log(data._id);
+      db.User.update({_id:req.session.passport.user},{
+        $push:{
+          tabs:data._id
+        }
+      }).catch(err=>console.log(err));
+    
+      console.log("success");
+    }).catch(err=>console.log(err));
 
   })
 
@@ -128,6 +94,18 @@ router.route('/usertabs')
       }))
       .catch(err=>console.log(err));
   });
+
+  router.route('/onetab')
+
+    .get((req, res) => {
+      console.log(req.params);
+     db.Tab
+     .findOne({_id:req.body.tabId})
+     .then(data=>res.json(data))
+     .catch(err=>res.status(422).json(err));
+    });
+
+
 
 
 module.exports = router;

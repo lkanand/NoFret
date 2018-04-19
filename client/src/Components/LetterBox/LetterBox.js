@@ -19,7 +19,7 @@ class LetterBox extends Component {
 
 	setNotes = (stringVals) => {
 		let openNotes = [];
-		stringVals.map(string => {
+		stringVals.forEach(string => {
 			const note = string%12;
 			if (note === 0) {
 				openNotes.push("C");
@@ -53,9 +53,9 @@ class LetterBox extends Component {
 	render() {
     	return (
 			<div className="chordLetters">
-		        {this.state.openNotes.map(note => {
+		        {this.state.openNotes.map((note, index) => {
 		          return (
-					<div className="letter">{note}</div>
+					<div key={index} className="letter">{note}</div>
 		          );
 		        })}
 			</div>
