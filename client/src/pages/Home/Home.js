@@ -397,6 +397,8 @@ class Home extends Component {
             (this.state.loggedIn === false)
             
                ? <form className="loginForm">
+                    <div><img className="modalLogo" src="./img/fretlogo4recolor.png" alt="#"/></div>
+                    <div className="userInfoDiv">
                     <div className="userLine"><label className="loginLabel">Email</label></div>
                         <input
                             className="inputField"
@@ -418,15 +420,16 @@ class Home extends Component {
                           disabled={!(this.state.username && this.state.password)}
                           onClick={(event) => this.createLogin(event)}
                           >
-                          Create Account
+                          Sign Up
                         </button>
-                        <button 
+                        <button className="signInButton"
                             disabled={!(this.state.username && this.state.password)}
                             onClick={(event) => this.handleLogin(event)}
                             >
-                          Login to Account
+                          Sign In
                         </button>
                         <p id="loginError"></p>
+                    </div>
                     </div>
                 </form>
 
