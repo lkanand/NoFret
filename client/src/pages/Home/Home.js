@@ -314,7 +314,7 @@ class Home extends Component {
                         <button onClick={this.triggerModal}>Sign In</button>
                     </div>
                   : <div className="signedInDiv">
-                        <div className="currentUserBox">Logged in as {this.state.username}</div>
+                        <span className="currentUserBox">Welcome, {this.state.username}</span>
                         <button onClick={this.populateProjects}>My Projects</button>
                         <button onClick={this.triggerLogout}>Logout</button>
                     </div>
@@ -452,7 +452,7 @@ class Home extends Component {
             (this.state.loggedIn === false)
             
                ? <form className="loginForm">
-                    <div><img className="modalLogo" src="./img/fretlogo4recolor.png" alt="#"/></div>
+                    <div className="logoDiv"><img className="modalLogo" src="./img/fretlogo4recolor.png" alt="#"/></div>
                     <div className="userInfoDiv">
                     <div className="userLine"><label className="loginLabel">Email</label></div>
                         <input
@@ -484,12 +484,13 @@ class Home extends Component {
                             >
                           Sign In
                         </button>
-                        <p id="loginError"></p>
                     </div>
+                        <p id="loginError"></p>
                     </div>
                 </form>
 
-            : <div>My Projects
+            : <div className="savedTabs"><div className="titleTabs"><h3>Saved Tabs</h3></div>
+                <div className="listBox">
                 <ol>
                  {
                     this.state.projects.map((proj, index)=>{
@@ -498,12 +499,13 @@ class Home extends Component {
                             <li>
                             <span onClick={()=>this.callTab(proj.id, proj.bpm, proj.timeSig)} id={proj.id}>
                                 {proj.title}</span>
-                                <button onClick={() => this.unsaveTab(proj.id)}>X</button></li>
+                                <button onClick={() => this.unsaveTab(proj.id)}><i class="far fa-trash-alt"></i></button></li>
                             </div>
                             );
                     })
                 }
                     </ol>
+                    </div>
                 </div>
             }
         </Modal>

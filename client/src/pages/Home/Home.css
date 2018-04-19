@@ -43,7 +43,11 @@ option {
 	color: white;
 }
 
-.signInDiv button {
+.signedInDiv{
+	text-align: center;
+	color: white;
+}
+.signInDiv button,.signedInDiv button {
 	background-color: rgba(0,0,0,0); 
 	color: white;
 	border: 1px solid white;
@@ -53,13 +57,17 @@ option {
 	user-select: none;
 }
 
-.signInDiv button:hover {
+.signedInDiv button {
+	margin:8px;
+}
+
+.signInDiv button:hover,.signedInDiv button:hover {
 	background: white;
 	color: #212121;
 	cursor: pointer;
 }
 
-.signInDiv button:focus{
+.signInDiv button:focus,.signedInDiv button:focus{
 	outline: none;
 }
 
@@ -155,7 +163,6 @@ input [name="timeSig"] {
 
 .tabPrefDiv {
 	padding: 20px;
-	/*background-color: rgba(33,33,33,.3);*/
 	width: 700px;
 	display: flex;
 	justify-content: space-around;
@@ -199,8 +206,8 @@ input [name="timeSig"] {
 }
 
 .userInfoDiv {
+	margin-top: 20px;
 	width: 100%;
-	display: flex;
 	align-items: center;
 	flex-direction: column;
 }
@@ -212,8 +219,7 @@ input [name="timeSig"] {
 }
 
 .inputField{
-	/*margin-left: 10px;*/
-	width: 80%;
+	width: 100%;
 	border-radius: 8px;
 	outline: none;
 	font-size: .9em;
@@ -224,18 +230,15 @@ input [name="timeSig"] {
 
 .buttonBox {
 	width: 100%;
-	margin-top: 10px;
+	margin-top: 30px;
 	display: flex;
 	justify-content: space-around;
 }
 
-/*.buttonBox{
-	margin-top: 30px;
-}*/
 
-/*.userLine, .passLine{
-	padding-left: 10px;
-}*/
+.userLine, .passLine{
+	padding-left: 5px;
+}
 
 .Modal-modal-0-1-3{
 	padding: 40px !important;
@@ -243,6 +246,7 @@ input [name="timeSig"] {
 	width: 400px;
 	display: flex;
 	justify-content: center;
+	height:270px;
 }
 
 .buttonBox button {
@@ -277,7 +281,60 @@ input [name="timeSig"] {
 	text-align: center;
 }
 
+.logoDiv{
+	background-color: #212121;
+	width:200%;
+	text-align: center;
+	border-radius: 5px;
+}
+
+.savedTabs{
+	width:80%;
+}
+
+.listBox{
+	margin-top: 5px;
+	height:200px;
+	display:flex;
+	flex-direction: column;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+.titleTabs{
+	background-color: #212121;
+	color:white;
+	width:100%;
+	text-align: center;
+	border-radius: 5px;
+	height:83px;
+	padding-top: 1px;
+	
+}
+
+.titleTabs h3{
+	margin-top: 5px;
+	filter: drop-shadow(0 0 6px #993333);
+	font-size: 54px;
+}
+
 .modalLogo {
 	max-width: 200px;
-	filter: drop-shadow(0 0 6px #212121);
+	filter: drop-shadow(0 0 6px #993333);
+}
+
+li{
+	width:100%;
+	display: flex;
+	justify-content: space-between;
+	margin-top: 1px;
+}
+
+
+li button{
+	color: white;
+	font-size: .6em;
+	text-align: center;
+	border-radius: 8px;
+	background: #212121;
+	border: 0;
 }
