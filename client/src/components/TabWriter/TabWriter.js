@@ -65,31 +65,21 @@ class TabWriter extends Component {
     if(this.state.tabId !== props.tabId) {
       if(props.tabId === "") {
         this.clearAllMeasures();
+        this.setState({tabId: props.tabId});
       }
       else {
-        axios.get('api/oneTab',)
+        console.log("correct bracket");
+        this.setState({tabId: props.tabId});
+        console.log(this.state.tabId);
+        console.log(props.tabId);
+        let idOb={
+          tabId:props.tabId
+        };
+        console.log(idOb);
+        axios.get('api/onetab',idOb)
         .then(res =>{
+          console.log("return");
           console.log(res);
-          const tablist=[];
-          let cleanTitle="";
-          res.data.tabs.map(tabob=>{
-              if (tabob.title===""){
-                  cleanTitle="Untitled";
-              }
-              else{
-                  cleanTitle=tabob.title;
-              }
-
-              
-              let tempArray={
-                  id:tabob.id,
-                  title:cleanTitle,
-                  bpm:tabob.bpm,
-                  timeSig:tabob.timeSig
-              }
-              tablist.push(tempArray);
-          });
-          this.setState({projects:tablist});
         })
         .catch(err => console.log(err));
 

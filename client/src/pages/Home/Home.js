@@ -48,7 +48,6 @@ class Home extends Component {
 
         axios.get('api/usertabs')
       .then(res =>{
-        console.log(res);
         const tablist=[];
         let cleanTitle="";
         res.data.tabs.map(tabob=>{
@@ -61,7 +60,7 @@ class Home extends Component {
 
             
             let tempArray={
-                id:tabob.id,
+                id:tabob._id,
                 title:cleanTitle,
                 bpm:tabob.bpm,
                 timeSig:tabob.timeSig
@@ -74,7 +73,7 @@ class Home extends Component {
   };
 
       callTab=(id,beat,time)=>{
-        this.setState({open: false,tabId:id,bpm:beat,timeSig:time});
+        this.setState({open: false, tabId:id, bpm:beat, timeSig:time });
         document.getElementById("tabFormBPM").value=beat;
         document.getElementById("tabFormTimeSig").value=time;
         }
