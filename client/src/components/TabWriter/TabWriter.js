@@ -64,22 +64,14 @@ class TabWriter extends Component {
 
     if(this.state.tabId !== props.tabId) {
       if(props.tabId === "") {
-        this.clearAllMeasures();
+        this.clearAllMeasures(props.timeSig);
         this.setState({tabId: props.tabId});
       }
       else {
-        console.log("correct bracket");
         this.setState({tabId: props.tabId});
-        console.log(this.state.tabId);
-        console.log(props.tabId);
-        let idOb={
-          tabId:props.tabId
-        };
-        console.log(idOb);
-        axios.get('api/onetab',idOb)
+        axios.get('api/onetab/'+props.tabId)
         .then(res =>{
-          console.log("return");
-          console.log(res);
+          this.setState({allNotes: res.data.notes})
         })
         .catch(err => console.log(err));
 
@@ -95,20 +87,20 @@ class TabWriter extends Component {
 
   addMeasure = () => {
     let tempArr=this.state.allNotes;
-    let newMeasure = this.createMeasure(this.state.measureNumber);
+    let newMeasure = this.createMeasure(this.state.measureNumber, this.state.timeSig);
     tempArr.push(newMeasure);
     let counter = this.state.measureNumber;
     counter++;
     this.setState({allNotes:tempArr, measureNumber:counter});
   }
 
-  clearAllMeasures = () => {
-    let newMeasure = this.createMeasure(1);
+  clearAllMeasures = (timeSig) => {
+    let newMeasure = this.createMeasure(1, timeSig);
     this.setState({allNotes: [newMeasure], measureNumber: 2});
   }
 
   clearIndividualMeasure = (measureNumber) => {
-    let blankMeasure = this.createMeasure(measureNumber);
+    let blankMeasure = this.createMeasure(measureNumber, this.state.timeSig);
     let tempArr = this.state.allNotes;
     tempArr[measureNumber - 1] = blankMeasure;
     this.setState({allNotes: tempArr});
@@ -128,16 +120,16 @@ class TabWriter extends Component {
       }
     }
     else 
-      tempArr = [this.createMeasure(1)];
+      tempArr = [this.createMeasure(1, this.state.timeSig)];
 
     let newMeasureNumber = Math.max(2, this.state.measureNumber - 1);
 
     this.setState({allNotes: tempArr, measureNumber: newMeasureNumber});
   }
 
-  createMeasure = (measureNumber) => {
+  createMeasure = (measureNumber, currentTimeSig) => {
     let mArray=[];
-    for(let j=1;j<this.state.timeSig+1;j++){
+    for(let j=1;j<currentTimeSig+1;j++){
       let bArray=this.createNewBeat(measureNumber, j);
       mArray.push(bArray);
     }
