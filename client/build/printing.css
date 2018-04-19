@@ -1,0 +1,39 @@
+body * {
+	visibility: hidden;
+}
+
+.allMeasuresContainer * {
+	visibility: visible;
+	-webkit-print-color-adjust: exact;
+}
+
+.allMeasuresContainer button{
+	visibility: hidden;
+}
+
+div .allMeasuresContainer{
+	position: absolute;
+	top: -20px;
+	left: -70px;
+}
+
+div .measureHeader h1{
+	margin-left: 70px;
+	font-size: 60px;
+}
+
+.noTabTitle{
+	visibility: hidden;
+}
+
+div .savePrint {
+	display: none;
+}
+
+.allMeasuresContainer {
+    padding-left: -1000px;
+}
+
+div .measureButtonContainer {
+	display: none;
+}
