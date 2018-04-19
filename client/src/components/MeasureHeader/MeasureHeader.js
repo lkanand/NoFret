@@ -95,10 +95,10 @@ class MeasureHeader extends Component {
 					</div>
 					<div className="savePrint">
 						{(this.state.loggedIn===false)
-							?<button id="saveTab" onClick={this.modalFunction}><i class="fas fa-cloud-upload-alt"></i></button>
-							:<button id="saveTab" onClick={this.triggerSaveModal}><i class="fas fa-cloud-upload-alt"></i></button>
+							?<button id="saveTab" onClick={this.modalFunction}><i className="fas fa-cloud-upload-alt"></i></button>
+							:<button id="saveTab" onClick={this.triggerSaveModal}><i className="fas fa-cloud-upload-alt"></i></button>
 						}
-						<button id="printTab" onClick={this.printTab}><i class="fas fa-print"></i></button>
+						<button id="printTab" onClick={this.printTab}><i className="fas fa-print"></i></button>
 					</div>
 				</div>
 				<div className="addOrClearMeasures">
