@@ -149,6 +149,10 @@ input [name="timeSig"] {
 	pointer-events: none;
 }
 
+.displayNone{
+	display: none;
+}
+
 .tabPrefDiv {
 	padding: 20px;
 	/*background-color: rgba(33,33,33,.3);*/

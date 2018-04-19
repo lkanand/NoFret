@@ -18,17 +18,17 @@ class MeasureHeader extends Component {
 	componentWillReceiveProps(props) {
 		this.setState({loggedIn:props.loggedIn});
 		
-		if(this.state.tabId !== props.tabId)
+		if(this.state.tabId !== props.tabId) {
       		this.setState({tabId:props.tabId});
-
-      	if(props.tabId === "")
-      		this.setState({title: "", titleActive: false});
-      	else {
-      		let that = this;
-		    axios.get('api/onetab/'+props.tabId)
-		    .then(res =>that.setState({title: res.data.title, titleActive: false}))
-		    .catch(err => console.log(err));
-	    }
+      		if(props.tabId === "")
+      			this.setState({title: "", titleActive: false});
+      		else {
+      			let that = this;
+		    	axios.get('api/onetab/'+props.tabId)
+		    	.then(res =>that.setState({title: res.data.title, titleActive: false}))
+		    	.catch(err => console.log(err));
+	    	}
+		}
   	}
 
 	printTab = () => {
@@ -43,7 +43,8 @@ class MeasureHeader extends Component {
   		});
   	}
 
-  	closeTitleForm = () => {
+  	closeTitleForm = (event) => {
+  		event.preventDefault();
   		this.setState({titleActive: false});
   	}
 
@@ -53,38 +54,16 @@ class MeasureHeader extends Component {
   	}
 
   	handleTitleChange = (event) => {
+  		event.preventDefault();
   		this.setState({title: event.target.value});
   	}
-
-  	triggerSaveModal = () => {        
-        let tabData={
-            title:this.state.title,
-            notes:this.props.allNotes,
-            bpm:this.props.bpm,
-            timeSig:this.props.timeSig
-        };
-
-  		if(this.state.tabId === "") {
-            axios.post('api/usertabs',tabData)
-            .then(data=>{
-            }).catch(err=>{
-            	console.log(err);
-            });
-        }
-        else {
-        	axios.put('api/onetab/'+this.state.tabId,tabData).then(data=>{
-        	}).catch(err => {
-        		console.log(err);
-        	});
-        }
-    }
 
 	render() {
 		let title;
 		if(this.state.titleActive === false)
 			title = <h1 className = {this.state.title === "" ? "noTabTitle" : ""} onClick={() => this.openTitleForm()}>{this.state.title === "" ? "Click to Enter Title" : this.state.title}</h1>
 		else
-			title = <form onSubmit={(event) => this.submitTitleForm(event)} onBlur={this.closeTitleForm}>
+			title = <form onSubmit={(event) => this.submitTitleForm(event)} onBlur={(event) => this.closeTitleForm(event)}>
 				<input id="tabTitle" onChange={(event) => this.handleTitleChange(event)} value={this.state.title}/>
 			</form>	
 		return ( 
@@ -95,15 +74,16 @@ class MeasureHeader extends Component {
 					</div>
 					<div className="savePrint">
 						{(this.state.loggedIn===false)
-							?<button id="saveTab" onClick={this.modalFunction}><i class="fas fa-cloud-upload-alt"></i></button>
-							:<button id="saveTab" onClick={this.triggerSaveModal}><i class="fas fa-cloud-upload-alt"></i></button>
+							?<button id="saveTab" onClick={this.modalFunction}><i className="fas fa-cloud-upload-alt"></i></button>
+							:<button id="saveTab" onClick={()=>this.props.triggerSaveModal(this.state.title, this.props.allNotes, this.props.bpm, this.props.timeSig)}><i className="fas fa-cloud-upload-alt"></i></button>
 						}
-						<button id="printTab" onClick={this.printTab}><i class="fas fa-print"></i></button>
+						<button id="newTab" className = {this.state.tabId === "" ? "displayNone" : ""} onClick={this.props.newTab}><i className="far fa-file"></i></button>
+						<button id="printTab" onClick={this.printTab}><i className="fas fa-print"></i></button>
 					</div>
 				</div>
 				<div className="addOrClearMeasures">
 					<button id="addMeasure" onClick={this.props.addMeasure}>Add Measure</button>
-          			<button id="clearMeasures" onClick={this.props.clearAllMeasures}>Reset</button>
+          			<button id="clearMeasures" onClick={() => this.props.clearAllMeasures(this.props.timeSig)}>Reset</button>
 				</div>
 			</div>
 	

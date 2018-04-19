@@ -32,11 +32,6 @@
     "express": "^4.16.3",
     "express-session": "^1.15.6",
     "mongoose": "^5.0.12",
-<<<<<<< HEAD
-    "morgan": "^1.9.0",
-    "node-pre-gyp": "^0.9.1",
-=======
->>>>>>> 003ea17efa5a07c9ed887d085d5b31fca4b0dffb
     "passport": "^0.4.0",
     "passport-local": "^1.0.0"
   },
