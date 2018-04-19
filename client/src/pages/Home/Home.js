@@ -452,7 +452,7 @@ class Home extends Component {
         <MIDISounds ref={(ref) => (this.midiSounds = ref)} instruments={[275]} /> 
     
         <div>
-        <Modal className="loginModal" open={open} onClose={this.onCloseModal} little>
+        <Modal id="loginModal" open={open} onClose={this.onCloseModal} little>
         {
             (this.state.loggedIn === false)
             
@@ -496,9 +496,10 @@ class Home extends Component {
 
             : <div className="savedTabs"><div className="titleTabs"><h3>Saved Tabs</h3></div>
                 <div className="listBox">
-                <ol>
-                 {
-                    this.state.projects.map((proj, index)=>{
+                {
+                    (this.state.projects.length>0)
+                 ?<ol>
+                    {this.state.projects.map((proj, index)=>{
                         return(
                             <div key={index}>
                             <li>
@@ -507,9 +508,11 @@ class Home extends Component {
                                 <button onClick={() => this.unsaveTab(proj.id)}><i class="far fa-trash-alt"></i></button></li>
                             </div>
                             );
-                    })
-                }
+                    })}
                     </ol>
+                :<h6> No Projects Yet! Let's start tab writing</h6>
+                
+                    }
                     </div>
                 </div>
             }
