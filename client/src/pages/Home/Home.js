@@ -31,6 +31,11 @@ class Home extends Component {
 	}
 
     componentDidMount() {
+        const that = this;
+        axios.post("/loginCheck").then(response => {
+            if(response.data.login === true)
+                that.setState({loggedIn: true, username: response.data.username});
+        });
         this.tuneStrings(this.state.tuning);
         this.midiSounds.setEchoLevel(0);
     }

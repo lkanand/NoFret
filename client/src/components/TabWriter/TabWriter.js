@@ -563,8 +563,10 @@ class TabWriter extends Component {
       elementToLight.classList.remove("flashBackward");
       elementToLight.classList.add("flashForward");
       let that = this;
-      let timeoutFunction = setTimeout(that.toRemoveFlash(elementToLight), 1000*duration*(60 / that.props.bpm) / 16);
-      timeouts.push(timeoutFunction);
+      if(duration < 16*this.props.timeSig*(this.state.measureNumber - 1)) {
+        let timeoutFunction = setTimeout(that.toRemoveFlash(elementToLight), 1000*duration*(60 / that.props.bpm) / 16);
+        timeouts.push(timeoutFunction);
+      }
     }
   }
 
