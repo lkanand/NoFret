@@ -8,7 +8,7 @@ class MeasureHeader extends Component {
 		this.state = {
 			title: "",
 			titleActive: false,
-			loggedIn:props.loggedIn
+			loggedIn:props.loggedIn,
 			tabId:props.tabId
 		};
 
@@ -16,8 +16,23 @@ class MeasureHeader extends Component {
 	}
 
 	componentWillReceiveProps(props) {
-		this.state.loggedIn=props.loggedIn;
-		this.state.tabId=props.tabId;
+		this.setState({loggedIn:props.loggedIn});
+		
+		// if(this.state.tabId !== props.tabId) {
+  //     		this.setState({tabId:props.tabId});
+	 //        console.log("measureHeader");
+	 //        let idOb={
+	 //          tabId:props.tabId
+	 //        };
+	 //        axios.get('api/onetab',idOb)
+	 //        .then(res =>{
+	 //          console.log("return");
+	 //          console.log(res);
+	 //        })
+	 //        .catch(err => console.log(err));
+
+	 //        }
+
   }
 
 	printTab = () => {

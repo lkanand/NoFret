@@ -132,11 +132,12 @@ router.route('/usertabs')
   router.route('/onetab')
 
     .get((req, res) => {
-     db.User
-     .findOne({_id:req.tabId})
+      console.log(req.params);
+     db.Tab
+     .findOne({_id:req.body.tabId})
      .then(data=>res.json(data))
      .catch(err=>res.status(422).json(err));
-    })
+    });
 
 
 
