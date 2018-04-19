@@ -18,18 +18,16 @@ class MeasureHeader extends Component {
 	componentWillReceiveProps(props) {
 		this.setState({loggedIn:props.loggedIn});
 		
-		if(this.state.tabId !== props.tabId) {
+		if(this.state.tabId !== props.tabId)
       		this.setState({tabId:props.tabId});
-	        console.log("measureHeader");
-	        let idOb={
-	          tabId:props.tabId
-	        };
-	        axios.get('api/onetab',idOb)
-	        .then(res =>{
-	          console.log("return");
-	          console.log(res);
-	        })
-	        .catch(err => console.log(err));
+
+      	if(props.tabId === "")
+      		this.setState({title: "", titleActive: false});
+      	else {
+      		let that = this;
+		    axios.get('api/onetab/'+props.tabId)
+		    .then(res =>that.setState({title: res.data.title, titleActive: false}))
+		    .catch(err => console.log(err));
 	    }
   	}
 
@@ -58,23 +56,27 @@ class MeasureHeader extends Component {
   		this.setState({title: event.target.value});
   	}
 
-  	triggerSaveModal = () => {
-        
+  	triggerSaveModal = () => {        
+        let tabData={
+            title:this.state.title,
+            notes:this.props.allNotes,
+            bpm:this.props.bpm,
+            timeSig:this.props.timeSig
+        };
 
-            let tabData={
-                title:this.state.title,
-                notes:this.props.allNotes,
-                bpm:this.props.bpm,
-                timeSig:this.props.timeSig
-            };
-
+  		if(this.state.tabId === "") {
             axios.post('api/usertabs',tabData)
             .then(data=>{
-                console.log("voila");
-            })
-            .catch(err=>{console.log(err);
+            }).catch(err=>{
+            	console.log(err);
             });
-
+        }
+        else {
+        	axios.put('api/onetab/'+this.state.tabId,tabData).then(data=>{
+        	}).catch(err => {
+        		console.log(err);
+        	});
+        }
     }
 
 	render() {

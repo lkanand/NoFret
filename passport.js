@@ -47,10 +47,10 @@ module.exports = (app) => {
         username: username
       }).then(function(dbUser){
         if(!dbUser) {
-          return done(null, false, "user");
+          return done(null, false, {message: "Invalid username or password"});
         }
         else
-          return dbUser.validatePassword(password).then(isMatch => done(null, isMatch ? true : false, isMatch ? null : "password"));
+          return dbUser.validatePassword(password).then(isMatch => done(null, isMatch ? dbUser : false, isMatch ? null : {message: "Invalid username or password"}));
       }).catch(done);
     }
   ));

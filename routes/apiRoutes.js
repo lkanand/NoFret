@@ -54,7 +54,7 @@ router.route('/users')
         console.log("caught an error");
         res.json(err);
       });
-  });
+  })
 
 router.route('/usertabs')
 
@@ -84,26 +84,33 @@ router.route('/usertabs')
 
   })
 
-  .delete((req, res) => {
-     db.Tab
-      .remove({ _id: req.body.tabId })
-      .then(data => db.User.update({_id:req.body.userid},{
-        $pull:{
-          tabs:req.body.tabId
-        }
-      }))
-      .catch(err=>console.log(err));
-  });
-
-  router.route('/onetab')
+  router.route('/onetab/:tabId')
 
     .get((req, res) => {
       console.log(req.params);
      db.Tab
-     .findOne({_id:req.body.tabId})
+     .findOne({_id:req.params.tabId})
      .then(data=>res.json(data))
      .catch(err=>res.status(422).json(err));
-    });
+    })
+
+    .put((req, res) => {
+      db.Tab.update({_id: req.params.tabId}, {
+        $set: req.body
+      }).catch(err=>res.json(err));
+    })
+
+    .delete((req, res) => {
+      db.Tab
+      .remove({ _id: req.params.tabId })
+      .then(data => { 
+        db.User.update({_id:req.session.passport.user},{
+          $pull:{
+            tabs:req.params.tabId
+          }
+        }).then(tab=>res.json(tab)).catch(err=>res.json(err));
+      }).catch(err=>res.json(err));
+    })
 
 
 

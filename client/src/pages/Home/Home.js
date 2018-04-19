@@ -36,7 +36,9 @@ class Home extends Component {
 
     onCloseModal = () => {
     this.setState({ open: false, username: "", password: ""});
-    document.getElementById("loginError").innerHTML = "";
+    let element = document.getElementById("loginError");
+    if(element !== null)
+        element.innerHTML = "";
     }
 
     triggerModal = () => {
@@ -47,7 +49,7 @@ class Home extends Component {
         this.setState({ open: true });
 
         axios.get('api/usertabs')
-      .then(res =>{
+        .then(res =>{
         const tablist=[];
         let cleanTitle="";
         res.data.tabs.forEach(tabob=>{
@@ -96,6 +98,8 @@ class Home extends Component {
 
   handleLogin = (event) => {
     event.preventDefault();
+    document.getElementById("loginError").innerHTML = "";
+
     const { username, password } = this.state;
 
     axios.post('/api/auth', {
@@ -125,8 +129,7 @@ class Home extends Component {
                 document.getElementById("loginError").innerHTML = response.data.message.split(":")[2].substr(1);
             else if(response.data.hasOwnProperty("code") && response.data.code === 11000)
                 document.getElementById("loginError").innerHTML = "An account with that email already exists";
-            else {
-                console.log("we made it!");         
+            else {         
                 this.handleLogin(event);
             }
         }).catch(err => {
@@ -246,7 +249,24 @@ class Home extends Component {
         this.setState({editMode:tempMode, btnMessage:tempMsg});
     }
 
-    
+    //database functions
+    unsaveTab = (tabId) => {
+        axios.delete("/api/onetab/"+tabId).then(tab => {
+            let projectsCopy = this.state.projects;
+            for(var i = 0; i < projectsCopy.length; i++) {
+                if(projectsCopy[i].id === tabId)
+                    projectsCopy.splice(i, 1);
+            }
+
+            if(tabId !== this.state.tabId)
+                this.setState({projects: projectsCopy});
+            else {
+                document.getElementById("tabFormBPM").value=120;
+                document.getElementById("tabFormTimeSig").value=4;
+                this.setState({projects: projectsCopy, tabId: "", bpm: 120, timeSig: 4});
+            }
+        }).catch(err=>console.log(err));
+    }
 
   render() {
      const { open } = this.state;
@@ -433,13 +453,13 @@ class Home extends Component {
             : <div>My Projects
                 <ol>
                  {
-                    this.state.projects.map(proj=>{
+                    this.state.projects.map((proj, index)=>{
                         return(
-                            <div>
+                            <div key={index}>
                             <li>
-                            <span onClick={()=>this.callTab(proj.id, proj.bpm, proj.timeSig)} key= {proj.id} id={proj.id}>
+                            <span onClick={()=>this.callTab(proj.id, proj.bpm, proj.timeSig)} id={proj.id}>
                                 {proj.title}</span>
-                                <button>X</button></li>
+                                <button onClick={() => this.unsaveTab(proj.id)}>X</button></li>
                             </div>
                             );
                     })
