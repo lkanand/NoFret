@@ -13,10 +13,12 @@ body * {
 
 div .allMeasuresContainer{
 	position: absolute;
-	top: 0;
+	top: -20px;
+	left: -70px;
 }
 
 div .measureHeader h1{
+	margin-left: 70px;
 	font-size: 60px;
 }
 
@@ -24,24 +26,12 @@ div .measureHeader h1{
 	visibility: hidden;
 }
 
-div .note{
-	padding-right: 3px;
-	padding-left: 3px;
-	width: 8px;
+div .savePrint {
+	display: none;
 }
 
-div .disabledNote{
-	width: 14px;
-}
-
-div .disabledNoteBox{
-	width: 14px;
-}
-
-div .enteredNote{
-	width: 16px;
-	position: relative;
-	left: -4px;
+.allMeasuresContainer {
+    padding-left: -1000px;
 }
 
 div .measureButtonContainer {
