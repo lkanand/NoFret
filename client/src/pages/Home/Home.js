@@ -260,7 +260,7 @@ class Home extends Component {
     //database functions
     triggerSaveModal = (title, notes, bpm, timeSig) => {        
         let tabData={
-            title, notes, bpm, timeSig
+            title, notes: notes, bpm, timeSig
         };
         let that = this;
 

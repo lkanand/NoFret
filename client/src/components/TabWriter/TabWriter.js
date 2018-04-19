@@ -71,7 +71,7 @@ class TabWriter extends Component {
         this.setState({tabId: props.tabId});
         axios.get('api/onetab/'+props.tabId)
         .then(res =>{
-          this.setState({allNotes: res.data.notes})
+          this.setState({allNotes: res.data.notes});
         })
         .catch(err => console.log(err));
       }

@@ -7,7 +7,8 @@ const app = express();
 
 
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: true, limit: "50mb"}));
+app.use(bodyParser({limit: "50mb"}));
 app.use(bodyParser.json());
 
 
