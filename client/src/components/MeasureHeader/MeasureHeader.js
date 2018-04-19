@@ -18,17 +18,19 @@ class MeasureHeader extends Component {
 	componentWillReceiveProps(props) {
 		this.setState({loggedIn:props.loggedIn});
 		
-		if(this.state.tabId !== props.tabId)
+		if(this.state.tabId !== props.tabId){
       		this.setState({tabId:props.tabId});
+		
 
-      	if(props.tabId === "")
-      		this.setState({title: "", titleActive: false});
-      	else {
-      		let that = this;
-		    axios.get('api/onetab/'+props.tabId)
-		    .then(res =>that.setState({title: res.data.title, titleActive: false}))
-		    .catch(err => console.log(err));
-	    }
+	      	if(props.tabId === "")
+	      		this.setState({title: "", titleActive: false});
+	      	else {
+	      		let that = this;
+			    axios.get('api/onetab/'+props.tabId)
+			    .then(res =>that.setState({title: res.data.title, titleActive: false}))
+			    .catch(err => console.log(err));
+		    }
+		}
   	}
 
 	printTab = () => {
