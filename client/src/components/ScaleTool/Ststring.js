@@ -67,7 +67,7 @@ class Ststring extends (Component) {
                 <div className="StFrets">
                 {this.state.allNotes.map((notevalue, index) => {
                   return (  
-					<Stfret key={"strval"+this.props.stringvalue+"fret"+index} value={notevalue} midi={this.props.midi} boardmode={this.props.boardstate.mode} scaleRoot={this.props.boardstate.root} scaleType={this.props.boardstate.scaleType} stringvalue={this.props.stringvalue}/>
+					<Stfret key={"strval"+this.props.stringvalue+"fret"+index} value={notevalue} midi={this.props.midi} boardmode={this.props.boardstate.mode} scaleRoot={this.props.boardstate.root} scaleType={this.props.boardstate.scaleType} stringvalue={this.props.stringvalue} tone={this.props.boardstate.tone}/>
                   );
                 })}
                 </div>

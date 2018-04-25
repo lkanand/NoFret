@@ -478,7 +478,7 @@ class TabWriter extends Component {
           let notesToPlay = [];
           for(let m = 0; m < 6; m++) {
             if(notes[i][j][m][k].note !== "") {
-              let instrumentNote = [this.state.instrument, [notes[i][j][m][k].note],notes[i][j][m][k].duration, "down"];
+              let instrumentNote = [this.props.tone, [notes[i][j][m][k].note],notes[i][j][m][k].duration, "down"];
               notesToPlay.push(instrumentNote);
             }
           }

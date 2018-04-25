@@ -30,6 +30,7 @@
 }
 
 .StSect {
+	padding-top: 100px;
 	display: flex;
 	flex-wrap: nowrap;
 	box-shadow: 0 1px 18px 0 #212121;
