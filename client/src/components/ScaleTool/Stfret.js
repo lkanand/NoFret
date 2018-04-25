@@ -10,13 +10,13 @@ class Stfret extends (Component) {
 			scaleRel: "",
 			hide: false,
 			note: "",
-			octave: 0,
-			instrument: 275
+			octave: 0
 		};
 	};
 
 	componentDidMount() {
 		this.setScaleVals(this.props.scaleRoot, this.props.scaleType);
+		
 	};
 
 	handleClick = () => {
@@ -30,7 +30,8 @@ class Stfret extends (Component) {
 		}
 		// listen mode
 		if (this.props.boardmode === "listen" && this.state.hide === false) {
-			this.props.midi.playChordNow(this.state.instrument, [this.props.value], .5);
+			this.props.midi.playChordNow(this.props.tone, [this.props.value], .5);
+			console.log(this.props.tone);
 		}
 	}
 
@@ -65,7 +66,6 @@ class Stfret extends (Component) {
 		this.fretInit(this.props.value, newScaleValues);
 	};
 
-	// something in this is not updating "fast" enough 
 	fretInit = (value, scale) => {
 		this.setState({scaleRel: " "})
 		const note = value%12;
@@ -118,7 +118,6 @@ class Stfret extends (Component) {
 		return (
 			<div className="fretSect" onClick={this.handleClick.bind(this)}>
                	<div className={this.state.hide ? 'stFret hideFret '+this.state.note : 'stFret showFret '+this.state.scaleRel+' '+this.state.note}>
-               {/*these do not change*/}
                {this.state.note}{this.state.octave}
               	</div>	
 			</div>

@@ -7,18 +7,18 @@ import MIDISounds from 'midi-sounds-react';
 import axios from 'axios';
 import "./Home.css";
 
-const defaultBPM = 120;
+const defaultBPM = 90;
 const defaultTimeSig = 4;
 
 class Home extends Component {
 
 	state = {
-		scaleType: "noscale",
+		scaleType: "major",
 		bpm: defaultBPM,
         timeSig: defaultTimeSig,
-		stMode: "edit",
+		stMode: "listen",
         tuning: "standard",
-        root: 0,
+        root: 7,
         openStrings: [],
         editMode: true,
         btnMessage: "Play",
@@ -27,6 +27,7 @@ class Home extends Component {
         password: "",
         loggedIn: false,
         projects:[],
+        tone: 275,
         tabId:""
 	}
 
@@ -143,24 +144,32 @@ class Home extends Component {
         }).catch(err => {
             console.log(err);
         });
-    }
+    };
 
   //music functions
 
     handleScaleChange = event => {
         this.setState({scaleType: event.target.value});
-    }
+    };
 
     handleRootChange = event => {
         this.setState({root: parseInt(event.target.value, 10)})
-    }
+    };
+    
     handleBoardModeChange = event => {
         this.setState({stMode: event.target.value})
-    }
+    };
+    
     handleTuneChange = event => {
         this.tuneStrings(event.target.value)
         this.setState({tuning: event.target.value})
-    }
+    };
+
+    handleToneChange = event => {
+        console.log(event.target.value);
+        this.setState({tone: parseInt(event.target.value)})
+        console.log(this.state.value);
+    };
 
     submitTabForm = event => {
         event.preventDefault();
@@ -387,11 +396,20 @@ class Home extends Component {
                     </div>
                     
                     <div>
+                        <span>Guitar Tone: </span>
+                        <select name="tone" onChange={this.handleToneChange}>
+                            <option value="275">Clean</option>
+                            <option value="291">Overdriven</option>
+                            <option value="250">Accoustic</option>
+                        </select>
+                    </div>
+
+                    <div>
                         <span>Board Mode: </span>
-                        <form name="boardMode" onChange={this.handleBoardModeChange}>
-                            <input type="radio" name="mode" value="edit" defaultChecked="checked"/><label htmlFor="edit">Edit </label> 
-                            <input type="radio" name="mode" value="listen"/><label htmlFor="edit">listen </label>
-                        </form>
+                        <select name="boardMode" onChange={this.handleBoardModeChange}>
+                            <option value="listen">Listen</option>
+                            <option value="edit">Edit</option>
+                        </select>
                     </div>
 
                 </div>
@@ -424,9 +442,13 @@ class Home extends Component {
                 </div>
 
             </section>
-            <ScaleTool scaleType={this.state.scaleType} root={this.state.root} mode={this.state.stMode} openstrings={this.state.openStrings} midi={this.midiSounds}/>
+            <ScaleTool scaleType={this.state.scaleType} root={this.state.root} mode={this.state.stMode} openstrings={this.state.openStrings} midi={this.midiSounds} tone={this.state.tone}/>
         </section>
         <div className = "tabWriterContainer">
+            <div className = "twCall">
+                <h2>Tab Writer</h2>
+                <p>Try out your ideas on the page below. <br/> Enter the fret number and duration of the notes you want to play.</p>
+            </div>
             <form onSubmit = {(event) => this.submitTabForm(event)} className = "tabPrefDiv">
                 <div className = {this.state.editMode ? "" : "noClick"}>
                     <span>&nbsp;Tempo: &nbsp;&nbsp;</span>
@@ -437,7 +459,7 @@ class Home extends Component {
                     <input type="number" id="tabFormTimeSig" name="timeSig" defaultValue = {this.state.timeSig} ref={(element) => {this.timeSig = element}} /><span>/ 4&nbsp;</span>
                 </div>
                 <div className = {this.state.editMode ? "" : "noClick"}>
-                    <input type="submit" value="Commit Changes" />
+                    <input type="submit" value="Update Tab Writer" />
                 </div>
                 <div>
                     <button onClick={(event) => this.changeMode(event)}> 
@@ -446,10 +468,10 @@ class Home extends Component {
                 </div>
             </form>
             <TabWriter openstrings={this.state.openStrings} tabId={this.state.tabId} modalFunction={this.triggerModal} loggedIn={this.state.loggedIn} midi={this.midiSounds} bpm={this.state.bpm} 
-            editMode={this.state.editMode} timeSig={this.state.timeSig} tuning={this.state.tuning} newTab={this.newTab} triggerSaveModal={this.triggerSaveModal}/>
+            editMode={this.state.editMode} timeSig={this.state.timeSig} tuning={this.state.tuning} newTab={this.newTab} triggerSaveModal={this.triggerSaveModal} tone={this.state.tone}/>
             
         </div>
-        <MIDISounds ref={(ref) => (this.midiSounds = ref)} instruments={[275]} /> 
+        <MIDISounds ref={(ref) => (this.midiSounds = ref)} instruments={[291, 250, 275]} /> 
     
         <div>
         <Modal className="loginModal" open={open} onClose={this.onCloseModal} little>
