@@ -446,7 +446,7 @@ class Home extends Component {
                 </div>
             </form>
             <TabWriter openstrings={this.state.openStrings} tabId={this.state.tabId} modalFunction={this.triggerModal} loggedIn={this.state.loggedIn} midi={this.midiSounds} bpm={this.state.bpm} 
-            editMode={this.state.editMode} timeSig={this.state.timeSig} tuning={this.state.tuning} newTab={this.newTab} triggerSaveModal={this.triggerSaveModal}/>
+            editMode={this.state.editMode} timeSig={this.state.timeSig} tuning={this.state.tuning} newTab={this.newTab} triggerSaveModal={this.triggerSaveModal} changeMode={this.changeMode} />
             
         </div>
         <MIDISounds ref={(ref) => (this.midiSounds = ref)} instruments={[275]} /> 
