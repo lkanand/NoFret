@@ -19,7 +19,6 @@ class TabWriter extends Component {
       openStrings: props.openstrings,
       allNotes:[],
       measureNumber:1,
-      noteSelected: "",
       noteType: "quarter",
       activeNoteId: "",
       pressedUporDown: false,
@@ -71,7 +70,7 @@ class TabWriter extends Component {
         this.setState({tabId: props.tabId});
         axios.get('api/onetab/'+props.tabId)
         .then(res =>{
-          this.setState({allNotes: res.data.notes})
+          this.setState({allNotes: res.data.notes, measureNumber: res.data.notes.length + 1});
         })
         .catch(err => console.log(err));
       }
@@ -82,6 +81,14 @@ class TabWriter extends Component {
 
   componentDidMount(){
     this.addMeasure();
+    document.addEventListener("keydown", this.handleNumberOrSpace.bind(this));
+  }
+
+  handleNumberOrSpace = (event) => {
+    if(event.keyCode >= 49 && event.keyCode <= 55 && this.state.activeNoteId === "")
+      this.setState({noteType: notes[event.keyCode - 49]});
+    else if(event.keyCode === 32 && this.state.activeNoteId === "")
+      this.props.changeMode(event);
   }
 
   addMeasure = () => {

@@ -269,7 +269,7 @@ class Home extends Component {
     //database functions
     triggerSaveModal = (title, notes, bpm, timeSig) => {        
         let tabData={
-            title, notes, bpm, timeSig
+            title, notes: notes, bpm, timeSig
         };
         let that = this;
 
@@ -468,8 +468,7 @@ class Home extends Component {
                     </button>
                 </div>
             </form>
-            <TabWriter openstrings={this.state.openStrings} tabId={this.state.tabId} modalFunction={this.triggerModal} loggedIn={this.state.loggedIn} midi={this.midiSounds} bpm={this.state.bpm} 
-            editMode={this.state.editMode} timeSig={this.state.timeSig} tuning={this.state.tuning} newTab={this.newTab} triggerSaveModal={this.triggerSaveModal} tone={this.state.tone}/>
+            <TabWriter openstrings={this.state.openStrings} tabId={this.state.tabId} modalFunction={this.triggerModal} loggedIn={this.state.loggedIn} midi={this.midiSounds} bpm={this.state.bpm} editMode={this.state.editMode} timeSig={this.state.timeSig} tuning={this.state.tuning} newTab={this.newTab} triggerSaveModal={this.triggerSaveModal} tone={this.state.tone} changeMode={this.changeMode} />
             
         </div>
         <MIDISounds ref={(ref) => (this.midiSounds = ref)} instruments={[291, 250, 275]} /> 
@@ -500,18 +499,20 @@ class Home extends Component {
                             name="password"
                           />
                     <div className="buttonBox">
-                        <button className="createButton"
-                          disabled={!(this.state.username && this.state.password)}
-                          onClick={(event) => this.createLogin(event)}
-                          >
-                          Sign Up
-                        </button>
                         <button className="signInButton"
                             disabled={!(this.state.username && this.state.password)}
                             onClick={(event) => this.handleLogin(event)}
                             >
                           Sign In
                         </button>
+                        
+                        <button className="createButton"
+                          disabled={!(this.state.username && this.state.password)}
+                          onClick={(event) => this.createLogin(event)}
+                          >
+                          Sign Up
+                        </button>
+                        
                     </div>
                         <p id="loginError"></p>
                     </div>
@@ -519,9 +520,10 @@ class Home extends Component {
 
             : <div className="savedTabs"><div className="titleTabs"><h3>Saved Tabs</h3></div>
                 <div className="listBox">
-                <ol>
-                 {
-                    this.state.projects.map((proj, index)=>{
+                {
+                    (this.state.projects.length>0)
+                 ?<ol>
+                    {this.state.projects.map((proj, index)=>{
                         return(
                             <div key={index}>
                             <li>
@@ -530,9 +532,11 @@ class Home extends Component {
                                 <button onClick={() => this.unsaveTab(proj.id)}><i class="far fa-trash-alt"></i></button></li>
                             </div>
                             );
-                    })
-                }
+                    })}
                     </ol>
+                :<h6> No Projects Yet! Let's start tab writing</h6>
+                
+                    }
                     </div>
                 </div>
             }

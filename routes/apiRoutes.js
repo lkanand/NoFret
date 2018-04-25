@@ -93,7 +93,7 @@ router.route('/usertabs')
     .put((req, res) => {
       db.Tab.update({_id: req.params.tabId}, {
         $set: req.body
-      }).catch(err=>res.json(err));
+      }).then(data=>res.json(data)).catch(err=>res.json(err));
     })
 
     .delete((req, res) => {
