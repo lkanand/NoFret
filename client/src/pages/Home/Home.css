@@ -27,6 +27,12 @@ h2 {
 	margin-bottom: -5px;
 }
 
+h3 {
+	font-size: 1.5em;
+	font-weight: normal;
+	margin: -40px 0 10px 0;
+}
+
 .tuningPeg button:focus {
 	outline-style: inset;
 }

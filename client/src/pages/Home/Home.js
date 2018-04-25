@@ -340,6 +340,7 @@ class Home extends Component {
             <section className="StForm">
                 <div className="StBoardInfo">
                     <div>
+                        <h3>Scale Tool</h3>
                         <span>Tuning: </span>
                         <select name="tuning" onChange={this.handleTuneChange}>
                                 <option value="standard">Standard</option>
@@ -459,7 +460,7 @@ class Home extends Component {
                     <input type="number" id="tabFormTimeSig" name="timeSig" defaultValue = {this.state.timeSig} ref={(element) => {this.timeSig = element}} /><span>/ 4&nbsp;</span>
                 </div>
                 <div className = {this.state.editMode ? "" : "noClick"}>
-                    <input type="submit" value="Update Tab Writer" />
+                    <input type="submit" value="Update Tab Settings" />
                 </div>
                 <div>
                     <button onClick={(event) => this.changeMode(event)}> 
