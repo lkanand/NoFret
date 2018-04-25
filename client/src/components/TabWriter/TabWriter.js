@@ -71,11 +71,10 @@ class TabWriter extends Component {
         this.setState({tabId: props.tabId});
         axios.get('api/onetab/'+props.tabId)
         .then(res =>{
-          this.setState({allNotes: res.data.notes})
+          this.setState({allNotes: res.data.notes, measureNumber: res.data.notes.length + 1});
         })
         .catch(err => console.log(err));
-
-        }
+      }
     }
 
     this.setState({openStrings: props.openstrings, editMode: props.editMode, timeSig: props.timeSig});
@@ -564,8 +563,10 @@ class TabWriter extends Component {
       elementToLight.classList.remove("flashBackward");
       elementToLight.classList.add("flashForward");
       let that = this;
-      let timeoutFunction = setTimeout(that.toRemoveFlash(elementToLight), 1000*duration*(60 / that.props.bpm) / 16);
-      timeouts.push(timeoutFunction);
+      if(duration < 16*this.props.timeSig*(this.state.measureNumber - 1)) {
+        let timeoutFunction = setTimeout(that.toRemoveFlash(elementToLight), 1000*duration*(60 / that.props.bpm) / 16);
+        timeouts.push(timeoutFunction);
+      }
     }
   }
 
@@ -594,7 +595,7 @@ class TabWriter extends Component {
         <NoteSelector notes = {notes} selectedNoteType = {this.state.noteType} setNoteType = {this.setNoteType}/>
         <div className="allMeasuresContainer">
           <MeasureHeader tabId={this.props.tabId} allNotes={this.state.allNotes} modalFunction={this.modalFunction} loggedIn={this.props.loggedIn} editMode={this.state.editMode} bpm={this.props.bpm} timeSig={this.state.timeSig} 
-          tuning={this.props.tuning} addMeasure={this.addMeasure} clearAllMeasures={this.clearAllMeasures}/>
+          tuning={this.props.tuning} addMeasure={this.addMeasure} clearAllMeasures={this.clearAllMeasures} newTab={this.props.newTab} triggerSaveModal={this.props.triggerSaveModal}/>
           {(this.state.editMode===true)?(
           	   <WTWrapper allNotes={this.state.allNotes} noteClick={this.noteClick}
                 noteSubmit={this.noteSubmit} noteChange = {this.noteChange} setActiveNote = {this.setActiveNote} 

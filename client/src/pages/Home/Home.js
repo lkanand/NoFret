@@ -7,12 +7,15 @@ import MIDISounds from 'midi-sounds-react';
 import axios from 'axios';
 import "./Home.css";
 
+const defaultBPM = 120;
+const defaultTimeSig = 4;
+
 class Home extends Component {
 
 	state = {
 		scaleType: "noscale",
-		bpm: 120,
-        timeSig: 4,
+		bpm: defaultBPM,
+        timeSig: defaultTimeSig,
 		stMode: "edit",
         tuning: "standard",
         root: 0,
@@ -28,6 +31,11 @@ class Home extends Component {
 	}
 
     componentDidMount() {
+        const that = this;
+        axios.post("/loginCheck").then(response => {
+            if(response.data.login === true)
+                that.setState({loggedIn: true, username: response.data.username});
+        });
         this.tuneStrings(this.state.tuning);
         this.midiSounds.setEchoLevel(0);
     }
@@ -42,7 +50,7 @@ class Home extends Component {
     }
 
     triggerModal = () => {
-    this.setState({ open: true });
+        this.setState({ open: true });
     }
 
     populateProjects = () => {
@@ -90,7 +98,7 @@ class Home extends Component {
     triggerLogout = () => {
         axios.delete('api/auth')
         .then(user=>{
-            this.setState({ username:"",password:"",loggedIn: false });
+            window.location.reload();
         })
         .catch(err => { console.log(err);
         });
@@ -250,6 +258,29 @@ class Home extends Component {
     }
 
     //database functions
+    triggerSaveModal = (title, notes, bpm, timeSig) => {        
+        let tabData={
+            title, notes: notes, bpm, timeSig
+        };
+        let that = this;
+
+        if(this.state.tabId === "") {
+            console.log("about to make post request");
+            axios.post('api/usertabs',tabData)
+            .then(response=>{
+                that.setState({tabId: response.data._id});
+            }).catch(err=>{
+                console.log(err);
+            });
+        }
+        else {
+            axios.put('api/onetab/'+this.state.tabId,tabData).then(data=>{
+            }).catch(err => {
+                console.log(err);
+            });
+        }
+    }
+
     unsaveTab = (tabId) => {
         axios.delete("/api/onetab/"+tabId).then(tab => {
             let projectsCopy = this.state.projects;
@@ -261,11 +292,19 @@ class Home extends Component {
             if(tabId !== this.state.tabId)
                 this.setState({projects: projectsCopy});
             else {
-                document.getElementById("tabFormBPM").value=120;
-                document.getElementById("tabFormTimeSig").value=4;
-                this.setState({projects: projectsCopy, tabId: "", bpm: 120, timeSig: 4});
+                document.getElementById("tabFormBPM").value=defaultBPM;
+                document.getElementById("tabFormTimeSig").value=defaultTimeSig;
+                this.setState({projects: projectsCopy, tabId: "", bpm: defaultBPM, timeSig: defaultTimeSig});
             }
         }).catch(err=>console.log(err));
+    }
+
+    newTab = () => {
+        if(this.state.tabId !== "") {
+            document.getElementById("tabFormBPM").value=defaultBPM;
+            document.getElementById("tabFormTimeSig").value=defaultTimeSig;
+            this.setState({tabId: "", bpm: defaultBPM, timeSig: defaultTimeSig});
+        }
     }
 
   render() {
@@ -406,7 +445,8 @@ class Home extends Component {
                     </button>
                 </div>
             </form>
-            <TabWriter openstrings={this.state.openStrings} tabId={this.state.tabId} modalFunction={this.triggerModal} loggedIn={this.state.loggedIn} midi={this.midiSounds} bpm={this.state.bpm} editMode={this.state.editMode} timeSig={this.state.timeSig} tuning={this.state.tuning}/>
+            <TabWriter openstrings={this.state.openStrings} tabId={this.state.tabId} modalFunction={this.triggerModal} loggedIn={this.state.loggedIn} midi={this.midiSounds} bpm={this.state.bpm} 
+            editMode={this.state.editMode} timeSig={this.state.timeSig} tuning={this.state.tuning} newTab={this.newTab} triggerSaveModal={this.triggerSaveModal}/>
             
         </div>
         <MIDISounds ref={(ref) => (this.midiSounds = ref)} instruments={[275]} /> 
@@ -423,6 +463,7 @@ class Home extends Component {
                         <input
                             className="inputField"
                             type="text"
+                            id="loginFormUsername"
                             value={this.state.username}
                             onChange={this.handleLoginChanged}
                             name="username"
@@ -457,9 +498,10 @@ class Home extends Component {
 
             : <div className="savedTabs"><div className="titleTabs"><h3>Saved Tabs</h3></div>
                 <div className="listBox">
-                <ol>
-                 {
-                    this.state.projects.map((proj, index)=>{
+                {
+                    (this.state.projects.length>0)
+                 ?<ol>
+                    {this.state.projects.map((proj, index)=>{
                         return(
                             <div key={index}>
                             <li>
@@ -468,9 +510,11 @@ class Home extends Component {
                                 <button onClick={() => this.unsaveTab(proj.id)}><i class="far fa-trash-alt"></i></button></li>
                             </div>
                             );
-                    })
-                }
+                    })}
                     </ol>
+                :<h6> No Projects Yet! Let's start tab writing</h6>
+                
+                    }
                     </div>
                 </div>
             }

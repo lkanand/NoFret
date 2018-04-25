@@ -36,7 +36,7 @@
 	height: 35px;
 }
 
-#printTab, #saveTab{
+#printTab, #saveTab, #newTab{
 	width: 50px;
 	font-size: 1.3em;
 	padding: 2px;
@@ -44,7 +44,7 @@
 }
 
 
-#saveTab {
+#saveTab, #newTab {
 	margin-right: 10px;
 }
 

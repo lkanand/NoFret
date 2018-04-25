@@ -11,11 +11,6 @@ class Snote extends Component {
 		}
 	}
 
-	getNote(element) {
-		console.log("========")
-		console.log(element);
-	}
-
 	blurInput(event, thisId) {
 		this.props.noteSubmit(event, thisId);
 	}
@@ -27,7 +22,7 @@ class Snote extends Component {
 			if(element.disabled===true){
 				return (
 				<div className="disabledNoteBox" key={index} id={this.props.lineIndex+'-s'+index}>
-					<div className="disabledNote">{/*note*/}</div>
+					<div className="disabledNote"></div>
 				</div>
 				);
 				
@@ -38,7 +33,7 @@ class Snote extends Component {
 				else if (element.clicked === false&&element.value!=="")
 					elementToReturn=<div className="enteredNote">{/*note*/}{element.value}</div>;
 				else
-					elementToReturn = <form onSubmit={(e, element)=>{this.props.noteSubmit(e, {thisId}); this.getNote(element);}} className = "noteForm" onBlur={(e) => this.blurInput(e,{thisId})} > 
+					elementToReturn = <form onSubmit={(e, element)=>this.props.noteSubmit(e, {thisId})} className = "noteForm" onBlur={(e) => this.blurInput(e,{thisId})} > 
 										<input defaultValue = {element.value} ref = {(input) => {this.focus(input)}} onChange={(e)=>this.props.noteChange(e,{thisId})}
 										onKeyDown = {(e) => this.props.incOrDecDuration(e, {thisId})} /> 
 									</form>;
