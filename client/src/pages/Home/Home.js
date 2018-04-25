@@ -477,18 +477,20 @@ class Home extends Component {
                             name="password"
                           />
                     <div className="buttonBox">
-                        <button className="createButton"
-                          disabled={!(this.state.username && this.state.password)}
-                          onClick={(event) => this.createLogin(event)}
-                          >
-                          Sign Up
-                        </button>
                         <button className="signInButton"
                             disabled={!(this.state.username && this.state.password)}
                             onClick={(event) => this.handleLogin(event)}
                             >
                           Sign In
                         </button>
+                        
+                        <button className="createButton"
+                          disabled={!(this.state.username && this.state.password)}
+                          onClick={(event) => this.createLogin(event)}
+                          >
+                          Sign Up
+                        </button>
+                        
                     </div>
                         <p id="loginError"></p>
                     </div>

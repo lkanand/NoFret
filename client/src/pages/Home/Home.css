@@ -322,15 +322,33 @@ input [name="timeSig"] {
 	filter: drop-shadow(0 0 6px #993333);
 }
 
+ol{
+	padding-left: 0;
+}
+
 .listBox h6{
 	text-align: center;
 }
+
 li{
+	padding-left: 1px;
 	width:100%;
 	display: flex;
 	justify-content: space-between;
 	margin-top: 1px;
+	border-radius: 8px;
 }
+
+li:hover{
+	text-decoration: underline;
+	color:#993333;
+	cursor: pointer;
+	background-color:#a6a6a6;
+}
+
+/*li span:hover{
+	background-color:#212121;
+}*/
 
 
 li button{
@@ -340,4 +358,9 @@ li button{
 	border-radius: 8px;
 	background: #212121;
 	border: 0;
+}
+
+li button:hover{
+	background-color: #993333;
+
 }
