@@ -448,7 +448,7 @@ class Home extends Component {
         <div className = "tabWriterContainer">
             <div className = "twCall">
                 <h2>Tab Writer</h2>
-                <p>Try out your ideas on the page below. <br/> Enter the fret number and duration of the notes you want to play.</p>
+                <p>Try out your ideas on the page below.<br/>Enter the fret number and duration of the notes you want to play.</p>
             </div>
             <form onSubmit = {(event) => this.submitTabForm(event)} className = "tabPrefDiv">
                 <div className = {this.state.editMode ? "" : "noClick"}>
