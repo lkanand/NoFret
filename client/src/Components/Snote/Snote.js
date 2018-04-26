@@ -30,8 +30,12 @@ class Snote extends Component {
 			else{
 				if(element.clicked === false&&element.value==="")
 					elementToReturn = <div className = "editableNote"></div>;
-				else if (element.clicked === false&&element.value!=="")
-					elementToReturn=<div className="enteredNote">{/*note*/}{element.value}</div>;
+				else if (element.clicked === false&&element.value!=="") {
+					if(isNaN(element.value))
+						elementToReturn = <div className = "enteredTechnique">{element.value}</div>;
+					else
+						elementToReturn=<div className="enteredNote">{element.value}</div>;
+				}
 				else
 					elementToReturn = <form onSubmit={(e, element)=>this.props.noteSubmit(e, {thisId})} className = "noteForm" onBlur={(e) => this.blurInput(e,{thisId})} > 
 										<input defaultValue = {element.value} ref = {(input) => {this.focus(input)}} onChange={(e)=>this.props.noteChange(e,{thisId})}
