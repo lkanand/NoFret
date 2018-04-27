@@ -43,24 +43,31 @@
 	max-height: 35.45px
 }
 
+#tabToolTip {
+	padding: 6px!important;
+}
+
 .tabToolTipText {
-	/*visibility: hidden;*/
 	z-index: 100;
 	position: relative;
-	right: 475px;
-	top: 20px;
-	background-color: #454545;
-	width: 500px;
+	right: 775px;
+	bottom: 35px;
+	background-color: rgba(33,33,33,.97);
+	width: 550px;
 	padding: 10px;
 	box-sizing: border-box;
 	font-size: .75em;  
 	color: white;
 	text-align: left;
+	box-shadow: -3px 3px 8px 0 rgba(33,33,33,.5);
 }
 
 .tabToolTipText ul {
-	list-style-type: circle!important;
-	list-style-position: inside;
+	list-style-type: circle;
+}
+
+.tabToolTipText li {
+	margin-bottom: 5px;
 }
 
 

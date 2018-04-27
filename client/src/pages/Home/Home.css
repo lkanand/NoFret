@@ -354,8 +354,9 @@ ol{
 	text-align: center;
 }
 
-li{
-	padding-left: 1px;
+.listBox li {
+	box-sizing: border-box;
+	padding-left: 5px;
 	width:100%;
 	display: flex;
 	justify-content: space-between;
@@ -363,11 +364,9 @@ li{
 	border-radius: 8px;
 }
 
-li:hover{
-	text-decoration: underline;
-	color:#993333;
+.listBox li:hover{
 	cursor: pointer;
-	background-color:#a6a6a6;
+	background-color:#ddd;
 }
 
 /*li span:hover{
@@ -382,9 +381,52 @@ li button{
 	border-radius: 8px;
 	background: #212121;
 	border: 0;
+	cursor: pointer;
 }
 
 li button:hover{
 	background-color: #993333;
 
+}
+
+.scaleToolTip {
+    position: relative;
+    border-radius: 50%;
+    border: none;
+    background-color: white;
+    color: #212121;
+    width: 22px;
+    height: 22px;
+    top: 338px;
+    right: 140px;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.scaleToolTip:hover {
+	background-color: #212121;
+	color: white;
+}
+
+.scaleToolTipText {
+	z-index: 100;
+	position: relative;
+    bottom: 350px;
+    left: 125px;
+	background-color: rgba(33,33,33,.97);
+	width: 550px;
+	padding: 10px;
+	box-sizing: border-box;
+	font-size: 1.2em;  
+	color: white;
+	text-align: left;
+	box-shadow: -3px 3px 8px 0 rgba(33,33,33,.5);
+}
+
+.scaleToolTipText ul {
+	list-style-type: circle;
+}
+
+.scaleToolTipText li {
+	margin-bottom: 5px;
 }
