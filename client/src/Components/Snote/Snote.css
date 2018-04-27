@@ -48,6 +48,14 @@
 	left: -3px;
 }
 
+.enteredTechnique{
+	font-size: 10px;
+	color: #212121;
+	position: relative;
+	margin-top: 4px;
+	font-weight: 600;
+}
+
 .flashForward{
 	animation-fill-mode: forwards;
  	animation-name: "flash-forward";

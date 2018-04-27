@@ -167,9 +167,7 @@ class Home extends Component {
     };
 
     handleToneChange = event => {
-        console.log(event.target.value);
-        this.setState({tone: parseInt(event.target.value)})
-        console.log(this.state.value);
+        this.setState({tone: parseInt(event.target.value, 10)})
     };
 
     submitTabForm = event => {
@@ -491,7 +489,9 @@ class Home extends Component {
                     </button>
                 </div>
             </form>
-            <TabWriter openstrings={this.state.openStrings} tabId={this.state.tabId} modalFunction={this.triggerModal} loggedIn={this.state.loggedIn} midi={this.midiSounds} bpm={this.state.bpm} editMode={this.state.editMode} timeSig={this.state.timeSig} tuning={this.state.tuning} newTab={this.newTab} triggerSaveModal={this.triggerSaveModal} tone={this.state.tone} changeMode={this.changeMode} />
+            <TabWriter openstrings={this.state.openStrings} tabId={this.state.tabId} modalFunction={this.triggerModal} loggedIn={this.state.loggedIn} midi={this.midiSounds} bpm={this.state.bpm} 
+            editMode={this.state.editMode} timeSig={this.state.timeSig} tuning={this.state.tuning} newTab={this.newTab} triggerSaveModal={this.triggerSaveModal} tone={this.state.tone} 
+            changeMode={this.changeMode} open={this.state.open}/>
             
         </div>
         <MIDISounds ref={(ref) => (this.midiSounds = ref)} instruments={[291, 250, 275]} /> 

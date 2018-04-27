@@ -85,10 +85,14 @@ class TabWriter extends Component {
   }
 
   handleNumberOrSpace = (event) => {
-    if(event.keyCode >= 49 && event.keyCode <= 55 && this.state.activeNoteId === "")
-      this.setState({noteType: notes[event.keyCode - 49]});
-    else if(event.keyCode === 32 && this.state.activeNoteId === "")
-      this.props.changeMode(event);
+    if(this.state.activeNoteId !== "" || this.props.open === true)
+      return;
+    else {
+      if(event.keyCode >= 49 && event.keyCode <= 55)
+        this.setState({noteType: notes[event.keyCode - 49]});
+      else if(event.keyCode === 32)
+        this.props.changeMode(event);
+    }
   }
 
   addMeasure = () => {
@@ -266,10 +270,11 @@ class TabWriter extends Component {
           let notesToModify = this.getIds(duration, currentLocation, "add");
           allNotesCopy[measure][beat][line][sNote].duration = notesToModify.length + 1;
           for(let i = 0; i < notesToModify.length; i++) {
-            allNotesCopy[notesToModify[i].measure][notesToModify[i].beat][notesToModify[i].line][notesToModify[i].sNote].disabled = true;
-            allNotesCopy[notesToModify[i].measure][notesToModify[i].beat][notesToModify[i].line][notesToModify[i].sNote].value = "";
-            allNotesCopy[notesToModify[i].measure][notesToModify[i].beat][notesToModify[i].line][notesToModify[i].sNote].noteEntered = "";
-            allNotesCopy[notesToModify[i].measure][notesToModify[i].beat][notesToModify[i].line][notesToModify[i].sNote].duration = -1;
+            let noteToModify = allNotesCopy[notesToModify[i].measure][notesToModify[i].beat][notesToModify[i].line][notesToModify[i].sNote]; 
+            noteToModify.disabled = true;
+            noteToModify.value = "";
+            noteToModify.noteEntered = "";
+            noteToModify.duration = -1;
           }
         }
       }
@@ -496,8 +501,9 @@ class TabWriter extends Component {
       for(var j = 0; j < arrayOfNotesCopy[i].length; j++){
         for(var k = 0; k < arrayOfNotesCopy[i][j].length; k++){
           for(var m = 0; m < arrayOfNotesCopy[i][j][k].length; m++) {
-            let duration = arrayOfNotesCopy[i][j][k][m].duration; 
-            if(duration > 0) {
+            let duration = arrayOfNotesCopy[i][j][k][m].duration;
+            let value = arrayOfNotesCopy[i][j][k][m].value; 
+            if(duration > 0 && isNaN(value) === false) {
               let arrayToLight = this.getIdsToLight(duration, {measure: i, beat: j, line: k, sNote: m});
               let thisAddress = {measure: i, beat: j, line: k, sNote: m};
               arrayToLight.unshift(thisAddress);
