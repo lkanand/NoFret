@@ -18,7 +18,7 @@ class Home extends Component {
         timeSig: defaultTimeSig,
 		stMode: "listen",
         tuning: "standard",
-        root: 7,
+        root: 0,
         openStrings: [],
         editMode: true,
         btnMessage: "Play",
@@ -28,7 +28,8 @@ class Home extends Component {
         loggedIn: false,
         projects:[],
         tone: 275,
-        tabId:""
+        tabId:"",
+        hideToolTip: true
 	}
 
     componentDidMount() {
@@ -314,8 +315,14 @@ class Home extends Component {
         }
     }
 
+    toolTip = () => {
+        this.state.hideToolTip ? this.setState({hideToolTip: false}) : this.setState({hideToolTip: true});
+    };
+
+
   render() {
      const { open } = this.state;
+    const style = this.state.hideToolTip ? {display: 'none'} : {};
     return (
     <Wrapper>
         <nav>
@@ -338,7 +345,9 @@ class Home extends Component {
             <section className="StForm">
                 <div className="StBoardInfo">
                     <div>
-                        <h3>Scale Tool</h3>
+                        <div>
+                            <h3 className="scaleTitle">Scale Tool</h3>
+                        </div>
                         <span>Tuning: </span>
                         <select name="tuning" onChange={this.handleTuneChange}>
                                 <option value="standard">Standard</option>
@@ -359,6 +368,20 @@ class Home extends Component {
                                 <option value="DADGAD">DADGAD</option>
                                 <option value="DADADD">DADADD</option>
                         </select>
+                        <button className="scaleToolTip" onClick={this.toolTip}><i className="fas fa-question"></i>
+                            <div className="scaleToolTipText" style={style}>
+                                <strong>Scale Tool Tips</strong>
+                                <ul>
+                                    <li>Set desired tuning using the Tunings dropdown menu or tune each string with the up and down arrows to the left of the string.</li>
+                                    <li>Set scale to view using the Scale Root and Scale Type dropdown menus.</li>
+                                    <li>The root of the selected scale will always appear white, and each note has a unique color.</li>
+                                    <li>Click on frets occupied by notes to hear the note in "Listen" mode using the Board Mode dropdown menu.</li>
+                                    <li>To add or remove visible notes click on any fret in "Edit" mode.</li>
+                                    <li>Frets further down the neck can be viewed by scrolling horizontally.</li>
+                                    <li>The guitar tone can be changed using the Guitar Tone dropdown menu.</li>
+                                </ul>
+                            </div>
+                        </button>
                     </div>
                     
                     <div>
@@ -383,7 +406,6 @@ class Home extends Component {
                     <div>
                         <span>Scale Type: </span> 
                         <select name="scaleType" onChange={this.handleScaleChange}>
-                            <option value="noscale">No Scale</option>
                             <option value="major">Major</option>
                             <option value="major pent">Major Pentatonic</option>
                             <option value="blues">Blues</option>
@@ -391,6 +413,7 @@ class Home extends Component {
                             <option value="natural minor">Natural Minor</option>
                             <option value="dorian">Dorian Mode</option>
                             <option value="mixolydian">Mixolydian Mode</option>
+                            <option value="noscale">No Scale</option>
                         </select>
                     </div>
                     
@@ -446,7 +469,7 @@ class Home extends Component {
         <div className = "tabWriterContainer">
             <div className = "twCall">
                 <h2>Tab Writer</h2>
-                <p>Try out your ideas on the page below. <br/> Enter the fret number and duration of the notes you want to play.</p>
+                <p>Try out your ideas on the page below.<br/>Enter the fret number and duration of the notes you want to play.</p>
             </div>
             <form onSubmit = {(event) => this.submitTabForm(event)} className = "tabPrefDiv">
                 <div className = {this.state.editMode ? "" : "noClick"}>

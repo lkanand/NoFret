@@ -36,15 +36,42 @@
 	height: 35px;
 }
 
-#printTab, #saveTab, #newTab{
+#printTab, #saveTab, #newTab, #tabToolTip {
 	width: 50px;
 	font-size: 1.3em;
 	padding: 2px;
 	max-height: 35.45px
 }
 
+#tabToolTip {
+	padding: 6px!important;
+}
 
-#saveTab, #newTab {
+.tabToolTipText {
+	z-index: 100;
+	position: relative;
+	right: 775px;
+	bottom: 35px;
+	background-color: rgba(33,33,33,.97);
+	width: 550px;
+	padding: 10px;
+	box-sizing: border-box;
+	font-size: .75em;  
+	color: white;
+	text-align: left;
+	box-shadow: -3px 3px 8px 0 rgba(33,33,33,.5);
+}
+
+.tabToolTipText ul {
+	list-style-type: circle;
+}
+
+.tabToolTipText li {
+	margin-bottom: 5px;
+}
+
+
+#saveTab, #newTab, #printTab {
 	margin-right: 10px;
 }
 

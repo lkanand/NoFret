@@ -9,7 +9,8 @@ class MeasureHeader extends Component {
 			title: "",
 			titleActive: false,
 			loggedIn:props.loggedIn,
-			tabId:props.tabId
+			tabId:props.tabId,
+			hideToolTip: true
 		};
 
 		this.modalFunction=props.modalFunction;
@@ -35,6 +36,10 @@ class MeasureHeader extends Component {
     	window.print();  
   	}
 
+  	toolTip = () => {
+  		this.state.hideToolTip ? this.setState({hideToolTip: false}) : this.setState({hideToolTip: true});
+  	};
+
   	openTitleForm = () => {
   		let promiseOne = this.setState({titleActive: true});
   		Promise.all([promiseOne]).then(function() {
@@ -59,6 +64,7 @@ class MeasureHeader extends Component {
   	}
 
 	render() {
+		const style = this.state.hideToolTip ? {display: 'none'} : {};
 		let title;
 		if(this.state.titleActive === false)
 			title = <h1 className = {this.state.title === "" ? "noTabTitle" : ""} onClick={() => this.openTitleForm()}>{this.state.title === "" ? "Click to Enter Title" : this.state.title}</h1>
@@ -79,6 +85,19 @@ class MeasureHeader extends Component {
 						}
 						<button id="newTab" className = {this.state.tabId === "" ? "displayNone" : ""} onClick={this.props.newTab}><i className="far fa-file"></i></button>
 						<button id="printTab" onClick={this.printTab}><i className="fas fa-print"></i></button>
+						<button id="tabToolTip" onClick={this.toolTip}><i className="fas fa-question"></i><div className="tabToolTipText" style={style}>
+							<strong>Tab Writer Tips</strong>
+							<ul>
+								<li>Click on a dash on a specific string to input the fret number.</li>
+								<li>Each dash is the worth a 64th note, and each box is worth a quarter note.</li>
+								<li>Quickly switch note durations by using the hotkeys (1-7) when not inputing a fret number.</li>
+								<li>Play and stop the tab by pressing the space hotkey.</li>
+								<li>Increase and decrease the length of a note that has already been submitted by clicking the fret number and pressing the up or down keys.</li>
+								<li>Update the tab with any changes to the tempo or time signature by pressing the "Update Tab Settings" button.</li>
+								<li>Leave notes by submitting letters. ('H' = hammer-on | "B" = bend)</li>
+								<li>The guitar tuning and tone are set in the Scale Tool.</li>
+							</ul>
+						</div></button>
 					</div>
 				</div>
 				<div className="addOrClearMeasures">
